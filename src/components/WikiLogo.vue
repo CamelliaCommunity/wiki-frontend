@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
     <div :class="'wiki-logo size-' + size ">
         <img src="@/assets/images/icon.png" alt="Camellia Wiki Icon" />
-        <h1>Camellia • Wiki</h1>
+        <h1 class="font-light">Camellia • Wiki</h1>
     </div>
 </template>
 
@@ -20,10 +20,6 @@ const props = defineProps({
     align-items: center;
     justify-content: center;
     gap: 12px;
-
-    h1 {
-        font-weight: 300;
-    }
 
     &.size-small {
         img {
