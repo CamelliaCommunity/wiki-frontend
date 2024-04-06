@@ -5,6 +5,10 @@ const props = defineProps({
     postType: {
         type: String
     },
+    alternativeBackground: {
+        type: Boolean,
+        default: false
+    },
     post: {
         type: Object,
         required: true
@@ -15,7 +19,8 @@ const props = defineProps({
 <template>
     <div class="featured-post h-52">
         <img src="/src/assets/images/testing-image.png" alt="card background" class="object-cover">
-        <div class="radial-dim"></div>
+        <div class="dim" v-if="alternativeBackground"></div>
+        <div class="radial-dim" v-else></div>
         <div class="card-content">
             <div>
                 <div class="flex justify-between">
@@ -46,6 +51,10 @@ const props = defineProps({
         width: 100%;
         height: 100%;
         grid-area: 1 / 1;
+    }
+
+    .dim {
+        background: rgba(0, 0, 0, 0.4) linear-gradient(180deg, transparent 0%, var(--background-1) 80%);
     }
 
     .radial-dim {
