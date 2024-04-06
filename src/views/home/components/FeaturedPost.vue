@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
+import Formatting from '@/utils/Formatting';
+
 const props = defineProps({
     postType: {
         type: String
@@ -25,7 +27,7 @@ const props = defineProps({
             <div>
                 <div class="flex justify-between">
                     <h3 class="text-lg font-semibold">{{ postType }}</h3>
-                    <h3 class="text-base font-medium">{{ post.date }}</h3>
+                    <h3 class="text-base font-medium">{{ Formatting.formatDate(post.date) }}</h3>
                 </div>
                 <h2 class="text-2xl font-medium">{{ post.title }}</h2>
             </div>
