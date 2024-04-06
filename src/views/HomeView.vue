@@ -3,6 +3,8 @@ import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
 import HomeStats from './components/HomeStats.vue';
 
+// this data should be fetched from the backend
+
 const featured = {
     'title': 'Post Title Goes Here',
     'description': 'Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like this one.',
@@ -16,6 +18,12 @@ const popular = {
     'date': 1712386846,
     'url': '/popular'
 };
+
+const stats = {
+    'articles': 1000,
+    'comments': 1000,
+    'visits': 1000
+};
 </script>
 
 <template>
@@ -26,7 +34,7 @@ const popular = {
                 <FeaturedPost post-type="Featured Post" :post="featured" />
                 <div class="flex gap-4">
                     <FeaturedPost post-type="Popular Today" :post="popular" />
-                    <HomeStats />
+                    <HomeStats :stats="stats" />
                 </div>
             </div>
             <div class="home-sidebar">
