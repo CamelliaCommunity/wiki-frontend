@@ -1,19 +1,35 @@
+<script setup>
+import { RouterLink } from 'vue-router';
+
+const props = defineProps({
+    postType: {
+        type: String
+    },
+    post: {
+        type: Object,
+        required: true
+    }
+});
+</script>
+
 <template>
     <div class="featured-post h-52">
-        <img src="/src/assets/images/testing-image.png" alt="" class="object-cover">
+        <img src="/src/assets/images/testing-image.png" alt="card background" class="object-cover">
         <div class="radial-dim"></div>
         <div class="card-content">
             <div>
                 <div class="flex justify-between">
-                    <h3 class="text-lg font-semibold">Featured Post</h3>
-                    <h3 class="text-base font-medium">April 4th, 2024</h3>
+                    <h3 class="text-lg font-semibold">{{ postType }}</h3>
+                    <h3 class="text-base font-medium">{{ post.date }}</h3>
                 </div>
-                <h2 class="text-2xl font-medium">Post Title Goes Here</h2>
+                <h2 class="text-2xl font-medium">{{ post.title }}</h2>
             </div>
 
             <div>
-                <p class="post-description leading-tight">Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like th...</p>
-                <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
+                <p class="post-description leading-tight">{{ post.description }}</p>
+                <RouterLink :to="post.url">
+                    <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
+                </RouterLink>
             </div>
         </div>
     </div>
