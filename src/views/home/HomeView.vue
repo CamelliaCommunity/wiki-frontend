@@ -3,6 +3,10 @@ import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
 import HomeStats from './components/HomeStats.vue';
 
+import Utils from '@/utils/Utils';
+
+Utils.setTitle('');
+
 // this data should be fetched from the backend
 
 const featured = {

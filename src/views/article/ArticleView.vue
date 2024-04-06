@@ -2,7 +2,9 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 import { marked } from 'marked';
+
 import MarkdownUtils from '@/utils/MarkdownUtils';
+import Utils from '@/utils/Utils';
 
 const baseUrl = 'https://raw.githubusercontent.com/CamelliaCommunity/Wiki/beta/';
 const route = useRoute();
@@ -20,7 +22,7 @@ fetch(`${baseUrl}${path}.md`)
         var meta = MarkdownUtils.extractMetadata(text);
         var metaEnd = MarkdownUtils.getEndOfMetadataIndex(text);
 
-        console.log(meta);
+        Utils.setTitle(meta.title);
         
         text = text.substring(metaEnd + 1);
         react.article = marked.parse(text);
