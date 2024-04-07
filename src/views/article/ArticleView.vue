@@ -1,7 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
-import { marked } from 'marked';
 
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
@@ -29,6 +28,8 @@ if (path === 'style-test') {
 fetch(articleUrl)
     .then((response) => response.text())
     .then((text) => {
+        // i think in the future we should make the backend do this and return
+        // it with the api since it only needs to be done when the article is updated
         var md = MarkdownUtils.parse(text);
         console.log(text, md);
 
