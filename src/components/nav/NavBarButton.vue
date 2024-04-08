@@ -12,13 +12,13 @@ const props = defineProps({
 <template>
 	<div class="navBarButton" :id>
 		<a v-if="id === 'menu'">
-			<PhList :size="28"></PhList>
+			<PhList :size="28" />
 		</a>
 		<a v-if="id === 'github'">
-			<PhGithubLogo :size="28"></PhGithubLogo>
+			<PhGithubLogo :size="28" />
 		</a>
 		<a v-else-if="id === 'discord'">
-			<PhDiscordLogo :size="28"></PhDiscordLogo>
+			<PhDiscordLogo :size="28" />
 		</a>
 	</div>
 </template>

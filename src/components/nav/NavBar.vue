@@ -1,6 +1,8 @@
 <script setup>
 import WikiLogo from '@/components/WikiLogo.vue';
 import navBarButton from './NavBarButton.vue';
+import { PhMagnifyingGlass } from "@phosphor-icons/vue";
+
 </script>
 
 
@@ -12,6 +14,10 @@ import navBarButton from './NavBarButton.vue';
             	<WikiLogo size="small" />
 			</div>
 			<div id="daRight">
+				<div id="searchBarWrapper">
+					<PhMagnifyingGlass :size="24" id="searchIcon" />
+					<input id="searchBar" placeholder="Search the Wiki...">
+				</div>
 				<div id="socialButtons">
 					<navBarButton id="github"></navBarButton>
 					<navBarButton id="discord"></navBarButton>
@@ -48,6 +54,26 @@ nav {
 		}
 		#daRight {
 			justify-content: right;
+			#searchBarWrapper {
+				display: flex;
+				background: var(--background-2);
+				width: 300px;
+				height: 50px;
+				border-radius: 8px;
+				text-align: center;
+				align-items: center;
+				padding: 0 8px;
+				#searchBar {
+					background: none;
+					outline: none;
+					padding: 0 0 0 8px;
+					width: 100%;
+					font-style: italic;
+					&:focus-visible {
+						font-style: normal;
+					}
+				}
+			}
 			#socialButtons {
 				display: flex;
 				gap: 4px;
