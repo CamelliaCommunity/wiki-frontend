@@ -51,7 +51,7 @@ const props = defineProps({
 
     > * {
         width: 100%;
-        height: 100%;
+        height: inherit;
         grid-area: 1 / 1;
     }
 
