@@ -53,7 +53,7 @@ const togNav = () => {
 				</div>
 			</div>
 			<Transition name="fade" appear>
-				<div v-if="isOpen" id="pageBlocker"></div>
+				<div v-if="isOpen" id="pageBlocker" @click="togNav"></div>
 			</Transition>
 		</nav>
 	</Transition>

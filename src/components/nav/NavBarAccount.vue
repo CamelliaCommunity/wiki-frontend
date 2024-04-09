@@ -18,7 +18,7 @@ function onClick() {
 </script>
 
 <template>
-    <div class="w-64 h-12 rounded-lg flex bg-background-3" @click="onClick">
+    <div class="w-64 h-12 rounded-lg flex bg-background-3 cursor-pointer" @click="onClick">
         <img class="rounded-lg" :src="react.avatar || DefaultAvatar" alt="avatar" />
         <div class="flex flex-col pl-2 text-left justify-center">
             <p class="text-lg leading-none font-medium">{{ react.username }}</p>
