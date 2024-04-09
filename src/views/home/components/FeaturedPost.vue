@@ -34,7 +34,7 @@ const props = defineProps({
 
             <div>
                 <p class="post-description leading-tight">{{ post.description }}</p>
-                <RouterLink :to="post.url">
+                <RouterLink :to="post.url" class="w-fit">
                     <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
                 </RouterLink>
             </div>
