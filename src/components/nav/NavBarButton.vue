@@ -1,81 +1,54 @@
 <script setup>
-import { PhList, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
+import { computed } from "vue";
 
 const props = defineProps({
-    id: {
-        type: String,
+    url: {
+		type: String,
 		default: null
-    }
+	},
+	first: {
+		type: Boolean,
+		default: false
+	},
+	middle: {
+		type: Boolean,
+		default: false
+	},
+	last: {
+		type: Boolean,
+		default: false
+	}
+});
+
+const position = computed(() => {
+	if (props.first) return "first";
+	if (props.middle) return "middle";
+	if (props.last) return "last";
+	return "";
 });
 </script>
 
 <template>
-	<a v-if="id === 'menu'" class="navBarButton" :id>
-		<PhList :size="28" />
-	</a>
-	<a v-else-if="id === 'github'" href="https://github.com/CamelliaCommunity" target="_blank" class="navBarButton" :id>
-		<PhGithubLogo :size="28" />
-	</a>
-	<a v-else-if="id === 'discord'" href="https://discord.gg/camellia" target="_blank" class="navBarButton" :id>
-		<PhDiscordLogo :size="28" />
-	</a>
-	<a v-else-if="id === 'accountData'" class="navBarButton" :id>
-		<img class="navBarButton" id="accountDataPfp" src="@/assets/images/avatar.png" />
-		<div id="accountDetails">
-			<p id="accountDetails-username">Not logged in!</p>
-			<span id="accountDetails-stats">Log in to access more features...</span>
-		</div>
+	<a class="nav-button w-12 h-12 bg-background-header-buttons rounded-lg flex justify-center items-center hover:bg-background-2 transition-colors cursor-pointer"
+		:href="url" target="_blank" :position="position" >
+		<slot></slot>
 	</a>
 </template>
 
 <style lang="scss">
-.navBarButton {
-	width: 50px;
-	height: 50px;
-	border-radius: 8px;
-	background-color: var(--background-header-buttons);
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	text-align: center;
-	align-items: center;
-	transition: background-color 0.2s ease;
-
-	&#discord {
-		border-radius: 0px 8px 8px 0px;
-	}
-	&#github {
-		border-radius: 8px 0px 0px 8px;
+.nav-button {
+	&[position="first"] {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 
-	&:hover {
-		background-color: var(--background-2);
+	&[position="middle"] {
+		border-radius: 0;
 	}
 
-	&#accountData {
-		width: 244px;
-		background-color: var(--background-3);
-		justify-content: left;
-		text-align: left;
-		line-height: 1.1;
-
-		#accountDetails {
-			flex-direction: column;
-			padding-left: 8px;
-			display: flex;
-			#accountDetails-username {
-				font-weight: 600;
-				font-size: 16px;
-			}
-			#accountDetails-stats {
-				font-size: 12px;
-				font-style: italic;
-			}
-		}
-	}
-	&#accountDataPfp {
-		border-radius: 8px;
-		background-color: transparent;
+	&[position="last"] {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
 	}
 }
 </style>
