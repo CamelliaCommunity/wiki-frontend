@@ -98,16 +98,16 @@ nav {
 			left: 17px;
 			width: 100%;
 			height: 100%;
-			background-color: var(--background-1);
+			//background-color: var(--background-1);
+            background-color: rgba(40, 24, 36, 0.5); // this makes blur work, kinda. color is the same as bg1 but alpha is changed
 			opacity: .5;
+			backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
 			width: calc(100vw - 34px);
 			border-radius: 16px 16px 0 0;
 		}
 
 		.navbar {
-			.router-link-active {
-				transition: color 0.2s ease-in-out;
-			}
 			.router-link-active:hover {
 				color: #F876D3;
 			}
