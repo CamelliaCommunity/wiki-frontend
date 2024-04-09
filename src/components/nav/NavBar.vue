@@ -37,7 +37,7 @@ const togNav = () => {
 			</div>
 		</div>
     </nav>
-	<Transition name="slidedown">
+	<Transition name="slidedown-fade">
 		<nav v-if="isOpen" class="content">
 			<div class="navbar">
 				<div>
@@ -86,16 +86,22 @@ nav {
 	&.content {
 		top: var(--nav-height);
 		background-color: var(--background-1);
+		left: 17px;
+		width: calc(100vw - 34px);
+		border-radius: 16px 16px 0 0;
+		
 
 		#pageBlocker {
 			z-index: -1;
 			position: fixed;
 			top: var(--nav-height);
-			left: 0;
+			left: 17px;
 			width: 100%;
 			height: 100%;
 			background-color: var(--background-1);
 			opacity: .5;
+			width: calc(100vw - 34px);
+			border-radius: 16px 16px 0 0;
 		}
 
 		.navbar {
@@ -109,21 +115,23 @@ nav {
 	}
 }
 
-.slidedown-enter-active,
-.slidedown-leave-active {
-  transition: max-height 0.2s ease-in-out;
+.slidedown-fade-enter-active,
+.slidedown-fade-leave-active {
+  transition: opacity 0.15s ease-in-out, max-height 0.2s ease-in-out;
 }
 
-.slidedown-enter-to,
-.slidedown-leave-from {
+.slidedown-fade-enter-to,
+.slidedown-fade-leave-from {
   overflow: hidden;
   max-height: var(--nav-height);
+  opacity: 1;
 }
 
-.slidedown-enter-from,
-.slidedown-leave-to {
+.slidedown-fade-enter-from,
+.slidedown-fade-leave-to {
   overflow: hidden;
   max-height: 0;
+  opacity: 0;
 }
 
 .fade-enter-active {
