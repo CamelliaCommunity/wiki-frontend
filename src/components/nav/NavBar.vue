@@ -42,7 +42,7 @@ const togNav = () => {
 			<div class="navbar">
 				<div>
 					<NavBarAccount />
-					<RouterLink to="#" exact>Main Page</RouterLink>
+					<RouterLink to="/" exact>Main Page</RouterLink>
 					<RouterLink to="#" exact>Staff Guidelines</RouterLink>
 					<RouterLink to="#" exact>How to Contribute</RouterLink>
 					<RouterLink to="#" exact>About Page</RouterLink>
