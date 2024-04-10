@@ -5,7 +5,7 @@
 
 > [!NOTE]
 > Beta will move to beta.camellia.wiki and live to camellia.wiki once finished.
-> Regarding the current (soon legacy), we will keep it up at legacy.camellia.wiki once ahove is in effect, subject to takedown at any given point.
+> Regarding the current (soon legacy), it will remain available at legacy.camellia.wiki once the change has begun, subject to takedown at any given point.
 
 
 ## Articles
