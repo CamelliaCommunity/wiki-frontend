@@ -98,9 +98,9 @@ nav {
 			left: 17px;
 			width: 100%;
 			height: 100%;
-			//background-color: var(--background-1);
+			//background-color: var(--background-1); // this should be a fallback color but its solid
             background-color: rgba(40, 24, 36, 0.5); // this makes blur work, kinda. color is the same as bg1 but alpha is changed
-			opacity: .5;
+			//opacity: .5;
 			backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
 			width: calc(100vw - 34px);
