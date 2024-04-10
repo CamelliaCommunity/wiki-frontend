@@ -2,8 +2,12 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 
+import MarkdownView from '@/components/md/MarkdownView.vue';
+import GradientLine from '@/components/GradientLine.vue';
+
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
+import Formatting from '@/utils/Formatting';
 
 const baseUrl = 'https://raw.githubusercontent.com/CamelliaCommunity/Wiki/beta/';
 const route = useRoute();
@@ -15,7 +19,6 @@ const react = reactive({
     article: '',
     sections: [],
     meta: {
-        title: 'Untitled Article'
     }
 });
 
@@ -34,7 +37,7 @@ fetch(articleUrl)
         console.log(text, md);
 
         var meta = md.metadata;
-        react.meta = meta.title;
+        react.meta = meta;
         Utils.setTitle(meta.title);
 
         react.article = MarkdownUtils.render(md.content);
@@ -43,98 +46,45 @@ fetch(articleUrl)
 </script>
 
 <template>
-    <div class="article-md" v-html="react.article"></div>
+    <div class="article-page">
+        <!-- breadcrumbs -->
+        <div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-2">
+            <h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
+            <p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
+        </div>
+        <div class="article-content">
+            <div class="article-contents w-72 min-w-72 bg-background-3 rounded-lg">
+
+            </div>
+            <div class="article-body w-full pt-2">
+                <h1 class="font-semibold text-4xl">{{ react.meta.title }}</h1>
+                <GradientLine />
+                <MarkdownView :article="react.article" />
+            </div>
+        </div>
+    </div>
 </template>
 
 <style lang="scss">
-.article-md {
+.article-page {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: var(--content-width);
+    margin: 0 auto;
 
-    h1 {
-        font-size: 44px;
-    }
-
-    h2 {
-        font-size: 36px;
-    }
-
-    h3 {
-        font-size: 28px;
-    }
-
-    h4 {
-        font-size: 24px;
-    }
-
-    h5 {
-        font-size: 20px;
-    }
-
-    p {
-        font-size: 18px;
-    }
-
-    a {
-        color: var(--accent-1);
-        text-decoration: underline;
-    }
-
-    mark {
-        background-color: var(--accent-1-opaque);
-        color: var(--background-1);
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
-
-    ul, ol {
-        padding-left: 20px;
-
-        li {
-            font-size: 18px;
-            list-style-type: disc;
-        }
-    }
-
-    blockquote {
-        border-left: 4px solid var(--accent-1);
-        padding-left: 20px;
-        margin-left: 0;
-    }
-
-    pre {
-        background-color: var(--background-1);
-        padding: 10px;
-        border-radius: 10px;
-        overflow-x: auto;
-    }
-
-    code {
-        background-color: var(--background-1);
-        padding: 2px 5px;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    table {
+    .article-content {
         width: 100%;
-        border-collapse: collapse;
+        display: flex;
+        gap: 40px;
 
-        th, td {
-            border: 1px solid var(--background-3);
-            padding: 10px;
+        .article-body {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        th {
-            background-color: var(--background-1);
-        }
-    }
-
-    img {
-        max-width: 100%;
-        height: auto;
     }
 }
 </style>
