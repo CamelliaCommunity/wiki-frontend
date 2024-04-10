@@ -4,7 +4,7 @@
 ### [Beta](https://v2.camellia.wiki) | Live
 
 > [!NOTE]
-> Beta will move to beta.camellia.wiki and live to camellia.wiki once finished. We may keep the original current site up for a
+> Beta will move to beta.camellia.wiki and live to camellia.wiki once finished.
 
 
 ## Articles
@@ -19,7 +19,7 @@
 > [!IMPORTANT]
 > Please make sure to install [NodeJS](https://nodejs.org) and confirm NPM (Node Package Manager) is also installed.
 
-To begin development and testing locally, please follow these steps:
+To begin development and testing locally, please follow these steps in your terminal of choice:
 1. Clone the repo by running `git clone https://github.com/CamelliaCommunity/wiki-frontend`
 2. Go inside the newly cloned folder.
 3. Run `npm i` to install the packages.
