@@ -37,7 +37,7 @@ const stats = {
             <div class="w-full flex flex-col gap-4">
                 <FeaturedPost post-type="Featured Post" :post="featured" />
                 <div class="flex gap-4">
-                    <FeaturedPost post-type="Popular Today" :post="popular" :alternative-background="true" />
+                    <FeaturedPost post-type="Popular Today" :post="popular" linearBackground />
                     <HomeStats :stats="stats" />
                 </div>
             </div>

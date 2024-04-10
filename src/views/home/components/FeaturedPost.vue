@@ -7,7 +7,7 @@ const props = defineProps({
     postType: {
         type: String
     },
-    alternativeBackground: {
+    linearBackground: {
         type: Boolean,
         default: false
     },
@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
     <div class="featured-post h-52">
         <img src="/src/assets/images/testing-image.png" alt="card background" class="object-cover">
-        <div class="dim" v-if="alternativeBackground"></div>
+        <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">
             <div>
