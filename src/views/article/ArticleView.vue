@@ -48,7 +48,7 @@ fetch(articleUrl)
 <template>
     <div class="article-page">
         <!-- breadcrumbs -->
-        <div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-2">
+        <div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
             <h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
             <p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
         </div>
