@@ -5,13 +5,14 @@
 
 > [!NOTE]
 > Beta will move to beta.camellia.wiki and live to camellia.wiki once finished.
+> Regarding the current (soon legacy), we will keep it up at legacy.camellia.wiki once ahove is in effect, subject to takedown at any given point.
 
 
 ## Articles
 
 > [!WARNING]
-> We will be moving articles to their own repository and most likely switching to our system.
-> Please consider not moving articles to this repo due to this!
+> We will be moving articles to their own repository and most likely switching to our own system.
+> Please do not move articles to this repo unless otherwise stated.
 
 
 ## Getting Started
