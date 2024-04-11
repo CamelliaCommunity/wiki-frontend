@@ -73,7 +73,7 @@ const rightLinkList = [
     <Transition name="slidedown-fade">
         <nav
             v-if="isOpen"
-            class="content fixed top-16 bg-background-1 mx-4 w-full rounded-t-2xl"
+            class="fixed top-16 bg-background-1 mx-4 w-layout-width rounded-t-2xl"
         >
             <div class="flex justify-between max-w-screen-lg mx-auto py-2">
                 <div class="flex items-center text-center gap-4">
@@ -96,11 +96,10 @@ const rightLinkList = [
                     >
                 </div>
             </div>
-            <!-- This w-[calc(100vw-2.125rem)] is too hacky. I think it is because of the page layout configuration. -->
             <Transition name="fade" appear>
                 <div
                     v-if="isOpen"
-                    class="-z-10 fixed h-full bg-background-1/50 backdrop-blur-sm w-[calc(100vw-2.125rem)]"
+                    class="-z-10 fixed h-full bg-background-1/50 backdrop-blur-sm w-layout-width"
                     @click="togNav"
                 ></div>
             </Transition>
@@ -109,12 +108,6 @@ const rightLinkList = [
 </template>
 
 <style lang="scss">
-nav {
-    &.content {
-        width: calc(100vw - 34px);
-    }
-}
-
 .slidedown-fade-enter-active,
 .slidedown-fade-leave-active {
     transition: opacity 0.15s ease-in-out, max-height 0.2s ease-in-out;
