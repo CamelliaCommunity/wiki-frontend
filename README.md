@@ -1,10 +1,10 @@
 # Camellia Wiki (Frontend)
 ### This is the frontend code for the Camellia Wiki (rewritten).
 
-### [Beta](https://v2.camellia.wiki) | Live
+### [Alpha](https://alpha.camellia.wiki) | Live
 
 > [!NOTE]
-> Beta will move to beta.camellia.wiki and live to camellia.wiki once finished.
+> Alpha will move to Beta (beta.camellia.wiki) and live to camellia.wiki once finished.
 > Regarding the current (soon legacy), it will remain available at legacy.camellia.wiki once the change has begun, subject to takedown at any given point.
 
 
@@ -33,4 +33,4 @@ To begin development and testing locally, please follow these steps in your term
 - [Vue.js Official Docs](https://vuejs.org/guide/)
 - [Vite Official Docs](https://vitejs.dev/guide/)
 - [TailwindCSS Official Docs](https://tailwindcss.com/docs/)
-- [#wiki-dev](https://discord.com/channels/435720333786480641/1174624963584610334) channel in our [Discord](https://discord.gg/camellia)
+- [#💻wiki-feed](https://discord.com/channels/435720333786480641/1174624963584610334) channel in our [Discord](https://discord.gg/camellia)
