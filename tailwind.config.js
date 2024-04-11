@@ -14,7 +14,7 @@ export default {
         extend: {
             width: {
                 // This w-[calc(100vw-2.125rem)] is too hacky. Probably because of the page layout configuration.
-                'layout-width': 'calc(100vw-2.125rem)'
+                'layout-width': 'calc(100vw - 2.125rem)'
             }
         },
     },
