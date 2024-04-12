@@ -14,7 +14,9 @@ import NavBar from './components/nav/NavBar.vue';
     <div class="page-content-wrapper">
         <div class="page-content">
             <RouterView v-slot="{ Component, route }">
+                <Transition name="page-fade">
                   <component :is="Component" :key="route.path" />
+                </Transition>
             </RouterView>
         </div>
     </div>
@@ -47,9 +49,29 @@ import NavBar from './components/nav/NavBar.vue';
     .page-content {
         min-height: 100%;
         height: fit-content;
-        display: flex;
-        flex-direction: column;
+        display: grid;
         padding: 12px;
+
+        > * {
+            height: fit-content;
+            grid-area: 1 / 1;
+        }
     }
+}
+
+.page-fade-enter-active,
+.page-fade-leave-active {
+    transition: all 400ms ease;
+}
+
+.page-fade-enter-to,
+.page-fade-leave-from {
+    opacity: 1;
+    transition-delay: 200ms;
+}
+
+.page-fade-leave-to,
+.page-fade-enter-from {
+    opacity: 0;
 }
 </style>
