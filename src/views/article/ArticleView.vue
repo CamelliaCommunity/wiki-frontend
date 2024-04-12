@@ -2,6 +2,8 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 
+import { PhCaretRight } from '@phosphor-icons/vue';
+
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
 
@@ -15,11 +17,28 @@ const route = useRoute();
 const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
 
+// should also be done in the backend
+// we could even have the backend
+// return the proper titles for each part
+const pathArray = path.split('/').map(p => {
+    const index = pathSplit.indexOf(p);
+    const words = p.replace('-', ' ').replace('_', ' ').split(' ');
+
+    words.forEach((word, index) => {
+        words[index] = word.charAt(0).toUpperCase() + word.slice(1);
+    });
+
+    return {
+        link: pathSplit.slice(1, index + 1).join('/'),
+        title: words.join(' ')
+    };
+});
+
 const react = reactive({
     article: '',
     sections: [],
-    meta: {
-    }
+    meta: {},
+    path: pathArray
 });
 
 let articleUrl = `${baseUrl}${path}.md`;
@@ -34,20 +53,38 @@ fetch(articleUrl)
         // i think in the future we should make the backend do this and return
         // it with the api since it only needs to be done when the article is updated
         var md = MarkdownUtils.parse(text);
-        console.log(text, md);
 
         var meta = md.metadata;
         react.meta = meta;
+
+        if (meta.title)
+            react.path[react.path.length - 1].title = meta.title;
+        
         Utils.setTitle(meta.title);
 
         react.article = MarkdownUtils.render(md.content);
         react.sections = md.sections;
     });
+
+function edit() {
+    // no idea if this is even right
+    // (i never used the cms)
+    window.open(`https://editor.camellia.wiki/${path}`);
+}
 </script>
 
 <template>
     <div class="article-page">
-        <!-- breadcrumbs -->
+        <div class="flex justify-between w-full mb-2">
+            <p class="flex gap-1">
+                <RouterLink to="/">Home</RouterLink>
+                <span v-for="section in react.path" class="flex items-center gap-1">
+                    <PhCaretRight :size="16" />
+                    <RouterLink :to="'/' + section.link">{{ section.title }}</RouterLink>
+                </span>
+            </p>
+            <p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
+        </div>
         <div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
             <h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
             <p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>

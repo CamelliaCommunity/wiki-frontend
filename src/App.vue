@@ -13,7 +13,9 @@ import NavBar from './components/nav/NavBar.vue';
 
     <div class="page-content-wrapper">
         <div class="page-content">
-            <RouterView />
+            <RouterView v-slot="{ Component, route }">
+                  <component :is="Component" :key="route.path" />
+            </RouterView>
         </div>
     </div>
 </template>
