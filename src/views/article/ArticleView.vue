@@ -10,6 +10,7 @@ import GradientLine from '@/components/GradientLine.vue';
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
+import ArticleSkeleton from './ArticleSkeleton.vue';
 
 const baseUrl = 'https://raw.githubusercontent.com/CamelliaCommunity/Wiki/beta/';
 const route = useRoute();
@@ -38,7 +39,8 @@ const react = reactive({
     article: '',
     sections: [],
     meta: {},
-    path: pathArray
+    path: pathArray,
+	loaded: false
 });
 
 let articleUrl = `${baseUrl}${path}.md`;
@@ -47,6 +49,8 @@ if (path === 'style-test') {
     articleUrl = 'https://raw.githubusercontent.com/mxstbr/markdown-test-file/master/TEST.md';
 }
 
+// uncomment the setTimeout to simulate long loading
+// setTimeout(() => {
 fetch(articleUrl)
     .then((response) => response.text())
     .then((text) => {
@@ -64,51 +68,53 @@ fetch(articleUrl)
 
         react.article = MarkdownUtils.render(md.content);
         react.sections = md.sections;
-    });
 
+		react.loaded = true; // nuke loading since we got something now!
+    });
+// }, 4000); 
 function edit() {
-    // no idea if this is even right
-    // (i never used the cms)
     window.open(`https://editor.camellia.wiki/${path}`);
 }
 </script>
 
 <template>
     <div class="article-page">
-        <div class="flex justify-between w-full mb-2">
-            <p class="flex gap-1">
-                <RouterLink to="/">Home</RouterLink>
-                <span v-for="section in react.path" class="flex items-center gap-1">
-                    <PhCaretRight :size="16" />
-                    <RouterLink :to="'/' + section.link">{{ section.title }}</RouterLink>
-                </span>
-            </p>
-            <p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
-        </div>
-        <div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
-            <h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
-            <p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
-        </div>
-        <div class="article-content">
-            <div class="article-contents w-72 min-w-72 h-fit bg-background-3 rounded-lg flex flex-col p-5">
-                <h4 class="text-lg font-semibold">Contents</h4>
-                <ol class="list-decimal list-inside">
-                    <li v-for="section in react.sections" class="text-xl">
-                        <a :href="'#' + section.id">{{ section.title }}</a>
-                        <ul v-if="section.subsections.length > 0" class="list-disc list-inside pl-3">
-                            <li v-for="subsection in section.subsections" class="text-lg">
-                                <a :href="'#' + subsection.id">{{ subsection.title }}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-            <div class="article-body w-full pt-2">
-                <h1 class="font-semibold text-4xl">{{ react.meta.title }}</h1>
-                <GradientLine />
-                <MarkdownView :article="react.article" />
-            </div>
-        </div>
+		<ArticleSkeleton :loading="!react.loaded">
+			<div class="flex justify-between w-full mb-2">
+				<p class="flex gap-1">
+					<RouterLink to="/">Home</RouterLink>
+					<span v-for="section in react.path" class="flex items-center gap-1">
+						<PhCaretRight :size="16" />
+						<RouterLink :to="'/' + section.link">{{ section.title }}</RouterLink>
+					</span>
+				</p>
+				<p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
+			</div>
+			<div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
+				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
+				<p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
+			</div>
+			<div class="article-content">
+				<div class="article-contents w-72 min-w-72 h-fit bg-background-3 rounded-lg flex flex-col p-5">
+					<h4 class="text-lg font-semibold">Contents</h4>
+					<ol class="list-decimal list-inside">
+						<li v-for="section in react.sections" class="text-xl">
+							<a :href="'#' + section.id">{{ section.title }}</a>
+							<ul v-if="section.subsections.length > 0" class="list-disc list-inside pl-3">
+								<li v-for="subsection in section.subsections" class="text-lg">
+									<a :href="'#' + subsection.id">{{ subsection.title }}</a>
+								</li>
+							</ul>
+						</li>
+					</ol>
+				</div>
+				<div class="article-body w-full pt-2">
+					<h1 class="font-semibold text-4xl">{{ react.meta.title }}</h1>
+					<GradientLine />
+					<MarkdownView :article="react.article" />
+				</div>
+			</div>
+		</ArticleSkeleton>
     </div>
 </template>
 
