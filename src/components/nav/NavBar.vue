@@ -75,6 +75,13 @@ const rightLinkList = [
             v-if="isOpen"
             class="fixed top-16 bg-background-1 mx-4 w-layout-width rounded-t-2xl"
         >
+            <Transition name="fade" appear>
+                <div
+                    v-if="isOpen"
+                    class="-z-10 fixed h-full bg-background-1/50 backdrop-blur-sm w-layout-width rounded-t-2xl"
+                    @click="togNav"
+                ></div>
+            </Transition>
             <div class="flex justify-between max-w-screen-lg mx-auto py-2">
                 <div class="flex items-center text-center gap-4">
                     <NavBarAccount />
@@ -96,13 +103,6 @@ const rightLinkList = [
                     >
                 </div>
             </div>
-            <Transition name="fade" appear>
-                <div
-                    v-if="isOpen"
-                    class="-z-10 fixed h-full bg-background-1/50 backdrop-blur-sm w-layout-width"
-                    @click="togNav"
-                ></div>
-            </Transition>
         </nav>
     </Transition>
 </template>
@@ -131,7 +131,6 @@ const rightLinkList = [
     animation: fade-thing 0.25s ease-out;
 }
 
-/* this doesn't even work */
 .fade-leave-active {
     animation: fade-thing 0.25s reverse ease-out;
 }
@@ -141,7 +140,7 @@ const rightLinkList = [
         opacity: 0;
     }
     100% {
-        opacity: 0.5;
+        opacity: 1;
     }
 }
 </style>
