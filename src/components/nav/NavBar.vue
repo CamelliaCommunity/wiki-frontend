@@ -45,7 +45,7 @@ const rightLinkList = [
 </script>
 
 <template>
-	<div class="w-full fixed bg-background-3 py-2">
+	<div class="w-full fixed bg-background-3 py-2 z-40">
 		<nav class="w-full z-10">
 			<div class="flex justify-between max-w-screen-lg mx-auto">
 				<div class="flex items-center text-center gap-4">
