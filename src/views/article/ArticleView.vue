@@ -72,8 +72,8 @@ fetch(articleUrl)
 		react.loaded = true; // nuke loading since we got something now!
     });
 // }, 4000); 
-function edit() {
-    window.open(`https://editor.camellia.wiki/${path}`);
+function edit() { // paper smells so we wont use editor (maybe one day?)
+    window.open(`https://admin.camellia.wiki/${path}`);
 }
 </script>
 
