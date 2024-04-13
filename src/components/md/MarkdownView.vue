@@ -27,10 +27,12 @@ const props = defineProps({
 
     h2 {
         font-size: 36px;
+		font-weight: 600;
     }
 
     h3 {
         font-size: 28px;
+		font-weight: 500;
     }
 
     h4 {
