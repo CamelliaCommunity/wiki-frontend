@@ -17,6 +17,10 @@ const props = defineProps({
     flex-direction: column;
     gap: 10px;
 
+	/* this stupid thing should account for the navbar */
+	h1, h2 { scroll-margin-top: var(--nav-height); }
+
+
     h1 {
         font-size: 44px;
     }

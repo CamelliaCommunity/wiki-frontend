@@ -22,6 +22,7 @@ export default class MarkdownUtils {
             if (line.startsWith('## ')) {
                 data.sections.push({
                     title: line.slice(3),
+					id: line.slice(3).toLowerCase().replace(/[^\w]+/g, '-'),
                     subsections: []
                 });
             }
@@ -33,7 +34,8 @@ export default class MarkdownUtils {
                     return;
 
                 var subsection = {
-                    title: line.slice(4)
+                    title: line.slice(4),
+					id: line.slice(4).toLowerCase().replace(/[^\w]+/g, '-')
                 };
 
                 last.subsections.push(subsection);
