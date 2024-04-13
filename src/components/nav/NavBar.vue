@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { PhList, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
+import { PhList, PhX, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
 
 import WikiLogo from "@/components/WikiLogo.vue";
 import NavBarButton from "./NavBarButton.vue";
@@ -49,8 +49,10 @@ const rightLinkList = [
 		<nav class="w-full z-10">
 			<div class="flex justify-between max-w-screen-lg mx-auto">
 				<div class="flex items-center text-center gap-4">
-					<NavBarButton @click="togNav">
-						<PhList :size="28" />
+					<NavBarButton @click="togNav" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
+						<Transition name="fade">
+							<Component :is="(isOpen ? PhX : PhList)" :size="28" class="absolute"></Component>
+						</Transition>
 					</NavBarButton>
 					<WikiLogo size="small" />
 				</div>
@@ -71,7 +73,7 @@ const rightLinkList = [
 				</div>
 			</div>
 		</nav>
-		<Transition name="fade" appear>
+		<Transition name="fade">
 			<div
 				v-if="isOpen"
 				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm mx-4 w-layout-width rounded-t-2xl"
@@ -107,6 +109,7 @@ const rightLinkList = [
 </template>
 
 <style lang="scss">
+.is-open { background: var(--background-nav-open); }
 .slidedown-fade-enter-active,
 .slidedown-fade-leave-active {
     transition: opacity 0.15s ease-in-out, max-height 0.2s ease-in-out;
@@ -126,20 +129,13 @@ const rightLinkList = [
     opacity: 0;
 }
 
-.fade-enter-active {
-    animation: fade-thing 0.25s ease-out;
-}
-
+.fade-enter-active,
 .fade-leave-active {
-    animation: fade-thing 0.25s reverse ease-out;
+	transition: opacity 0.25s ease-in-out;
 }
 
-@keyframes fade-thing {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
 </style>
