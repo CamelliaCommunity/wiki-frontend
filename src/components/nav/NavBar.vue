@@ -45,66 +45,65 @@ const rightLinkList = [
 </script>
 
 <template>
-    <nav class="w-full fixed z-40 bg-background-3 py-2">
-        <div class="flex justify-between max-w-screen-lg mx-auto">
-            <div class="flex items-center text-center gap-4">
-                <NavBarButton @click="togNav">
-                    <PhList :size="28" />
-                </NavBarButton>
-                <WikiLogo size="small" />
-            </div>
-            <div class="flex items-center text-center gap-4">
-                <NavSearch />
-                <div class="flex gap-1">
-                    <NavBarButton
-                        url="https://github.com/CamelliaCommunity"
-                        first
-                    >
-                        <PhGithubLogo :size="28" />
-                    </NavBarButton>
-                    <!--if there ever gets anything added here, give it the 'middle' attribute-->
-                    <NavBarButton url="https://discord.gg/camellia" last>
-                        <PhDiscordLogo :size="28" />
-                    </NavBarButton>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <Transition name="slidedown-fade">
-        <nav
-            v-if="isOpen"
-            class="fixed z-30 top-16 bg-background-1 mx-4 w-layout-width rounded-t-2xl"
-        >
-            <Transition name="fade" appear>
-                <div
-                    v-if="isOpen"
-                    class="-z-10 fixed h-full bg-background-1/50 backdrop-blur-sm w-layout-width rounded-t-2xl"
-                    @click="togNav"
-                ></div>
-            </Transition>
-            <div class="flex justify-between max-w-screen-lg mx-auto py-2">
-                <div class="flex items-center text-center gap-4">
-                    <NavBarAccount />
-                    <RouterLink
-                        class="hover:text-accent text-lg font-light"
-                        v-for="link in leftLinkList"
-                        :to="link.route"
-                        exact
-                        >{{ link.name }}</RouterLink
-                    >
-                </div>
-                <div class="flex items-center text-center gap-4">
-                    <RouterLink
-                        class="hover:text-accent text-lg font-light"
-                        v-for="link in rightLinkList"
-                        :to="link.route"
-                        exact
-                        >{{ link.name }}</RouterLink
-                    >
-                </div>
-            </div>
-        </nav>
-    </Transition>
+	<div class="w-full fixed bg-background-3 py-2">
+		<nav class="w-full z-10">
+			<div class="flex justify-between max-w-screen-lg mx-auto">
+				<div class="flex items-center text-center gap-4">
+					<NavBarButton @click="togNav">
+						<PhList :size="28" />
+					</NavBarButton>
+					<WikiLogo size="small" />
+				</div>
+				<div class="flex items-center text-center gap-4">
+					<NavSearch />
+					<div class="flex gap-1">
+						<NavBarButton
+							url="https://github.com/CamelliaCommunity"
+							first
+						>
+							<PhGithubLogo :size="28" />
+						</NavBarButton>
+						<!--if there ever gets anything added here, give it the 'middle' attribute-->
+						<NavBarButton url="https://discord.gg/camellia" last>
+							<PhDiscordLogo :size="28" />
+						</NavBarButton>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<Transition name="fade" appear>
+			<div
+				v-if="isOpen"
+				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm mx-4 w-layout-width rounded-t-2xl"
+				@click="togNav"
+			></div>
+		</Transition>
+		<Transition name="slidedown-fade">
+			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 mx-4 w-layout-width rounded-t-2xl">
+				<div class="flex justify-between max-w-screen-lg mx-auto py-2">
+					<div class="flex items-center text-center gap-4">
+						<NavBarAccount />
+						<RouterLink
+							class="hover:text-accent text-lg font-light"
+							v-for="link in leftLinkList"
+							:to="link.route"
+							exact
+							>{{ link.name }}</RouterLink
+						>
+					</div>
+					<div class="flex items-center text-center gap-4">
+						<RouterLink
+							class="hover:text-accent text-lg font-light"
+							v-for="link in rightLinkList"
+							:to="link.route"
+							exact
+							>{{ link.name }}</RouterLink
+						>
+					</div>
+				</div>
+			</nav>
+		</Transition>
+	</div>
 </template>
 
 <style lang="scss">
