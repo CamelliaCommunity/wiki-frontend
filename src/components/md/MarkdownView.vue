@@ -18,7 +18,7 @@ const props = defineProps({
     gap: 10px;
 
 	/* this stupid thing should account for the navbar */
-	h1, h2 { scroll-margin-top: var(--nav-height); }
+	h1, h2, h3 { scroll-margin-top: var(--nav-height); }
 
 
     h1 {
