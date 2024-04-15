@@ -50,10 +50,11 @@ react.popular = {
 };
 
 // Statistics
-API.get("/stats").then((data) => {
+API.get("/stats").then((res) => {
+	let data = res.data;
 	react.stats.articles = data.articles || "N/A";
 	react.stats.comments = data.comments || "N/A";
-	react.stats.visits = data.visits || "N/A";
+	react.stats.visits = data.visitors || "N/A";
 });
 
 // News
