@@ -2,7 +2,10 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 
-import { PhCaretRight } from '@phosphor-icons/vue';
+import { PhCaretRight, PhPaperPlaneRight } from '@phosphor-icons/vue';
+
+import DefaultAvatar from '@/assets/images/avatar.png';
+
 
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
@@ -114,6 +117,19 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>
+			<div class="article-comments">
+				<div class="new-comment">
+					<div class="w-full h-12 rounded flex gap-4">
+						<img class="rounded-2xl" :src="DefaultAvatar" alt="avatar" />
+						<div class="w-full flex rounded-3xl pl-5 pr-5 gap-4 bg-background-3">
+							<textarea class="new-comment-box m-auto resize-none overflow-hidden outline-none h-8 pt-1 pb-1" placeholder="not yet!" disabled/>
+							<PhPaperPlaneRight :size="24" class="m-auto" />
+						</div>
+					</div>
+				</div>
+				<GradientLine />
+				<!-- comment data would go here -->
+			</div>
 		</ArticleSkeleton>
     </div>
 </template>
@@ -139,5 +155,17 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
             gap: 10px;
         }
     }
+	.article-comments {
+		margin-top: 120px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+
+		.new-comment .new-comment-box {
+			background: transparent;
+			width: 100%;
+		}
+	}
 }
 </style>
