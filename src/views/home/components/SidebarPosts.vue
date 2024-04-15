@@ -18,7 +18,7 @@ const props = defineProps({
 	<div class="rounded-xl bg-background-1 w-64">
 		<div class="bg-background-3 p-2 pb-1 rounded-lg">
 			<h3 class="text-2xl font-medium pl-2 mb-3">{{ postType }}</h3>
-			<RouterLink v-for="post in posts" :to="post.url" :class="'sidebar-post ' + postType.replace(/\s/g, '').toLowerCase() + ' mb-2'">
+			<RouterLink v-for="post in posts" :to="post.url" :class="'sidebar-post ' + postType.replace(/\s/g, '').toLowerCase() + ' mb-3'">
 					<img v-if="postType == 'News'" src="/src/assets/images/testing-image-2.png" alt="card background" class="object-cover">
 					<div v-if="postType == 'News'" class="dim"></div>
 					<div class="card-content">
