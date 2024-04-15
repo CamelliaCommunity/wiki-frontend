@@ -108,7 +108,7 @@ react.community = [
 		"url": "/never-gonna-give-you-up"
 	},
 	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"title": "Maybe a slightly too long title which shouldn't really be this long AND FLUX SMELLS LIKE STINK POOPPYYY POOP POOP",
 		"author": "Person",
 		"date": 1713167939,
 		"url": "/never-gonna-give-you-up"

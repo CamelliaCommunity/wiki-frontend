@@ -68,10 +68,21 @@ const props = defineProps({
 		max-height: 110px;
 		height: fit-content;
 		transition: background 200ms ease-in-out;
+
+		.communityPost-title {
+            max-height: 4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+		}
+
 		.card-content {
 			height: inherit;
 			padding: 14px, 10px, 14px, 10px;
 		}
+
 		.card-content > div {
 			margin-top: unset;
 		}
@@ -106,15 +117,6 @@ const props = defineProps({
             -webkit-box-orient: vertical;
             margin-bottom: 5px;
         }
-
-		.communityPost-title {
-            max-height: 4em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-		}
     }
 }
 </style>
