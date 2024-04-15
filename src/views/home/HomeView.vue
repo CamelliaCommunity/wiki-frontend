@@ -2,6 +2,7 @@
 import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
 import HomeStats from './components/HomeStats.vue';
+import SidebarPosts from './components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
@@ -55,6 +56,69 @@ API.get("/stats").then((data) => {
 	react.stats.visits = data.visits || "N/A";
 });
 
+// News
+// TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
+// API.get("/news?max=3").then((data) => {
+//	react.news = data;
+// });
+react.news = [
+	{
+		"title": "Short title",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/short-title"
+	},
+	{
+		"title": "Some cool newspost title that can wrap",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/some-cool-newspost-title-that-can-wrap"
+	},
+	{
+		"title": "Each of these buttons serves a purpose with navigation, including navigating you",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/never-gonna-give-you-up"
+	}
+];
+
+// Community Posts
+// TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
+// API.get("/communityposts?max=3").then((data) => {
+//	react.community = data;
+// });
+react.community = [
+	{
+		"title": "Smaller Title",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/smaller-title"
+	},
+	{
+		"title": "Some cool newspost title that can wrap",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/aaaaaaaaaaaaaaaaaaaaaaa"
+	},
+	{
+		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/never-gonna-give-you-up"
+	},
+	{
+		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/never-gonna-give-you-up"
+	},
+	{
+		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"author": "Person",
+		"date": 1713167939,
+		"url": "/never-gonna-give-you-up"
+	}
+];
 
 </script>
 
@@ -70,7 +134,8 @@ API.get("/stats").then((data) => {
                 </div>
             </div>
             <div class="home-sidebar">
-
+				<SidebarPosts post-type="News" :posts="react.news" />
+				<SidebarPosts post-type="Community Posts" :posts="react.community" />
             </div>
         </div>
     </div>
@@ -90,7 +155,10 @@ API.get("/stats").then((data) => {
         gap: 20px;
 
         .home-sidebar {
+			display: flex;
+			flex-direction: column;
             width: 260px;
+			gap: 16px;
         }
     }
 }
