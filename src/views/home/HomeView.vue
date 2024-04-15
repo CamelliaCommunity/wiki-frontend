@@ -102,7 +102,7 @@ react.community = [
 		"url": "/aaaaaaaaaaaaaaaaaaaaaaa"
 	},
 	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"title": "Maybe a slightly too long title which shouldn't really be this long and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and",
 		"author": "Person",
 		"date": 1713167939,
 		"url": "/never-gonna-give-you-up"
@@ -114,7 +114,7 @@ react.community = [
 		"url": "/never-gonna-give-you-up"
 	},
 	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long an...",
+		"title": "Maybe a slightly too long title which shouldn't really be this long and WHAT THE FUCK IS AN EM",
 		"author": "Person",
 		"date": 1713167939,
 		"url": "/never-gonna-give-you-up"

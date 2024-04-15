@@ -25,7 +25,7 @@ const props = defineProps({
 					<div class="card-content">
 						<div>
 							<div class="flex justify-between">
-								<h2 class="text-xl font-medium leading-tight">{{ post.title }}</h2>
+								<h2 class="communityPost-title text-xl font-medium leading-tight">{{ post.title }}</h2>
 								<!-- <h3 class="text-base font-medium">{{ Formatting.formatDate(post.date) }}</h3> -->
 							</div>
 							<p class="post-description leading-tight">by {{ post.author }}</p>
@@ -106,6 +106,15 @@ const props = defineProps({
             -webkit-box-orient: vertical;
             margin-bottom: 5px;
         }
+
+		.communityPost-title {
+            max-height: 4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+		}
     }
 }
 </style>
