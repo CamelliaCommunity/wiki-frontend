@@ -73,6 +73,13 @@ fetch(articleUrl)
         react.sections = md.sections;
 
 		react.loaded = true; // nuke loading since we got something now!
+
+		setTimeout(() => { // this is so stupid that i have to do this.
+			if (route.hash) { // attempt to navigate to hash
+				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
+				if (hashToHeader) hashToHeader.scrollIntoView();
+			};
+		}, 500);
     });
 // }, 4000); 
 function edit() { // paper smells so we wont use editor (maybe one day?)
