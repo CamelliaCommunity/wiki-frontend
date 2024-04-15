@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { reactive } from 'vue';
 
 import Formatting from '@/utils/Formatting';
 
@@ -18,7 +19,7 @@ const props = defineProps({
 	<div class="rounded-xl bg-background-1 w-64">
 		<div class="bg-background-3 p-2 pb-1 rounded-lg">
 			<h3 class="text-2xl font-medium pl-2 mb-3">{{ postType }}</h3>
-			<RouterLink v-for="post in posts" :to="post.url" :class="'sidebar-post ' + postType.replace(/\s/g, '').toLowerCase() + ' mb-3 hover:text-accent transition-colors'">
+			<RouterLink v-for="post in posts" :to="post.url" :class="'sidebar-post ' + postType.replace(/\s/g, '').toLowerCase() + ' mb-3 transition-colors'">
 					<img v-if="postType == 'News'" src="/src/assets/images/testing-image-2.png" alt="card background" class="object-cover">
 					<div v-if="postType == 'News'" class="dim"></div>
 					<div class="card-content">
@@ -33,7 +34,7 @@ const props = defineProps({
 			</RouterLink>
 		</div>
 		<div class="rounded-xl flex justify-center text-center p-2">
-			<p class="text-xl font-light cursor-pointer">View More</p>
+			<p class="text-xl font-light cursor-pointer hover:text-accent">View More</p>
 		</div>
 	</div>
 </template>
@@ -52,7 +53,13 @@ const props = defineProps({
         grid-area: 1 / 1;
     }
 
+	&:hover > .dim {
+		transition-duration: 50ms;
+		background: rgba(0, 0, 0, 0.0) linear-gradient(180deg, transparent 0%, rgba(69, 40, 61, 0.727) 80%);
+	}
+
     .dim {
+		transition: background 200ms ease-in-out;
         background: rgba(0, 0, 0, 0.2) linear-gradient(180deg, transparent 0%, rgba(69, 40, 61, 0.727) 80%);
     }
 
@@ -60,12 +67,18 @@ const props = defineProps({
 		background-color: var(--background-4);
 		max-height: 110px;
 		height: fit-content;
+		transition: background 200ms ease-in-out;
 		.card-content {
 			height: inherit;
 			padding: 14px, 10px, 14px, 10px;
 		}
 		.card-content > div {
 			margin-top: unset;
+		}
+
+		&:hover {
+			background-color: var(--background-2);
+			transition-duration: 50ms;
 		}
 	}
 

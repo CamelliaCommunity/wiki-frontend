@@ -1,6 +1,10 @@
 <script setup>
+
+import CameCry from "@/assets/images/CameCry.webp";
+
 const props = defineProps({
-	loading: Boolean
+	loading: Boolean,
+	error: Boolean
 })
 
 const skeleData = {
@@ -40,6 +44,13 @@ const skeleData = {
 				<div v-for="i in skeleData.body.rows" :key="i" :class="skeleData.body.rows_class"></div>
 			</div>
 		</div>
+	</div>
+	<div v-else-if="error" class="flex w-full">
+		<div class="flex flex-col justify-center">
+			<h1 class="text-3xl font-extrabold">NOT FOUND</h1>
+			<p class="text-1xl">The requested article does not exist.</p>
+		</div>
+		<img :src="CameCry" class="h-20 w-20">
 	</div>
 	<slot v-else></slot>
 </template>

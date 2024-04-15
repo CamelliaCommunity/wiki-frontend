@@ -6,7 +6,6 @@ import { PhCaretRight, PhPaperPlaneRight } from '@phosphor-icons/vue';
 
 import DefaultAvatar from '@/assets/images/avatar.png';
 
-
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
 
@@ -14,16 +13,13 @@ import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 import ArticleSkeleton from './ArticleSkeleton.vue';
+import API from '@/utils/API';
 
-const baseUrl = 'https://raw.githubusercontent.com/CamelliaCommunity/Wiki/beta/';
 const route = useRoute();
 
 const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
 
-// should also be done in the backend
-// we could even have the backend
-// return the proper titles for each part
 const pathArray = path.split('/').map(p => {
     const index = pathSplit.indexOf(p);
     const words = p.replace('-', ' ').replace('_', ' ').split(' ');
@@ -43,44 +39,45 @@ const react = reactive({
     sections: [],
     meta: {},
     path: pathArray,
-	loaded: false
+	loaded: false,
+	error: false
 });
 
-let articleUrl = `${baseUrl}${path}.md`;
-
-if (path === 'style-test') {
-    articleUrl = 'https://raw.githubusercontent.com/mxstbr/markdown-test-file/master/TEST.md';
-}
+// get article data from backend
+let articleUrl = `/articles?path=/${path}`;
 
 // uncomment the setTimeout to simulate long loading
 // setTimeout(() => {
-fetch(articleUrl)
-    .then((response) => response.text())
-    .then((text) => {
-        // i think in the future we should make the backend do this and return
-        // it with the api since it only needs to be done when the article is updated
-        var md = MarkdownUtils.parse(text);
+API.get(articleUrl).then((res) => {
+	if (res.code) {
+		react.error = true;
+		react.loaded = true;
+		Utils.setTitle("Error");
+		return;
+	}
 
-        var meta = md.metadata;
-        react.meta = meta;
+	let data = res.data;
+	var md = MarkdownUtils.parse(data);
+    var meta = data.meta;
 
-        if (meta.title)
-            react.path[react.path.length - 1].title = meta.title;
+    react.meta = meta;
+
+    if (meta.title)
+        react.path[react.path.length - 1].title = meta.title;
         
-        Utils.setTitle(meta.title);
+    Utils.setTitle(meta.title);
 
-        react.article = MarkdownUtils.render(md.content);
-        react.sections = md.sections;
+    react.article = MarkdownUtils.render(md.content);
+    react.sections = md.sections;
+	react.loaded = true; // nuke loading since we got something now!
 
-		react.loaded = true; // nuke loading since we got something now!
-
-		setTimeout(() => { // this is so stupid that i have to do this.
-			if (route.hash) { // attempt to navigate to hash
-				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
-				if (hashToHeader) hashToHeader.scrollIntoView();
-			};
-		}, 500);
-    });
+	setTimeout(() => { // this is so stupid that i have to do this.
+		if (route.hash) { // attempt to navigate to hash
+			const hashToHeader = document.getElementById(route.hash.split("#")[1]);
+			if (hashToHeader) hashToHeader.scrollIntoView();
+		};
+	}, 500);
+});
 // }, 4000); 
 function edit() { // paper smells so we wont use editor (maybe one day?)
     window.open(`https://admin.camellia.wiki/${path}`);
@@ -89,7 +86,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 
 <template>
     <div class="article-page">
-		<ArticleSkeleton :loading="!react.loaded">
+		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
 			<div class="flex justify-between w-full mb-2">
 				<p class="flex gap-1">
 					<RouterLink to="/">Home</RouterLink>

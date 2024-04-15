@@ -5,24 +5,17 @@ export default class MarkdownUtils {
 
     static parse(markdown) {
         let data = {
-            metadata: {},
             sections: [],
             content: ''
         };
 
-        if (markdown.startsWith('---')) {  
-            data.metadata = MarkdownUtils.extractMetadata(markdown);
-            data.content = markdown.slice(MarkdownUtils.getEndOfMetadataIndex(markdown)).trim();
-        }
-        else {
-            data.content = markdown;
-        }
+		data.content = markdown.content;
 
         data.content.split('\n').forEach((line) => {
             if (line.startsWith('## ')) {
                 data.sections.push({
                     title: line.slice(3),
-					id: line.slice(3).toLowerCase().replace(/[^\w]+/g, '-'),
+					id: line.slice(3).toLowerCase().trim().replace(/[^\w]+/g, '-'),
                     subsections: []
                 });
             }
@@ -35,7 +28,7 @@ export default class MarkdownUtils {
 
                 var subsection = {
                     title: line.slice(4),
-					id: line.slice(4).toLowerCase().replace(/[^\w]+/g, '-')
+					id: line.slice(4).toLowerCase().trim().replace(/[^\w]+/g, '-')
                 };
 
                 last.subsections.push(subsection);
