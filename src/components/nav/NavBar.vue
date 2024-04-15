@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
 import { PhList, PhX, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
 
 import WikiLogo from "@/components/WikiLogo.vue";
@@ -12,6 +13,8 @@ const isOpen = ref(false);
 const togNav = () => {
     isOpen.value = !isOpen.value;
 };
+
+const router = useRouter();
 
 const leftLinkList = [
     {
@@ -54,7 +57,7 @@ const rightLinkList = [
 							<Component :is="(isOpen ? PhX : PhList)" :size="28" class="absolute"></Component>
 						</Transition>
 					</NavBarButton>
-					<WikiLogo size="small" />
+					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer"/>
 				</div>
 				<div class="flex items-center text-center gap-4">
 					<NavSearch />
