@@ -2,14 +2,14 @@ export default class API {
     static url = 'https://backend.camellia.wiki';
     
     static async get(endpoint) {
-        return fetch(url + endpoint, {
+        return fetch(this.url + endpoint, {
             method: 'GET',
             headers: createHeaders(),
         }).then(response => response.json());
     }
 
     static async post(endpoint, body) {
-        return fetch(url + endpoint, {
+        return fetch(this.url + endpoint, {
             method: 'POST',
             headers: createHeaders(),
             body: JSON.stringify(body),
@@ -17,7 +17,7 @@ export default class API {
     }
 
     static async put(endpoint, body) {
-        return fetch(url + endpoint, {
+        return fetch(this.url + endpoint, {
             method: 'PUT',
             headers: createHeaders(),
             body: JSON.stringify(body),
@@ -25,7 +25,7 @@ export default class API {
     }
 
     static async delete(endpoint) {
-        return fetch(url + endpoint, {
+        return fetch(this.url + endpoint, {
             method: 'DELETE',
             headers: createHeaders(),
         }).then(response => response.json());

@@ -4,30 +4,58 @@ import FeaturedPost from './components/FeaturedPost.vue';
 import HomeStats from './components/HomeStats.vue';
 
 import Utils from '@/utils/Utils';
+import API from '@/utils/API';
+import { reactive } from 'vue';
 
 Utils.setTitle('');
 
-// this data should be fetched from the backend
+const react = reactive({
+	// Featured
+	featured: {},
 
-const featured = {
+	// Popular
+	popular: {},
+
+	// Statistics
+    stats: {
+		"articles": 0,
+		"comments": 0,
+		"visits": 0
+	}
+});
+
+// API calls
+
+// Featured
+// API.get("/featured").then((data) => {
+//	react.featured = data;
+// });
+react.featured = {
     'title': 'Post Title Goes Here',
     'description': 'Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like this one.',
     'date': 1712214046,
     'url': '/featured'
 };
 
-const popular = {
+// Popular
+// API.get("/popular").then((data) => {
+//	react.popular = data;
+// });
+react.popular = {
     'title': 'Title of Popular Post',
     'description': 'Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like this one.',
     'date': 1712386846,
     'url': '/popular'
 };
 
-const stats = {
-    'articles': 1000,
-    'comments': 1000,
-    'visits': 1000
-};
+// Statistics
+API.get("/stats").then((data) => {
+	react.stats.articles = data.articles || "N/A";
+	react.stats.comments = data.comments || "N/A";
+	react.stats.visits = data.visits || "N/A";
+});
+
+
 </script>
 
 <template>
@@ -35,10 +63,10 @@ const stats = {
         <HomeHeader />
         <div class="home-content">
             <div class="w-full flex flex-col gap-4">
-                <FeaturedPost post-type="Featured Post" :post="featured" />
+                <FeaturedPost post-type="Featured Post" :post="react.featured" />
                 <div class="flex gap-4">
-                    <FeaturedPost post-type="Popular Today" :post="popular" linearBackground />
-                    <HomeStats :stats="stats" />
+                    <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground />
+                    <HomeStats :stats="react.stats" />
                 </div>
             </div>
             <div class="home-sidebar">
