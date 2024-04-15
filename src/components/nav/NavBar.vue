@@ -63,7 +63,7 @@ const rightLinkList = [
 					<NavSearch />
 					<div class="flex gap-1">
 						<NavBarButton
-							url="https://github.com/CamelliaCommunity"
+							url="https://github.com/CamelliaCommunity/wiki-frontend"
 							first
 						>
 							<PhGithubLogo :size="28" />
