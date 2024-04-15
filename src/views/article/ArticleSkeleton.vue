@@ -49,6 +49,7 @@ const skeleData = {
 		<div class="flex flex-col justify-center">
 			<h1 class="text-3xl font-extrabold">NOT FOUND</h1>
 			<p class="text-1xl">The requested article does not exist.</p>
+			<p class="text-1xl">Have a cookie 🍪</p>
 		</div>
 		<img :src="CameCry" class="h-20 w-20">
 	</div>
