@@ -20,25 +20,11 @@ const route = useRoute();
 const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
 
-const pathArray = path.split('/').map(p => {
-    const index = pathSplit.indexOf(p);
-    const words = p.replace('-', ' ').replace('_', ' ').split(' ');
-
-    words.forEach((word, index) => {
-        words[index] = word.charAt(0).toUpperCase() + word.slice(1);
-    });
-
-    return {
-        link: pathSplit.slice(1, index + 1).join('/'),
-        title: words.join(' ')
-    };
-});
-
 const react = reactive({
     article: '',
     sections: [],
     meta: {},
-    path: pathArray,
+    breadcrumbs: [],
 	loaded: false,
 	error: false
 });
@@ -61,9 +47,7 @@ API.get(articleUrl).then((res) => {
     var meta = data.meta;
 
     react.meta = meta;
-
-    if (meta.title)
-        react.path[react.path.length - 1].title = meta.title;
+	react.breadcrumbs = data.breadcrumbs;
         
     Utils.setTitle(meta.title);
 
@@ -90,9 +74,9 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 			<div class="flex justify-between w-full mb-2">
 				<p class="flex gap-1">
 					<RouterLink to="/">Home</RouterLink>
-					<span v-for="section in react.path" class="flex items-center gap-1">
+					<span v-for="part in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" />
-						<RouterLink :to="'/' + section.link">{{ section.title }}</RouterLink>
+						<RouterLink :to=part.path>{{ part.name }}</RouterLink>
 					</span>
 				</p>
 				<p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
