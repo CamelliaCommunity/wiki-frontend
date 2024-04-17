@@ -100,8 +100,6 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 					</ol>
 				</div>
 				<div class="article-body w-full pt-2">
-					<h1 class="font-semibold text-4xl">{{ react.meta.title }}</h1>
-					<GradientLine />
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>

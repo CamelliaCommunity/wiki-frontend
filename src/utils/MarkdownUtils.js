@@ -42,7 +42,12 @@ export default class MarkdownUtils {
         const renderer = {
             heading: (text, level) => {
                 const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-                return `<h${level} id="${escapedText}">${text}</h${level}>`;
+                let html = `<h${level} id="${escapedText}">${text}</h${level}>`;
+
+                if (level === 2)
+                    html += `<div class="gradient-line overshoot-extra"></div>`;
+
+                return html;
             },
             blockquote: (quote) => {
                 // remove <p> tags
