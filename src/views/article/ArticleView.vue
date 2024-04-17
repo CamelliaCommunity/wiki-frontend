@@ -83,7 +83,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 			</div>
 			<div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
-				<p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
+				<p>Written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
 			</div>
 			<div class="article-content max-h-full">
 				<div class="article-contents w-72 min-w-72 h-auto bg-background-3 rounded-lg flex flex-col p-5">
