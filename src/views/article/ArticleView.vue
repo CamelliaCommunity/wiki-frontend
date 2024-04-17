@@ -85,19 +85,21 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
 				<p>written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
 			</div>
-			<div class="article-content">
-				<div class="article-contents w-72 min-w-72 h-fit bg-background-3 rounded-lg flex flex-col p-5">
-					<h4 class="text-lg font-semibold">Contents</h4>
-					<ol class="list-decimal list-inside">
-						<li v-for="section in react.sections" class="text-xl">
-							<a :href="'#' + section.id">{{ section.title }}</a>
-							<ul v-if="section.subsections.length > 0" class="list-disc list-inside pl-3">
-								<li v-for="subsection in section.subsections" class="text-lg">
-									<a :href="'#' + subsection.id">{{ subsection.title }}</a>
-								</li>
-							</ul>
-						</li>
-					</ol>
+			<div class="article-content max-h-full">
+				<div class="article-contents w-72 min-w-72 h-auto bg-background-3 rounded-lg flex flex-col p-5">
+					<div class="sticky top-20 flex flex-col">
+						<h4 class="text-lg font-semibold">Contents</h4>
+						<ol class="list-decimal list-inside">
+							<li v-for="section in react.sections" class="text-xl">
+								<a :href="'#' + section.id">{{ section.title }}</a>
+								<ul v-if="section.subsections.length > 0" class="list-disc list-inside pl-3">
+									<li v-for="subsection in section.subsections" class="text-lg">
+										<a :href="'#' + subsection.id">{{ subsection.title }}</a>
+									</li>
+								</ul>
+							</li>
+						</ol>
+					</div>
 				</div>
 				<div class="article-body w-full pt-2">
 					<MarkdownView :article="react.article" />
