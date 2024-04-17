@@ -72,6 +72,27 @@ const props = defineProps({
         border-left: 4px solid var(--accent-1);
         padding-left: 20px;
         margin-left: 0;
+
+        &.md-bq {
+            border-left: none;
+            background-color: var(--background-1);
+            padding: 10px 15px;
+            border-radius: 10px;
+
+            // temporary design for bq types
+            // get tanza to design this
+            &.bq-tip {
+                background-color: #54c6ff44;
+            }
+
+            &.bq-warning {
+                background-color: #ffff5544;
+            }
+
+            &.bq-danger {
+                background-color: #ff555544;
+            }
+        }
     }
 
     pre {

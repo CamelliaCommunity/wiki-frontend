@@ -43,6 +43,20 @@ export default class MarkdownUtils {
             heading: (text, level) => {
                 const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
                 return `<h${level} id="${escapedText}">${text}</h${level}>`;
+            },
+            blockquote: (quote) => {
+                // remove <p> tags
+                var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
+
+                // find {: .tip } or {: .warning } or whatever
+                var match = content.match(/\{: \.(\w+) \}/);
+                
+                if (match) {
+                    var type = match[1];
+                    return `<blockquote class="md-bq bq-${type}">${content.replace(match[0], '')}</blockquote>`;
+                }
+
+                return `<blockquote>${quote}</blockquote>`;
             }
         };
 
