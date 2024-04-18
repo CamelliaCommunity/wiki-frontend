@@ -117,7 +117,7 @@ const rightLinkList = [
 	max-height: 100vh;
     opacity: 1;
 
-	@media screen and (min-width: 768px) {
+	@media screen and (min-width: 1024px) {
     	max-height: var(--nav-height);
 	}
 }
@@ -128,7 +128,7 @@ const rightLinkList = [
 	max-height: 100vh;
     opacity: 0;
 
-	@media screen and (min-width: 768px) {
+	@media screen and (min-width: 1024px) {
     	max-height: 0;
 	}
 }
