@@ -69,7 +69,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 </script>
 
 <template>
-    <div class="article-page">
+    <div class="article-page w-full xl:w-content-width">
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
 			<div class="flex justify-between w-full mb-2">
 				<p class="flex gap-1">
@@ -81,12 +81,12 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				</p>
 				<p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
 			</div>
-			<div class="w-full h-16 bg-background-1 rounded-lg p-5 flex justify-between items-center mb-4">
+			<div class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
 				<p>Written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
 			</div>
 			<div class="article-content max-h-full">
-				<div class="article-contents w-72 min-w-72 h-auto bg-background-3 rounded-lg flex flex-col p-5">
+				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5">
 					<div class="sticky top-20 flex flex-col">
 						<h4 class="text-lg font-semibold">Contents</h4>
 						<ol class="list-decimal list-inside">
@@ -101,7 +101,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 						</ol>
 					</div>
 				</div>
-				<div class="article-body w-full pt-2">
+				<div class="w-full flex flex-col pt-2">
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>
@@ -128,21 +128,14 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: var(--content-width);
     margin: 0 auto;
 
     .article-content {
         width: 100%;
         display: flex;
         gap: 40px;
-
-        .article-body {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
     }
+
 	.article-comments {
 		margin-top: 120px;
 		width: 100%;
