@@ -79,7 +79,7 @@ const rightLinkList = [
 		</Transition>
 		<Transition name="slidedown-fade">
 			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
-				<div class="flex flex-col lg:flex-row gap-4 md:gap-0 md:justify-between max-w-screen-lg mx-auto px-2 xl:px-0 py-4 lg:py-2">
+				<div class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between max-w-screen-lg mx-auto px-2 xl:px-0 py-4 lg:py-2">
 					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<NavBarAccount />
 						<RouterLink
