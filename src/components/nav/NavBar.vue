@@ -16,35 +16,41 @@ const togNav = () => {
 
 const router = useRouter();
 
-const leftLinkList = [
-    {
-        route: "/",
-        name: "Main Page",
-    },
-    {
-        route: "/staff-guidelines",
-        name: "Staff Guidelines",
-    },
-    {
-        route: "/contributing",
-        name: "How to Contribute",
-    },
-    {
-        route: "/about",
-        name: "About Page",
-    },
-];
+const leftLinkList = [{
+    route: "/",
+    name: "Main Page",
+}, {
+    route: "/staff-guidelines",
+    name: "Staff Guidelines",
+}, {
+    route: "/contributing",
+    name: "How to Contribute",
+}, {
+    route: "/about",
+    name: "About Page",
+}];
 
-const rightLinkList = [
-    {
-        route: "https://admin.camellia.wiki",
-        name: "Wiki Editor",
-    },
-    {
-        route: "/donate",
-        name: "Donate",
-    },
-];
+const rightLinkList = [{
+    route: "https://admin.camellia.wiki",
+    name: "Wiki Editor",
+}, {
+    route: "/donate",
+    name: "Donate",
+}];
+
+// we basically "hook" info the anchor click
+// and if it's an internal link, we use the router
+function openLink(e, url) {
+	e.preventDefault();
+
+	if (url.startsWith('/')) {
+		router.push(url);
+	} else {
+		window.open(url, '_blank');
+	}
+
+	isOpen.value = false;
+}
 </script>
 
 <template>
@@ -82,21 +88,12 @@ const rightLinkList = [
 				<div class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between max-w-screen-lg mx-auto px-2 xl:px-0 py-4 lg:py-2">
 					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<NavBarAccount />
-						<RouterLink
-							class="hover:text-accent text-lg font-light"
-							v-for="link in leftLinkList"
-							:to="link.route"
-							exact
-							>{{ link.name }}</RouterLink
-						>
+						<a class="hover:text-accent text-lg font-light cursor-pointer" v-for="link in leftLinkList"
+							@click="(e) => openLink(e, link.route)" :href="link.route">{{ link.name }}</a>
 					</div>
 					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
-						<RouterLink
-							class="hover:text-accent text-lg font-light"
-							v-for="link in rightLinkList"
-							:to="link.route"
-							>{{ link.name }}</RouterLink
-						>
+						<a class="hover:text-accent text-lg font-light cursor-pointer" v-for="link in rightLinkList"
+							@click="(e) => openLink(e, link.route)" :href="link.route">{{ link.name }}</a>
 					</div>
 				</div>
 			</nav>
