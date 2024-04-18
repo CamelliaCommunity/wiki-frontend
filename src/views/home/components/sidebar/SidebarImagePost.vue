@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
-import SidebarTestImage from '@/assets/images/testing-image-2.png';
+import SidebarTestImage from '@/assets/images/test-image-ssulfide.png';
 
 const props = defineProps({
     post: {

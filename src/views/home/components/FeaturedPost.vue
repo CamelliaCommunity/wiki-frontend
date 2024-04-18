@@ -1,6 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
+import TestImage from '@/assets/images/test-image-sherii.png';
+import TestImage2 from '@/assets/images/test-image-banginburst.png';
+
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
@@ -14,13 +17,17 @@ const props = defineProps({
     post: {
         type: Object,
         required: true
+    },
+    otherImage: {
+        type: Boolean,
+        default: false
     }
 });
 </script>
 
 <template>
     <div class="featured-post w-full h-52">
-        <img src="/src/assets/images/testing-image.png" alt="card background" class="object-cover">
+        <img :src="post.image || (otherImage ? TestImage2 : TestImage)" alt="card background" class="object-cover">
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">

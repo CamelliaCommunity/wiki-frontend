@@ -130,7 +130,7 @@ react.community = [
             <div class="flex w-full flex-col gap-4">
                 <FeaturedPost post-type="Featured Post" :post="react.featured" />
                 <div class="w-full flex flex-col md:flex-row gap-4">
-                    <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground />
+                    <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
                     <HomeStats :stats="react.stats" />
                 </div>
             </div>
