@@ -58,3 +58,14 @@ body {
         margin: 0 -10px;
     }
 }
+
+.overlap-grid {
+    display: grid;
+    overflow: hidden;
+
+    > * {
+        width: 100%;
+        height: inherit;
+        grid-area: 1 / 1;
+    }
+}

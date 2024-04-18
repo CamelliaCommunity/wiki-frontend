@@ -16,6 +16,9 @@ export default {
             width: {
                 'content-width': '1080px',
                 'layout-width': 'calc(100vw - 32px)'
+            },
+            transitionDuration: {
+                '50': '50ms'
             }
         },
     },

@@ -135,8 +135,8 @@ react.community = [
                 </div>
             </div>
             <div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
-				<SidebarPosts post-type="News" :posts="react.news" />
-				<SidebarPosts post-type="Community Posts" :posts="react.community" />
+				<SidebarPosts title="News" :posts="react.news" use-images />
+				<SidebarPosts title="Community Posts" :posts="react.community" />
             </div>
         </div>
     </div>
