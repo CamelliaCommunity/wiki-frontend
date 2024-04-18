@@ -22,26 +22,26 @@ const leftLinkList = [
         name: "Main Page",
     },
     {
-        route: "#",
+        route: "/staff-guidelines",
         name: "Staff Guidelines",
     },
     {
-        route: "#",
+        route: "/contributing",
         name: "How to Contribute",
     },
     {
-        route: "#",
+        route: "/about",
         name: "About Page",
     },
 ];
 
 const rightLinkList = [
     {
-        route: "#",
+        route: "https://admin.camellia.wiki",
         name: "Wiki Editor",
     },
     {
-        route: "#",
+        route: "/donate",
         name: "Donate",
     },
 ];
@@ -95,7 +95,6 @@ const rightLinkList = [
 							class="hover:text-accent text-lg font-light"
 							v-for="link in rightLinkList"
 							:to="link.route"
-							exact
 							>{{ link.name }}</RouterLink
 						>
 					</div>
