@@ -48,8 +48,8 @@ const rightLinkList = [
 </script>
 
 <template>
-	<div class="w-full fixed bg-background-3 py-2 z-40">
-		<nav class="w-full z-10">
+	<div class="w-screen h-16 fixed bg-background-3 py-2 z-40">
+		<nav class="w-full z-10 px-2 xl:px-0">
 			<div class="flex justify-between max-w-screen-lg mx-auto">
 				<div class="flex items-center text-center gap-4">
 					<NavBarButton @click="togNav" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
@@ -59,13 +59,10 @@ const rightLinkList = [
 					</NavBarButton>
 					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer"/>
 				</div>
-				<div class="flex items-center text-center gap-4">
+				<div class="hidden md:flex items-center text-center gap-4">
 					<NavSearch />
 					<div class="flex gap-1">
-						<NavBarButton
-							url="https://github.com/CamelliaCommunity/wiki-frontend"
-							first
-						>
+						<NavBarButton url="https://github.com/CamelliaCommunity/wiki-frontend" first>
 							<PhGithubLogo :size="28" />
 						</NavBarButton>
 						<!--if there ever gets anything added here, give it the 'middle' attribute-->
@@ -77,16 +74,13 @@ const rightLinkList = [
 			</div>
 		</nav>
 		<Transition name="fade">
-			<div
-				v-if="isOpen"
-				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm mx-4 w-layout-width rounded-t-2xl"
-				@click="togNav"
-			></div>
+			<div v-if="isOpen" @click="togNav"
+				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm md:mx-4 w-screen md:w-layout-width rounded-t-2xl"></div>
 		</Transition>
 		<Transition name="slidedown-fade">
-			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 mx-4 w-layout-width rounded-t-2xl">
-				<div class="flex justify-between max-w-screen-lg mx-auto py-2">
-					<div class="flex items-center text-center gap-4">
+			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
+				<div class="flex flex-col lg:flex-row gap-4 md:gap-0 md:justify-between max-w-screen-lg mx-auto px-2 xl:px-0 py-4 lg:py-2">
+					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<NavBarAccount />
 						<RouterLink
 							class="hover:text-accent text-lg font-light"
@@ -96,7 +90,7 @@ const rightLinkList = [
 							>{{ link.name }}</RouterLink
 						>
 					</div>
-					<div class="flex items-center text-center gap-4">
+					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<RouterLink
 							class="hover:text-accent text-lg font-light"
 							v-for="link in rightLinkList"
@@ -121,15 +115,23 @@ const rightLinkList = [
 .slidedown-fade-enter-to,
 .slidedown-fade-leave-from {
     overflow: hidden;
-    max-height: var(--nav-height);
+	max-height: 100vh;
     opacity: 1;
+
+	@media screen and (min-width: 768px) {
+    	max-height: var(--nav-height);
+	}
 }
 
 .slidedown-fade-enter-from,
 .slidedown-fade-leave-to {
     overflow: hidden;
-    max-height: 0;
+	max-height: 100vh;
     opacity: 0;
+
+	@media screen and (min-width: 768px) {
+    	max-height: 0;
+	}
 }
 
 .fade-enter-active,

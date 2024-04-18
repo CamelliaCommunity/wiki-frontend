@@ -5,7 +5,7 @@ import WikiLogo from '@/components/WikiLogo.vue';
 <template>
     <div class="home-header">
         <WikiLogo />
-        <h4>Where most of Camellia’s work is documented. Including the fandom.</h4>
+        <h4 class="text-center">Where most of Camellia’s work is documented. Including the fandom.</h4>
     </div>
 </template>
 

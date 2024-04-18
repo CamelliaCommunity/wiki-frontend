@@ -108,7 +108,7 @@ react.community = [
 		"url": "/never-gonna-give-you-up"
 	},
 	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long AND FLUX SMELLS LIKE STINK POOPPYYY POOP POOP",
+		"title": "Maybe a slightly too long title which shouldn't really be this long AND PAPER SMELLS LIKE STINK POOPPYYY POOP POOP",
 		"author": "Person",
 		"date": 1713167939,
 		"url": "/never-gonna-give-you-up"
@@ -124,43 +124,20 @@ react.community = [
 </script>
 
 <template>
-    <div class="home-page gap-5">
+    <div class="w-full flex flex-col items-center justify-center gap-5">
         <HomeHeader />
-        <div class="home-content">
-            <div class="w-full flex flex-col gap-4">
+        <div class="flex w-full xl:w-content-width xl:mx-auto gap-5">
+            <div class="flex w-full flex-col gap-4">
                 <FeaturedPost post-type="Featured Post" :post="react.featured" />
-                <div class="flex gap-4">
+                <div class="w-full flex flex-col md:flex-row gap-4">
                     <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground />
                     <HomeStats :stats="react.stats" />
                 </div>
             </div>
-            <div class="home-sidebar">
+            <div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
 				<SidebarPosts post-type="News" :posts="react.news" />
 				<SidebarPosts post-type="Community Posts" :posts="react.community" />
             </div>
         </div>
     </div>
 </template>
-
-<style lang="scss">
-.home-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    .home-content {
-        width: var(--content-width);
-        margin: 0 auto;
-        display: flex;
-        gap: 20px;
-
-        .home-sidebar {
-			display: flex;
-			flex-direction: column;
-            width: 260px;
-			gap: 16px;
-        }
-    }
-}
-</style>

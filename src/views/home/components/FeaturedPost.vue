@@ -19,7 +19,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="featured-post h-52">
+    <div class="featured-post w-full h-52">
         <img src="/src/assets/images/testing-image.png" alt="card background" class="object-cover">
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
@@ -33,7 +33,7 @@ const props = defineProps({
             </div>
 
             <div>
-                <p class="post-description leading-tight">{{ post.description }}</p>
+                <p class="post-description w-full md:w-96 leading-tight">{{ post.description }}</p>
                 <RouterLink :to="post.url" class="w-fit">
                     <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
                 </RouterLink>
@@ -44,7 +44,6 @@ const props = defineProps({
 
 <style lang="scss">
 .featured-post {
-    width: 100%;
     display: grid;
     border-radius: 8px;
     overflow: hidden;
@@ -75,7 +74,6 @@ const props = defineProps({
         }
 
         .post-description {
-            width: 450px;
             font-size: 18px;
             max-height: 3em;
             overflow: hidden;

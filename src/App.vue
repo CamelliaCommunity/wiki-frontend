@@ -7,11 +7,11 @@ import NavBar from './components/nav/NavBar.vue';
 <template>
     <NavBar />
 
-    <div class="content-background-wrapper">
+    <div class="content-background-wrapper md:px-4">
         <div class="content-background"></div>
     </div>
 
-    <div class="page-content-wrapper">
+    <div class="page-content-wrapper md:px-4">
         <div class="page-content">
             <RouterView v-slot="{ Component, route }">
                 <Transition name="page-fade">
@@ -27,8 +27,7 @@ import NavBar from './components/nav/NavBar.vue';
     position: fixed;
     width: 100vw;
     height: 100vh;
-    padding: var(--nav-height) 17px;
-    padding-bottom: 0;
+    padding-top: var(--nav-height);
     z-index: -1;
 
     .content-background {
@@ -42,8 +41,7 @@ import NavBar from './components/nav/NavBar.vue';
 
 .page-content-wrapper {
     height: 100%;
-    padding: var(--nav-height) 17px;
-    padding-bottom: 0;
+    padding-top: var(--nav-height);
     z-index: 1;
 
     .page-content {
@@ -51,6 +49,7 @@ import NavBar from './components/nav/NavBar.vue';
         height: fit-content;
         display: grid;
         padding: 12px;
+        max-width: inherit;
 
         > * {
             height: fit-content;
