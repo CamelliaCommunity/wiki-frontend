@@ -4,9 +4,11 @@ import FooterLink from "./FooterLink.vue";
 </script>
 
 <template>
-<div class="w-screen relative h-20 bottom-0 mt-4 rounded-t-2xl">
-	<div class="bg-background-3 h-4 w-screen md:w-layout-width absolute bottom-0 z-40"></div>
-	<div class="bg-background-1 h-16 w-screen md:w-layout-width absolute rounded-b-2xl justify-center text-center p-1 mb-2">
+<div class="w-full relative mt-4 flex h-24 flex-col rounded-t-2xl bg-background-3">
+	<div class="w-full h-4 bg-background-1">
+		<div class="w-full h-4 bg-background-2 rounded-b-2xl"></div>
+	</div>
+	<div class="w-full h-16 justify-center text-center rounded-b-2xl bg-background-1 p-1">
 		<p class="text-xl">
 			Created by
 			<FooterLink url="https://github.com/CamelliaCommunity/wiki-frontend" text="pptek" />
