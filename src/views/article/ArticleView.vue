@@ -4,10 +4,10 @@ import { reactive } from 'vue';
 
 import { PhCaretRight, PhPaperPlaneRight } from '@phosphor-icons/vue';
 
-import DefaultAvatar from '@/assets/images/avatar.png';
-
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
+
+import NewComment from '@/components/comments/NewComment.vue';
 
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
@@ -106,15 +106,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				</div>
 			</div>
 			<div class="article-comments">
-				<div class="new-comment">
-					<div class="w-full h-12 rounded flex gap-4">
-						<img class="rounded-2xl" :src="DefaultAvatar" alt="avatar" />
-						<div class="w-full flex rounded-3xl pl-5 pr-5 gap-4 bg-background-3">
-							<textarea class="new-comment-box m-auto resize-none overflow-hidden outline-none h-8 pt-1 pb-1" placeholder="not yet!" disabled/>
-							<PhPaperPlaneRight :size="24" class="m-auto" />
-						</div>
-					</div>
-				</div>
+				<NewComment />
 				<GradientLine />
 				<!-- comment data would go here -->
 			</div>
@@ -142,11 +134,6 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-
-		.new-comment .new-comment-box {
-			background: transparent;
-			width: 100%;
-		}
 	}
 }
 </style>
