@@ -35,7 +35,7 @@ let articleUrl = `/articles?path=/${path}`;
 // uncomment the setTimeout to simulate long loading
 // setTimeout(() => {
 API.get(articleUrl).then((res) => {
-	if (res.code) {
+	if (res.message != "OK" || res.status != 200) {
 		react.error = true;
 		react.loaded = true;
 		Utils.setTitle("Error");
