@@ -51,6 +51,11 @@ function openLink(e, url) {
 
 	isOpen.value = false;
 }
+
+window.addEventListener("keydown", (e) => {
+	const inputFocused = e.target.tagName.toLowerCase() == 'input' || e.target.tagName.toLowerCase() == 'textarea';
+	if (e.key == "q" && !inputFocused) togNav();
+});
 </script>
 
 <template>
