@@ -59,67 +59,25 @@ API.get("/stats").then((res) => {
 
 // News
 // TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
-// API.get("/news?max=3").then((data) => {
-//	react.news = data;
-// });
-react.news = [
-	{
-		"title": "Short title",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/short-title"
-	},
-	{
-		"title": "Some cool newspost title that can wrap",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/some-cool-newspost-title-that-can-wrap"
-	},
-	{
-		"title": "Each of these buttons serves a purpose with navigation, including navigating you",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/never-gonna-give-you-up"
-	}
-];
+react.news = [];
+API.get("/articles/recent?type=news").then((res) => {
+	let data = res.data;
+	if (data.length < 1) return;
+	for (let i = 0; i < data.length; i++) {
+		react.news.push({ ...data[i].meta, url: data[i].path });
+	};
+});
 
 // Community Posts
 // TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
-// API.get("/communityposts?max=3").then((data) => {
-//	react.community = data;
-// });
-react.community = [
-	{
-		"title": "Smaller Title",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/smaller-title"
-	},
-	{
-		"title": "Some cool newspost title that can wrap",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/aaaaaaaaaaaaaaaaaaaaaaa"
-	},
-	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and and",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/never-gonna-give-you-up"
-	},
-	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long AND PAPER SMELLS LIKE STINK POOPPYYY POOP POOP",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/never-gonna-give-you-up"
-	},
-	{
-		"title": "Maybe a slightly too long title which shouldn't really be this long and WHAT THE FUCK IS AN EM",
-		"author": "Person",
-		"date": 1713167939,
-		"url": "/never-gonna-give-you-up"
-	}
-];
+react.community = [];
+API.get("/articles/recent?type=community").then((res) => {
+	let data = res.data;
+	if (data.length < 1) return;
+	for (let i = 0; i < data.length; i++) {
+		react.community.push({ ...data[i].meta, url: data[i].path });
+	};
+});
 
 </script>
 

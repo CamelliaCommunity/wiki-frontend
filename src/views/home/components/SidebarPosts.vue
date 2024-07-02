@@ -24,8 +24,9 @@ const props = defineProps({
 			<h3 class="text-2xl font-medium pl-2">{{ title }}</h3>
 			<SidebarImagePost v-if="useImages" v-for="post in posts" :post="post" />
 			<SidebarTextPost v-else v-for="post in posts" :post="post" />
+			<h4 if="posts.length < 1" class="pl-2">No {{ title }} to display!</h4>
 		</div>
-		<div class="rounded-xl flex justify-center text-center p-2">
+		<div v-if="posts.length > 3" class="rounded-xl flex justify-center text-center p-2">
 			<p class="text-xl font-light cursor-pointer hover:text-accent">View More</p>
 		</div>
 	</div>
