@@ -1,6 +1,7 @@
 <script setup>
 import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
+import SimplePost from './components/SimplePost.vue';
 import HomeStats from './components/HomeStats.vue';
 import SidebarPosts from './components/SidebarPosts.vue';
 
@@ -24,6 +25,13 @@ const react = reactive({
 		"visits": 0
 	}
 });
+
+const welcomePost = {
+	title: "Welcome to the Camellia Wiki!",
+	// i dunno rewrite this or something
+	// but dont make it a stupid tutorial on how to use a fucking navbar
+	description: "A wiki all about the music artist Camellia and the his community."
+};
 
 // API calls
 
@@ -89,8 +97,20 @@ API.get("/articles/recent?type=community").then((res) => {
                 <FeaturedPost post-type="Featured Post" :post="react.featured" />
                 <div class="w-full flex flex-col md:flex-row gap-4">
                     <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
-                    <HomeStats :stats="react.stats" />
+                    <HomeStats class="w-full md:w-64":stats="react.stats" />
                 </div>
+				<SimplePost :post="welcomePost" />
+				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="w-full flex flex-col gap-4">
+						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
+						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
+					</div>
+					<div class="w-full flex flex-col gap-4">
+						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAA' }" />
+						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
+						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
+					</div>
+				</div>
             </div>
             <div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
 				<SidebarPosts title="News" :posts="react.news" use-images />
