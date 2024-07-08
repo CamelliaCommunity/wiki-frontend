@@ -27,10 +27,11 @@ const react = reactive({
 });
 
 const welcomePost = {
-	title: "Welcome to the Camellia Wiki!",
-	// i dunno rewrite this or something
-	// but dont make it a stupid tutorial on how to use a fucking navbar
-	description: "A wiki all about the music artist Camellia and the his community."
+    title: "Let's get started!",
+    // i dunno rewrite this or something
+    // but dont make it a stupid tutorial on how to use a fucking navbar
+    // im going to leave it for now as a placeholder, fuck u - jogn
+    description: "The Header has important buttons to keep in mind. The navigation bar, the search bar, the GitHub button, and the Discord button. \n\nEach of these buttons serves a purpose with navigation, including navigating you out of the site! It is recommended to use this homepage or the sidebar when exploring the site (to access the sidebar, click the hamburger icon on the top far left). If you don't know what you're looking for, use the search bar in the header to search for an article. You can search for author names, too!"
 };
 
 // API calls
