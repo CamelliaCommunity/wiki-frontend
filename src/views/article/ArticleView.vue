@@ -14,6 +14,7 @@ import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 import ArticleSkeleton from './ArticleSkeleton.vue';
 import API from '@/utils/API';
+import Toast from '@/utils/Toast';
 
 const route = useRoute();
 
@@ -73,13 +74,13 @@ API.get(articleUrl).then((res) => {
 					if (navigator.clipboard) {
 						navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}#${hID}`)
 						.then(() => {
-							// TODO: Show success notification					
+							Toast.showToast("Copied to clipboard!", { type: "success", /* icon: PhLink*/ });						
 						})
 						.catch((err) => {
-							// TODO: Show fail notification
+							Toast.showToast("Error occurred copying to clipboard.");
 						})
 					} else {
-						// TODO: Show fail notification
+						Toast.showToast("Your browser does not support copying to the clipboard, sorry.")
 					};
 				};
 				return permaLinkHeader;

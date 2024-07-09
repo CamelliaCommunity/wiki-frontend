@@ -69,3 +69,14 @@ body {
         grid-area: 1 / 1;
     }
 }
+
+/* Toast */
+.Toastify__toast-container .Toastify__toast {
+	background: var(--pure-black);
+	border-radius: 8px !important;
+}
+
+.Toastify__progress-bar {
+	height: 8px !important;
+	background: gray !important;
+}

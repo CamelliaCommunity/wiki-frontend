@@ -9,4 +9,7 @@ const app = createApp(App)
 
 app.use(router)
 
+// Plugins
+import 'vue3-toastify/dist/index.css';
+
 app.mount('#app')
