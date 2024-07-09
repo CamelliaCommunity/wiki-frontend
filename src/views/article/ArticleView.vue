@@ -182,7 +182,8 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 	}
 }
 
-h2.headerLink {
+h2.headerLink,
+h3.headerLink {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
