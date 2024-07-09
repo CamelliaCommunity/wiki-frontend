@@ -73,7 +73,7 @@ API.get(articleUrl).then((res) => {
 					if (navigator.clipboard) {
 						navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}#${hID}`)
 						.then(() => {
-							// TODO: Show success notification
+							// TODO: Show success notification					
 						})
 						.catch((err) => {
 							// TODO: Show fail notification
@@ -120,7 +120,8 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 					<RouterLink to="/">Home</RouterLink>
 					<span v-for="part in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" />
-						<RouterLink :to=part.path>{{ part.name }}</RouterLink>
+						<span v-if='part.name.toLowerCase() == "news"'>{{ part.name }}</span>
+						<RouterLink v-else :to=part.path>{{ part.name }}</RouterLink>
 					</span>
 				</p>
 				<p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
