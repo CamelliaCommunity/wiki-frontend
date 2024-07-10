@@ -4,6 +4,7 @@ export default {
     theme: {
         colors: {
             'accent': '#F876D3',
+			'light-gray': 'rgba(255, 255, 255, 0.7)',
             'background': {
                 '1': '#281824',
                 '2': '#331D2D',

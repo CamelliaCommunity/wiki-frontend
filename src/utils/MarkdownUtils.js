@@ -62,7 +62,16 @@ export default class MarkdownUtils {
                 }
 
                 return `<blockquote>${quote}</blockquote>`;
-            }
+            },
+			image: (href, title, text) => {
+				const imgHtml = [
+					`<div class="flex flex-col text-center gap-1">`,
+					`<img src="https://camellia.wiki/${href}" alt="${text}" title="${title}" />`,
+					`<p class="text-light-gray">${text}</p>`,
+					"</div>"
+				].join("");
+				return imgHtml;
+			}
         };
 
         marked.use({ renderer });
