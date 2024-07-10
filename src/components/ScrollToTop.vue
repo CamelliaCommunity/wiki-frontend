@@ -46,11 +46,12 @@ const scrollPos = (e) => {
 
 <template>
 	<Transition name="fade">
-		<div v-if="react.showReturnBtn" class="fixed bg-background-1 p-5 bottom-0 right-0 mr-4 mb-4 rounded-3xl cursor-pointer" @click="scrollPos">
+		<div id="scrollTo" v-if="react.showReturnBtn" class="fixed bg-background-1 p-5 bottom-0 right-0 cursor-pointer" @click="scrollPos">
 		<Component :is="((react.prevPos == 0) ? PhCaretUp : PhCaretDown)" class="text-xl"></Component>
 		</div>
 	</Transition>
 </template>
 
 <style lang="scss">
+#scrollTo { border-radius: 40px; right: 2em; bottom: 18px; }
 </style>
