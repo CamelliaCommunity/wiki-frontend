@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 
 import NavBar from './components/nav/NavBar.vue';
 import FooterBar from './components/footer/FooterBar.vue';
+import ScrollToTop from './components/ScrollToTop.vue';
 
 </script>
 
@@ -23,6 +24,8 @@ import FooterBar from './components/footer/FooterBar.vue';
         </div>
 		<FooterBar />
     </div>
+
+	<ScrollToTop />
 </template>
 
 <style lang="scss">

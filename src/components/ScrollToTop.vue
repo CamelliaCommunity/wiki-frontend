@@ -1,0 +1,56 @@
+<script setup>
+
+// Hi, it's @thecodingguy
+// There is probably a way better method to this madness.
+// If there is, please refactor this. Otherwise, I'll probably fix it more later.
+// Sorry for the jankness!
+// 2024/07/10 5:46
+
+import { reactive } from 'vue';
+
+import { PhCaretUp, PhCaretDown } from '@phosphor-icons/vue';
+
+const react = reactive({
+	prevPos: 0,
+	currPos: 0,
+	showReturnBtn: false
+});
+
+const getcurrPos = () => (window.scrollY || document.documentElement.scrollTop);
+
+const handleScroll = (e) => {
+	const currPos = getcurrPos();
+
+	react.showReturnBtn = (currPos > 10 && !react.prevPos);
+	react.currPos = currPos;
+	react.prevPos = 0;
+};
+document.addEventListener("scroll", handleScroll);
+
+const scrollPos = (e) => {
+	const currPos = getcurrPos();
+	document.removeEventListener("scroll", handleScroll);
+	e.target.removeEventListener("click", scrollPos)
+
+	window.scrollTo({
+		top: (!react.prevPos) ? 0 : react.prevPos,
+		behavior: "smooth"
+	});
+
+	react.prevPos = currPos;
+
+	setTimeout(() => { document.addEventListener("scroll", handleScroll); e.target.addEventListener("click", scrollPos); }, currPos);
+};
+
+</script>
+
+<template>
+	<Transition name="fade">
+		<div v-if="react.showReturnBtn" class="fixed bg-background-1 p-5 bottom-0 right-0 mr-4 mb-4 rounded-3xl">
+		<Component :is="((react.prevPos == 0) ? PhCaretUp : PhCaretDown)" class="text-xl cursor-pointer" @click="scrollPos"></Component>
+		</div>
+	</Transition>
+</template>
+
+<style lang="scss">
+</style>
