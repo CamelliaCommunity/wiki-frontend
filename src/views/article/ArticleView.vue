@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 
-import { PhCaretRight, PhLink, PhPaperPlaneRight } from '@phosphor-icons/vue';
+import { PhCaretRight, PhLinkSimple, PhPaperPlaneRight } from '@phosphor-icons/vue';
 
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
@@ -74,7 +74,7 @@ API.get(articleUrl).then((res) => {
 					if (navigator.clipboard) {
 						navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}#${hID}`)
 						.then(() => {
-							Toast.showToast("Copied to clipboard!", { type: "success", /* icon: PhLink*/ });						
+							Toast.showToast("Copied to clipboard!", { type: "success", /* icon: PhLinkSimple*/ });						
 						})
 						.catch((err) => {
 							Toast.showToast("Error occurred copying to clipboard.");
@@ -157,7 +157,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				<!-- comment data would go here -->
 			</div>
 		</ArticleSkeleton>
-		<PhLink id="template-link-icon" style="display:none;" />
+		<PhLinkSimple id="template-link-icon" style="display:none;" />
     </div>
 </template>
 
