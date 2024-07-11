@@ -15,7 +15,8 @@ export default defineConfig({
 
 		// Sentry
 		sentryVitePlugin({
-			org: "",
+			url: "https://sentry.flux.moe",
+			org: "choccymilk",
 			project: "camellia-wiki",
 			authToken: process.env.SENTRY_AUTH_TOKEN
 		})
