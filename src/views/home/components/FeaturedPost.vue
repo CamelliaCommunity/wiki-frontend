@@ -1,6 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 
+import OverlapGrid from '@/components/OverlapGrid.vue';
+import LoadingImage from '@/components/LoadingImage.vue';
+
 import TestImage from '@/assets/images/test-image-sherii.png';
 import TestImage2 from '@/assets/images/test-image-banginburst.png';
 import EmptyImage from '@/assets/images/empty.png';
@@ -27,8 +30,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="featured-post w-full h-52" v-if="post.meta">
-        <img :src="post.meta.image || (otherImage ? TestImage2 : TestImage) || EmptyImage" class="object-cover">
+    <OverlapGrid class="featured-post w-full h-52 rounded-lg" v-if="post.meta">
+        <LoadingImage :src="post.meta.image || (otherImage ? TestImage2 : TestImage) || EmptyImage" class="object-cover" />
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">
@@ -47,21 +50,11 @@ const props = defineProps({
                 </RouterLink>
             </div>
         </div>
-    </div>
+    </OverlapGrid>
 </template>
 
 <style lang="scss">
 .featured-post {
-    display: grid;
-    border-radius: 8px;
-    overflow: hidden;
-
-    > * {
-        width: 100%;
-        height: inherit;
-        grid-area: 1 / 1;
-    }
-
     .dim {
         background: rgba(0, 0, 0, 0.4) linear-gradient(180deg, transparent 0%, var(--background-1) 80%);
     }
