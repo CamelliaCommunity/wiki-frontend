@@ -1,25 +1,24 @@
 <script setup>
-import { useRoute } from 'vue-router';
-import { reactive } from 'vue';
-
-import { PhCaretRight, PhPaperPlaneRight, PhTextBolder, PhTextItalic, PhTextUnderline } from '@phosphor-icons/vue';
+import { PhPaperPlaneTilt, PhTextBolder, PhTextItalic, PhTextUnderline } from '@phosphor-icons/vue';
 
 import DefaultAvatar from '@/assets/images/avatar.png';
 </script>
 
 <template>
 	<div class="new-comment">
-		<div class="w-full h-16 rounded flex gap-4">
-			<img class="rounded-lg" :src="DefaultAvatar" alt="avatar" />
-			<div class="w-full flex flex-col rounded-lg bg-background-3">
-				<div class="w-auto flex rounded-lg pl-1 pr-1 m-1 gap-1">
-					<textarea class="new-comment-box w-full rounded-lg pl-2 pr-2 m-auto resize-none overflow-hidden outline-none h-8 pt-1 pb-1 bg-background-2 text-sm" placeholder="Soon(TM)  Press enter to post. Use shift+enter to make a new line." disabled/>
-					<div class="m-auto rounded-lg p-1 bg-background-4"><PhPaperPlaneRight :size="24" /></div>
+		<div class="w-full h-16 rounded flex gap-3">
+			<img class="rounded-xl size-16 object-fill" :src="DefaultAvatar" alt="avatar" />
+			<div class="w-full flex flex-col rounded-xl bg-background-3 p-1 gap-1">
+				<div class="w-full flex gap-1">
+					<textarea class="h-9 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1.5 text-sm outline-none" placeholder="Soon(TM)  Press enter to post. Use shift+enter to make a new line." disabled />
+					<div class="m-auto flex size-9 items-center justify-center rounded-lg bg-background-4 p-1">
+						<PhPaperPlaneTilt :size="20" />
+					</div>
 				</div>
-				<div class="w-auto flex pl-3 pr-3">
-					<PhTextBolder :size="18" />
-					<PhTextItalic :size="18" />
-					<PhTextUnderline :size="18" />
+				<div class="w-auto flex px-1">
+					<PhTextBolder :size="16" />
+					<PhTextItalic :size="16" />
+					<PhTextUnderline :size="16" />
 				</div>
 			</div>
 		</div>
