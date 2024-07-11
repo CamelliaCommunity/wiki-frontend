@@ -8,6 +8,7 @@ import { sentryVitePlugin } from "@sentry/vite-plugin"
 export default defineConfig({
 	build: {
 		sourcemap: true,
+		chunkSizeWarningLimit: 10000
 	},
 	plugins: [
 		vue(),
