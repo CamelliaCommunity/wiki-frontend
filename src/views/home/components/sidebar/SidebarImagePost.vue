@@ -14,11 +14,11 @@ const props = defineProps({
 <template>
     <RouterLink :to="post.url">
         <div class="overlap-grid sidebar-post h-44 rounded-lg">
-            <img :src="post.image || SidebarTestImage" alt="card background" class="object-cover">
+            <img :src="post.meta.image || SidebarTestImage" alt="card background" class="object-cover">
             <div class="sidebar-image-dim"></div>
             <div class="flex flex-col justify-end p-3">
-                <h2 class="text-xl font-semibold line-clamp-3 leading-tight">{{ post.title }}</h2>
-                <p class="text-base leading-tight">by {{ post.author }}</p>
+                <h2 class="text-xl font-semibold line-clamp-3 leading-tight">{{ post.meta.title }}</h2>
+                <p class="text-base leading-tight">by {{ post.meta.author }}</p>
             </div>
         </div>
     </RouterLink>

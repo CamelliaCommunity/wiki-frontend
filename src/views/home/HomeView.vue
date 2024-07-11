@@ -84,10 +84,7 @@ API.get("/home").then((res) => {
 react.news = [];
 API.get("/articles/recent?type=news").then((res) => {
 	let data = res.data;
-	if (data.length < 1) return;
-	for (let i = 0; i < data.length; i++) {
-		react.news.push({ ...data[i].meta, url: data[i].path });
-	};
+	react.news = data;
 });
 
 // Community Posts
@@ -95,10 +92,7 @@ API.get("/articles/recent?type=news").then((res) => {
 react.community = [];
 API.get("/articles/recent?type=community").then((res) => {
 	let data = res.data;
-	if (data.length < 1) return;
-	for (let i = 0; i < data.length; i++) {
-		react.community.push({ ...data[i].meta, url: data[i].path });
-	};
+	react.community = data;
 });
 
 function splitHomePosts(posts) {
