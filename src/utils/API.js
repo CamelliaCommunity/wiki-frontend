@@ -1,5 +1,6 @@
 export default class API {
-    static url = 'http://localhost:1984';
+    static url = 'https://backend.camellia.wiki';
+    // static url = 'http://localhost:1984';
     
     static async get(endpoint) {
         return fetch(this.url + endpoint, {
