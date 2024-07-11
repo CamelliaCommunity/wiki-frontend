@@ -1,6 +1,6 @@
 export default class API {
-    static url = 'https://backend.camellia.wiki';
-    // static url = 'http://localhost:1984';
+    // static url = 'https://backend.camellia.wiki';
+    static url = 'http://localhost:1984';
     
     static async get(endpoint) {
         return fetch(this.url + endpoint, {
@@ -36,7 +36,7 @@ export default class API {
 function createHeaders() {
     var headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        'Accept': 'application/json'
     };
 
     // uncomment whenever vue-cookies gets installed (i'm lazy)
