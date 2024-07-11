@@ -1,14 +1,48 @@
 <script setup>
+import { createApp, onMounted, ref, watch } from 'vue';
+import router from '@/router'
+
+import LoadingImage from '../LoadingImage.vue';
+import GradientLine from '../GradientLine.vue';
+import MarkdownHeader from './MarkdownHeader.vue';
+
+import { PhLinkSimple } from '@phosphor-icons/vue';
+
 const props = defineProps({
     article: {
         type: String,
         required: true
     }
 });
+
+const content = ref(null);
+
+const renderMd = (htmlContent) => {
+    const rendered = createApp({
+        template: `${htmlContent}`,
+        components: {
+            LoadingImage,
+            GradientLine,
+            MarkdownHeader,
+            PhLinkSimple
+        }
+    });
+    
+    rendered.use(router)
+
+    if (content.value) {
+        content.value.innerHTML = '';
+        rendered.mount(content.value);
+    }
+};
+
+watch(() => props.article, (article) => renderMd(article), { immediate: true });
+onMounted(() => renderMd(props.article));
+
 </script>
 
 <template>
-    <div class="md-content" v-html="article"></div>
+    <div class="md-content" ref="content"></div>
 </template>
 
 <style lang="scss">
@@ -19,7 +53,6 @@ const props = defineProps({
 
 	/* this stupid thing should account for the navbar */
 	h1, h2, h3 { scroll-margin-top: var(--nav-height); }
-
 
     h1 {
         font-size: 44px;

@@ -40,15 +40,7 @@ export default class MarkdownUtils {
 
     static render(content) {
         const renderer = {
-            heading: (text, level) => {
-                const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-                let html = `<h${level} id="${escapedText}">${text}</h${level}>`;
-
-                if (level === 2)
-                    html += `<div class="gradient-line overshoot-extra"></div>`;
-
-                return html;
-            },
+            heading: (text, level) => `<MarkdownHeader text="${text}" :level=${level} />`,
             blockquote: (quote) => {
                 // remove <p> tags
                 var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
@@ -66,7 +58,7 @@ export default class MarkdownUtils {
 			image: (href, title, text) => {
 				const imgHtml = [
 					`<div class="flex flex-col text-center gap-1">`,
-					`<img src="https://camellia.wiki/${href}" alt="${text}" title="${title}" />`,
+					`<LoadingImage src="https://camellia.wiki/${href}" alt="${text}" title="${title}" />`,
 					`<p class="text-light-gray">${text}</p>`,
 					"</div>"
 				].join("");

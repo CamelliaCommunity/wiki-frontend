@@ -10,3 +10,21 @@ const props = defineProps({
 <template>
     <div :class="'gradient-line ' + (overshoot ? 'overshoot' : '')"></div>
 </template>
+
+<style>
+.gradient-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #E442B7, #EF656E);
+
+    &.overshoot {
+        width: calc(100% + 10px);
+        margin: 0 -5px;
+    }
+
+    &.overshoot-extra {
+        width: calc(100% + 20px);
+        margin: 0 -10px;
+    }
+}
+</style>

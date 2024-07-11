@@ -61,50 +61,6 @@ API.get(articleUrl).then((res) => {
 			const hashToHeader = document.getElementById(route.hash.split("#")[1]);
 			if (hashToHeader) hashToHeader.scrollIntoView();
 		};
-
-		// This will add permalinks in the wackest way.
-		const linkIcon = document.getElementById("template-link-icon");
-		if (linkIcon) {
-			const cLH = (hID) => {
-				const permaLinkHeader = linkIcon.cloneNode(true);
-				permaLinkHeader.style = "";
-				permaLinkHeader.id = "";
-				permaLinkHeader.onclick = (e) => {
-					e.preventDefault();
-					if (navigator.clipboard) {
-						navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}#${hID}`)
-						.then(() => {
-							Toast.showToast("Copied to clipboard!", { type: "success", /* icon: PhLinkSimple*/ });						
-						})
-						.catch((err) => {
-							Toast.showToast("Error occurred copying to clipboard.");
-						})
-					} else {
-						Toast.showToast("Your browser does not support copying to the clipboard, sorry.")
-					};
-				};
-				return permaLinkHeader;
-			};
-
-			const markdownContainer = document.getElementsByClassName("md-content")[0];
-
-			const theH2s = markdownContainer.querySelectorAll("h2");
-			for (const h2 of theH2s) {
-				if (!h2.id) continue;
-				h2.appendChild(cLH(h2.id));
-				h2.classList.add("headerLink");
-			};
-
-			const theH3s = markdownContainer.querySelectorAll("h3");
-			for (const h3 of theH3s) {
-				if (!h3.id) continue;
-				h3.appendChild(cLH(h3.id));
-				h3.classList.add("headerLink");
-			};
-
-			// we are done with the template icon, so remove it.
-			linkIcon.remove();
-		};
 	}, 500);
 });
 // }, 4000); 
@@ -157,7 +113,6 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				<!-- comment data would go here -->
 			</div>
 		</ArticleSkeleton>
-		<PhLinkSimple id="template-link-icon" style="display:none;" />
     </div>
 </template>
 
@@ -181,25 +136,6 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-	}
-}
-
-h2.headerLink,
-h3.headerLink {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	svg {
-		width: 26px;
-		position: relative;
-		top: 3px;
-		cursor: pointer;
-		color: #bbb;
-		transition: color 0.15s ease-in-out;
-		&:hover {
-			color: #fff;
-		}
 	}
 }
 </style>
