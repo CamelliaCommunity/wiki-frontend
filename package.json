@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@phosphor-icons/vue": "^2.2.1",
+    "@sentry/vue": "^8.17.0",
     "autoprefixer": "^10.4.19",
     "marked": "^12.0.1",
     "postcss": "^8.4.38",
@@ -20,6 +21,7 @@
     "vue3-toastify": "^0.2.2"
   },
   "devDependencies": {
+    "@sentry/vite-plugin": "^2.21.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "vite": "^5.1.6"
   }
