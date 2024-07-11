@@ -33,7 +33,7 @@ const react = reactive({
 	},
 
 	// Statistics
-    stats: {
+	stats: {
 		"articles": 0,
 		"comments": 0,
 		"visits": 0
@@ -41,11 +41,13 @@ const react = reactive({
 });
 
 const welcomePost = {
-    title: "Let's get started!",
-    // i dunno rewrite this or something
-    // but dont make it a stupid tutorial on how to use a fucking navbar
-    // im going to leave it for now as a placeholder, fuck u - jogn
-    description: "The Header has important buttons to keep in mind. The navigation bar, the search bar, the GitHub button, and the Discord button. \n\nEach of these buttons serves a purpose with navigation, including navigating you out of the site! It is recommended to use this homepage or the sidebar when exploring the site (to access the sidebar, click the hamburger icon on the top far left). If you don't know what you're looking for, use the search bar in the header to search for an article. You can search for author names, too!"
+	meta: {
+		title: "Let's get started!",
+		// i dunno rewrite this or something
+		// but dont make it a stupid tutorial on how to use a fucking navbar
+		// im going to leave it for now as a placeholder, fuck u - jogn
+		description: "The Header has important buttons to keep in mind. The navigation bar, the search bar, the GitHub button, and the Discord button. \n\nEach of these buttons serves a purpose with navigation, including navigating you out of the site! It is recommended to use this homepage or the sidebar when exploring the site (to access the sidebar, click the hamburger icon on the top far left). If you don't know what you're looking for, use the search bar in the header to search for an article. You can search for author names, too!"
+	}
 };
 
 // API calls
@@ -70,6 +72,13 @@ API.get("/stats").then((res) => {
 	react.stats.visits = data.visitors || "N/A";
 });
 
+// home posts
+react.posts = [];
+API.get("/home").then((res) => {
+	let data = res.data;
+	react.posts = splitHomePosts(data);
+});
+
 // News
 // TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
 react.news = [];
@@ -92,35 +101,45 @@ API.get("/articles/recent?type=community").then((res) => {
 	};
 });
 
+function splitHomePosts(posts) {
+	var curIsLeft = true;
+	var left = [];
+	var right = [];
+
+	posts.forEach(post => {
+		if (curIsLeft)
+			left.push(post);
+		else
+			right.push(post);
+
+		curIsLeft = !curIsLeft;
+	});
+
+	return [left, right];
+}
 </script>
 
 <template>
-    <div class="w-full flex flex-col items-center justify-center gap-5">
-        <HomeHeader />
-        <div class="flex w-full xl:w-content-width xl:mx-auto gap-5">
-            <div class="flex w-full flex-col gap-4">
-                <FeaturedPost post-type="Featured Post" :post="react.featured" />
-                <div class="w-full flex flex-col md:flex-row gap-4">
-                    <FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
-                    <HomeStats class="w-full md:w-64":stats="react.stats" />
-                </div>
+	<div class="w-full flex flex-col items-center justify-center gap-5">
+		<HomeHeader />
+		<div class="flex w-full xl:w-content-width xl:mx-auto gap-5">
+			<div class="flex w-full flex-col gap-4">
+				<FeaturedPost post-type="Featured Post" :post="react.featured" />
+				<div class="w-full flex flex-col md:flex-row gap-4">
+					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
+					<HomeStats class="w-full md:w-64" :stats="react.stats" />
+				</div>
 				<SimplePost :post="welcomePost" />
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div class="w-full flex flex-col gap-4">
-						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
-						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
-					</div>
-					<div class="w-full flex flex-col gap-4">
-						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAA' }" />
-						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
-						<SimplePost :post="{ description: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' }" />
+					<div class="w-full flex flex-col gap-4" v-for="side in react.posts">
+						<SimplePost v-for="post in side" :post="post" />
 					</div>
 				</div>
-            </div>
-            <div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
+			</div>
+			<div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
 				<SidebarPosts title="News" :posts="react.news" use-images />
 				<SidebarPosts title="Community Posts" :posts="react.community" />
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </template>
