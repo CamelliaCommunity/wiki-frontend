@@ -33,7 +33,7 @@ function copyLink() {
 <template>
     <div :class="'flex flex-row gap-2 items-center ' + (level === 2 ? 'justify-between' : '')">
         <component :is="'h' + level" v-html="text" :id="headerId" />
-        <PhLinkSimple class="text-gray hover:text-light-gray transition-colors duration-200 hover:duration-50" @click="copyLink" :size="24" v-if="showLinkIcon" />
+        <PhLinkSimple class="text-gray hover:text-light-gray transition-colors duration-200 hover:duration-50 cursor-pointer" @click="copyLink" :size="24" v-if="showLinkIcon" />
     </div>
     <GradientLine v-if="showLine" style="" />
 </template>
