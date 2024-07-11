@@ -13,10 +13,24 @@ Utils.setTitle('');
 
 const react = reactive({
 	// Featured
-	featured: {},
+	featured: {
+		meta: {
+			title: 'loading...',
+			description: 'we are still fetching this for you...',
+			date: -1,
+		},
+		url: "/featured"
+	},
 
 	// Popular
-	popular: {},
+	popular: {
+		meta: {
+			title: 'loading...',
+			description: 'we are still fetching this for you...',
+			date: -1,
+		},
+		url: "/popular"
+	},
 
 	// Statistics
     stats: {
@@ -37,26 +51,16 @@ const welcomePost = {
 // API calls
 
 // Featured
-// API.get("/featured").then((data) => {
-//	react.featured = data;
-// });
-react.featured = {
-    'title': 'Post Title Goes Here',
-    'description': 'Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like this one.',
-    'date': 1712214046,
-    'url': '/featured'
-};
+API.get("/featured").then((data) => {
+	if (!data.data.url) return;
+	react.featured = data.data;
+});
 
 // Popular
-// API.get("/popular").then((data) => {
-//	react.popular = data;
-// });
-react.popular = {
-    'title': 'Title of Popular Post',
-    'description': 'Short snippet of the post goes here, this should be relatively long but cut off after a while to not surpass a few lines, just like this one.',
-    'date': 1712386846,
-    'url': '/popular'
-};
+API.get("/popular").then((data) => {
+	if (!data.data.url) return;
+	react.popular = data.data;
+});
 
 // Statistics
 API.get("/stats").then((res) => {

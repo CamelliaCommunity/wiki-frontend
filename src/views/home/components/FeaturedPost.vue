@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router';
 
 import TestImage from '@/assets/images/test-image-sherii.png';
 import TestImage2 from '@/assets/images/test-image-banginburst.png';
+import EmptyImage from '@/assets/images/empty.png';
 
 import Formatting from '@/utils/Formatting';
 
@@ -26,22 +27,22 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="featured-post w-full h-52">
-        <img :src="post.image || (otherImage ? TestImage2 : TestImage)" alt="card background" class="object-cover">
+    <div class="featured-post w-full h-52" v-if="post.meta">
+        <img :src="post.meta.image || (otherImage ? TestImage2 : TestImage) || EmptyImage" class="object-cover">
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">
             <div>
                 <div class="flex justify-between">
                     <h3 class="text-lg font-semibold">{{ postType }}</h3>
-                    <h3 class="text-base font-medium">{{ Formatting.formatDate(post.date) }}</h3>
+                    <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
                 </div>
-                <h2 class="text-2xl font-medium">{{ post.title }}</h2>
+                <h2 class="text-2xl font-medium">{{ post.meta.title }}</h2>
             </div>
 
             <div>
-                <p class="post-description w-full md:w-96 leading-tight">{{ post.description }}</p>
-                <RouterLink :to="post.url" class="w-fit">
+                <p class="post-description w-full md:w-96 leading-tight">{{ post.meta.description }}</p>
+                <RouterLink :to="post.url || '/not-found'" class="w-fit">
                     <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
                 </RouterLink>
             </div>
