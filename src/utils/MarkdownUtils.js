@@ -55,7 +55,7 @@ export default class MarkdownUtils {
 
                 return `<blockquote>${quote}</blockquote>`;
             },
-			image: (href, title, text) => `<MarkdownImage url="https://camellia.wiki/${href}" alt="${text}" />`
+			image: (href, title, text) => `<MarkdownImage url="${href}" alt="${text}" />`
         };
 
         marked.use({ renderer });
