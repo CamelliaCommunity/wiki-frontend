@@ -52,7 +52,7 @@ export default class API {
 	static cookie_name_user = "wiki-auth-user"
 
 	static setData = (user = {}) => {
-		this.user.loggedIn = (user.name && user.nick);
+		this.user.loggedIn = (user.name && user.id);
 		this.user.id = user.id || 0;
 		this.user.username = user.name || "Not logged in!";
 		this.user.nickname = user.nick || null;
