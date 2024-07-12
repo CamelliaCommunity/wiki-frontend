@@ -42,7 +42,7 @@ onMounted(() => renderMd(props.article));
 </script>
 
 <template>
-    <div class="md-content" ref="content"></div>
+    <div class="md-content max-w-full" ref="content"></div>
 </template>
 
 <style lang="scss">
@@ -50,6 +50,7 @@ onMounted(() => renderMd(props.article));
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-width: 100%;
 
 	/* this stupid thing should account for the navbar */
 	h1, h2, h3 { scroll-margin-top: var(--nav-height); }
@@ -129,17 +130,20 @@ onMounted(() => renderMd(props.article));
     }
 
     pre {
+        width: 100%;
         background-color: var(--background-1);
         padding: 10px;
         border-radius: 10px;
-        overflow-x: auto;
+        overflow-x: scroll;
     }
 
+     /* TODO: remake codeblocks to be components instead */
     code {
         background-color: var(--background-1);
         padding: 2px 5px;
         border-radius: 5px;
         font-size: 16px;
+        text-wrap: wrap;
     }
 
     table {
