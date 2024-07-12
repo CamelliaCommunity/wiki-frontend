@@ -12,6 +12,7 @@ const isOpen = ref(false);
 
 const togNav = () => {
     isOpen.value = !isOpen.value;
+	document.body.classList[isOpen.value ? "add" : "remove"]("overflow-hidden");
 };
 
 const router = useRouter();
