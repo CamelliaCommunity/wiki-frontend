@@ -19,7 +19,7 @@ const props = defineProps({
 </script>
 
 <template>
-	<div class="rounded-lg bg-background-1 w-64">
+	<div class="max-xl:w-full rounded-lg bg-background-1 w-64">
 		<div class="flex flex-col bg-background-3 p-2 rounded-lg gap-2">
 			<h3 class="text-2xl font-medium pl-2">{{ title }}</h3>
 			<SidebarImagePost v-if="useImages" v-for="post in posts" :post="post" />

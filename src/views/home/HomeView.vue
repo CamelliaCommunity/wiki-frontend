@@ -116,7 +116,7 @@ function splitHomePosts(posts) {
 <template>
 	<div class="w-full flex flex-col items-center justify-center gap-5">
 		<HomeHeader />
-		<div class="flex w-full xl:w-content-width xl:mx-auto gap-5">
+		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
 				<FeaturedPost post-type="Featured Post" :post="react.featured" />
 				<div class="w-full flex flex-col md:flex-row gap-4">
@@ -130,7 +130,7 @@ function splitHomePosts(posts) {
 					</div>
 				</div>
 			</div>
-			<div class="hidden w-full lg:flex flex-col lg:w-64 gap-4">
+			<div class="w-full lg:flex flex-col lg:w-64 gap-4">
 				<SidebarPosts title="News" :posts="react.news" use-images />
 				<SidebarPosts title="Community Posts" :posts="react.community" />
 			</div>
