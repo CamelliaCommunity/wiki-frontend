@@ -82,7 +82,7 @@ API.get("/home").then((res) => {
 // News
 // TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
 react.news = [];
-API.get("/articles/recent?type=news").then((res) => {
+API.get("/articles/recent?type=news&count=3").then((res) => {
 	let data = res.data;
 	react.news = data;
 });
@@ -90,7 +90,7 @@ API.get("/articles/recent?type=news").then((res) => {
 // Community Posts
 // TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
 react.community = [];
-API.get("/articles/recent?type=community").then((res) => {
+API.get("/articles/recent?type=community&count=5").then((res) => {
 	let data = res.data;
 	react.community = data;
 });
