@@ -38,7 +38,7 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 </template>
 
 <style lang="scss">
-div[class^="floatingchat-container-wrap"] { left: 2em; bottom: 25px; } div[id^="kofi-widget-overlay"] { margin: 0 1em; }
+div[class^="floatingchat-container-wrap"] { left: 2em; bottom: 25px; z-index: 10 !important; } div[id^="kofi-widget-overlay"] { margin: 0 1em; }
 
 .content-background-wrapper {
     position: fixed;
