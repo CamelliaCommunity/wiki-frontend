@@ -62,7 +62,7 @@ window.addEventListener("keydown", (e) => {
 		<nav class="w-full z-10 px-2 xl:px-0">
 			<div class="flex justify-between max-w-screen-lg mx-auto">
 				<div class="flex items-center text-center gap-4">
-					<NavBarButton @click="togNav" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
+					<NavBarButton @click="togNav(false)" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
 						<Transition name="fade">
 							<Component :is="(isOpen ? PhX : PhList)" :size="28" class="absolute"></Component>
 						</Transition>
@@ -84,7 +84,7 @@ window.addEventListener("keydown", (e) => {
 			</div>
 		</nav>
 		<Transition name="fade">
-			<div v-if="isOpen" @click="togNav"
+			<div v-if="isOpen" @click="togNav(false)"
 				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm md:mx-4 w-screen md:w-layout-width rounded-t-2xl"></div>
 		</Transition>
 		<Transition name="slidedown-fade">
