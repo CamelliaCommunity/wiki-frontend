@@ -9,7 +9,7 @@ import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
 
-Utils.setTitle('');
+Utils.setTitle('Homepage');
 
 const react = reactive({
 	// Featured
