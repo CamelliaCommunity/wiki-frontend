@@ -50,6 +50,20 @@ body {
 }
 
 .Toastify__progress-bar {
-	height: 8px !important;
+	height: 4px !important;
 	background: gray !important;
 }
+
+.Toastify__toast--info,
+.Toastify__toast--success,
+.Toastify__toast--warning,
+.Toastify__toast--error { border-left: var(--pure-black) 4px solid; }
+
+.Toastify__toast--info { border-color: #0044FF !important; }
+.Toastify__progress-bar--info { background: #0044FF !important; }
+.Toastify__toast--success { border-color: #00FF00 !important; }
+.Toastify__progress-bar--success { background: #00FF00 !important; }
+.Toastify__toast--warning { border-color: #FFDD00 !important; }
+.Toastify__progress-bar--warning { background: #FFDD00 !important; }
+.Toastify__toast--error { border-color: #DD0000 !important; }
+.Toastify__progress-bar--error { background: #DD0000 !important; }

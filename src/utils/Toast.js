@@ -10,15 +10,16 @@ const toastSettings = {
 	colored: true
 };
 
-import { PhCheckCircle, PhTriangle, PhX } from '@phosphor-icons/vue';
+import { PhCheckCircle, PhInfo, PhWarning, PhX } from '@phosphor-icons/vue';
 
 
 export default class Toast {
 	static showToast = (data, moreSettings) => {
 		let icon = "";
 		if (moreSettings.type == "success") icon = PhCheckCircle;
-		else if (moreSettings.type = "error") icon = PhX;
-		else if (moreSettings.type = "warning") icon = PhTriangle;
+		else if (moreSettings.type == "error") icon = PhX;
+		else if (moreSettings.type == "warning") icon = PhWarning;
+		else if (moreSettings.type == "info") icon = PhInfo;
 
 		if (icon) toastSettings.icon = icon;
 		toast(data, { ...toastSettings, ...moreSettings });
