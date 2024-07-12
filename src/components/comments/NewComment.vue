@@ -1,13 +1,12 @@
 <script setup>
 import { PhPaperPlaneTilt, PhTextBolder, PhTextItalic, PhTextUnderline } from '@phosphor-icons/vue';
-
-import DefaultAvatar from '@/assets/images/avatar.png';
+import API from '@/utils/API';
 </script>
 
 <template>
 	<div class="new-comment">
 		<div class="w-full h-16 rounded flex gap-3">
-			<img class="rounded-xl size-16 object-fill" :src="DefaultAvatar" alt="avatar" />
+			<img class="rounded-xl size-16 object-fill" :src="API.user.avatar" alt="avatar" />
 			<div class="w-full flex flex-col rounded-xl bg-background-3 p-1 gap-1">
 				<div class="w-full flex gap-1">
 					<textarea class="h-9 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1.5 text-sm outline-none" placeholder="Soon(TM)  Press enter to post. Use shift+enter to make a new line." disabled />

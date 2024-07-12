@@ -1,28 +1,26 @@
 <script setup>
-import { reactive } from 'vue';
+import Formatting from '@/utils/Formatting';
+import API from '@/utils/API';
 
-import DefaultAvatar from '@/assets/images/avatar.png';
+function onClick(e) {
+	e.preventDefault();
 
-// note for whoever is implementing account stuff in the future:
-// you can change the stuff here and it automatically updates the component
-// removes the need to use id's and stuff
-const react = reactive({
-    avatar: "",
-    username: "Not logged in!",
-    stats: "Log in to access more features..."
-});
-
-function onClick() {
-    console.log("Account button clicked!");
+	// Check if logged in
+	if (API.user.loggedIn) {
+		API.performLogout();
+	} else {
+		API.performLogin();
+	};
 }
+
 </script>
 
 <template>
     <div class="w-64 h-12 rounded-lg flex bg-background-3 cursor-pointer" @click="onClick">
-        <img class="rounded-lg" :src="react.avatar || DefaultAvatar" alt="avatar" />
+        <img class="rounded-lg" :src="API.user.avatar" alt="avatar" />
         <div class="flex flex-col pl-2 text-left justify-center">
-            <p class="text-lg leading-none font-medium">{{ react.username }}</p>
-            <span class="text-sm leading-none italic opacity-75">{{ react.stats }}</span>
+            <p class="text-lg leading-none font-medium">{{ API.user.username }}</p>
+            <span class="text-sm leading-none italic opacity-75">{{ API.user.loggedIn ? `Joined ${Formatting.formatDate(API.user.join, { month: "short" })} • ${API.user.comments} comments` : "Log in to access more features..." }}</span>
         </div>
     </div>
 </template>

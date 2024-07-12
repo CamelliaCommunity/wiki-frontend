@@ -20,13 +20,13 @@ const leftLinkList = [{
     route: "/",
     name: "Main Page",
 }, {
-    route: "/staff-guidelines",
+    route: "/community/server/staff-guidelines",
     name: "Staff Guidelines",
 }, {
-    route: "/contributing",
+    route: "/wiki/contributing",
     name: "How to Contribute",
 }, {
-    route: "/about",
+    route: "/wiki/about",
     name: "About Page",
 }];
 

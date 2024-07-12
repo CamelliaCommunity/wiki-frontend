@@ -5,6 +5,8 @@ import NavBar from './components/nav/NavBar.vue';
 import FooterBar from './components/footer/FooterBar.vue';
 import ScrollToTop from './components/ScrollToTop.vue';
 
+import API from '@/utils/API';
+API.fetchUser();
 </script>
 
 <template>

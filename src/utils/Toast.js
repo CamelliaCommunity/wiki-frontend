@@ -6,20 +6,17 @@ const toastSettings = {
 	transition: "slide",
 	newestOnTop: true,
 	clearOnUrlChange: false,
-	dangerouslyHTMLString: false
+	dangerouslyHTMLString: false,
+	colored: true
 };
 
 import { PhCheckCircle, PhTriangle, PhX } from '@phosphor-icons/vue';
-
-const icons = {
-	check: PhCheckCircle
-};
 
 
 export default class Toast {
 	static showToast = (data, moreSettings) => {
 		let icon = "";
-		if (moreSettings.type == "success") icon = icons.check;
+		if (moreSettings.type == "success") icon = PhCheckCircle;
 		else if (moreSettings.type = "error") icon = PhX;
 		else if (moreSettings.type = "warning") icon = PhTriangle;
 
