@@ -130,7 +130,7 @@ function splitHomePosts(posts) {
 					</div>
 				</div>
 			</div>
-			<div class="w-full lg:flex flex-col lg:w-64 gap-4">
+			<div class="w-full flex flex-col lg:w-64 gap-4">
 				<SidebarPosts title="News" :posts="react.news" use-images />
 				<SidebarPosts title="Community Posts" :posts="react.community" />
 			</div>
