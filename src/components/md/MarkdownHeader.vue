@@ -1,6 +1,7 @@
 <script setup>
 import { PhLinkSimple } from '@phosphor-icons/vue';
 import GradientLine from '../GradientLine.vue';
+import GrayLine from '../GrayLine.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import Toast from '@/utils/Toast';
@@ -13,8 +14,9 @@ const props = defineProps({
 });
 
 const headerId = props.text.toLowerCase().replace(/[^\w]+/g, '-');
-const showLine = props.level === 2;
-const showLinkIcon = props.level === 2 || props.level === 3;
+const showGradLine = props.level === 2;
+const showGrayLine = props.level === 3;
+const showLinkIcon = showGradLine || showGrayLine;
 
 function copyLink() {
     const url = route.fullPath + "#" + headerId;
@@ -35,5 +37,6 @@ function copyLink() {
         <component :is="'h' + level" v-html="text" :id="headerId" />
         <PhLinkSimple class="text-gray hover:text-light-gray transition-colors duration-200 hover:duration-50 cursor-pointer" @click="copyLink" :size="24" v-if="showLinkIcon" />
     </div>
-    <GradientLine v-if="showLine" style="" />
+    <GradientLine v-if="showGradLine" style="" />
+	<GrayLine v-else-if="showGrayLine" style="" />
 </template>

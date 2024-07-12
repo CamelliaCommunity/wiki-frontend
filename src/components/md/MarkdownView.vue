@@ -3,8 +3,6 @@ import { createApp, onMounted, ref, watch } from 'vue';
 import router from '@/router'
 
 import LoadingImage from '../LoadingImage.vue';
-import GradientLine from '../GradientLine.vue';
-
 import MarkdownHeader from './MarkdownHeader.vue';
 import MarkdownImage from './MarkdownImage.vue';
 
@@ -24,7 +22,6 @@ const renderMd = (htmlContent) => {
         template: `${htmlContent}`,
         components: {
             LoadingImage,
-            GradientLine,
             MarkdownHeader,
             MarkdownImage,
             PhLinkSimple

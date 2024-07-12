@@ -88,7 +88,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?)
 				<p>Written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
 			</div>
 			<div class="article-content max-h-full">
-				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5">
+				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5" v-if="react.meta.layout == 'article'">
 					<div class="sticky top-20 flex flex-col">
 						<h4 class="text-lg font-semibold">Contents</h4>
 						<ol class="list-decimal list-inside">

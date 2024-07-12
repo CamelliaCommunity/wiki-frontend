@@ -13,7 +13,10 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       component: ArticleView
     }
-  ]
+  ],
+  scrollBehavior: (to, from, savedPosition) => {
+    return { top: 0 }
+  }
 })
 
 export default router
