@@ -7,6 +7,13 @@ import ScrollToTop from './components/ScrollToTop.vue';
 
 import API from '@/utils/API';
 API.fetchUser();
+
+kofiWidgetOverlay.draw('camelliacommunity', {
+	'type': 'floating-chat',
+	'floating-chat.donateButton.text': 'Support us!',
+	'floating-chat.donateButton.background-color': '#323842',
+	'floating-chat.donateButton.text-color': '#fff'
+});
 </script>
 
 <template>
@@ -31,6 +38,8 @@ API.fetchUser();
 </template>
 
 <style lang="scss">
+div[class^="floatingchat-container-wrap"] { left: 2em; bottom: 25px; } div[id^="kofi-widget-overlay"] { margin: 0 1em; }
+
 .content-background-wrapper {
     position: fixed;
     width: 100vw;
