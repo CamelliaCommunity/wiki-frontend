@@ -10,9 +10,10 @@ import NavSearch from "./NavBarSearch.vue";
 
 const isOpen = ref(false);
 
-const togNav = () => {
-    isOpen.value = !isOpen.value;
-	document.body.classList[isOpen.value ? "add" : "remove"]("overflow-hidden");
+const togNav = (newValue) => { // pass newValue to force toggle
+	if (!newValue) newValue = !isOpen.value;
+    isOpen.value = newValue;
+	document.body.classList[newValue ? "add" : "remove"]("overflow-hidden");
 };
 
 const router = useRouter();
@@ -47,7 +48,7 @@ function openLink(e, url) {
 		window.open(url, '_blank');
 	}
 
-	isOpen.value = false;
+	togNav(false);
 }
 
 window.addEventListener("keydown", (e) => {
