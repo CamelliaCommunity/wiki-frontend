@@ -83,7 +83,6 @@ onMounted(() => renderMd(props.article));
 
     a {
         color: var(--accent-1);
-        text-decoration: underline;
     }
 
     mark {
