@@ -12,7 +12,7 @@
 ## Articles
 
 > [!WARNING]
-> We have moved articles to [their own repository]([https://github.com/CamelliaCommunity/wiki-articles).
+> We have moved articles to [their own repository](https://github.com/CamelliaCommunity/wiki-articles).
 > 
 > Please do not move or place articles on the frontend repo. Thanks!
 
