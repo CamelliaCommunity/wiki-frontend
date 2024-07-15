@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import markedFootnote from "marked-footnote";
 
 export default class MarkdownUtils {
     static regex = /^---([\s\S]*?)---/;
@@ -59,8 +60,10 @@ export default class MarkdownUtils {
         };
 
         marked.use({ renderer });
+		marked.use(markedFootnote());
 
         var html = marked.parse(content);
+		html = html.replace(`<h2 id="footnote-label" class="sr-only">Footnotes</h2>`, "");
         return html;
     }
 
