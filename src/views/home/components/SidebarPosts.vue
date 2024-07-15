@@ -14,7 +14,11 @@ const props = defineProps({
     posts: {
         type: Object,
         required: true
-    }
+    },
+	url: {
+		type: String,
+		required: false
+	}
 });
 </script>
 
@@ -26,8 +30,8 @@ const props = defineProps({
 			<SidebarTextPost v-else v-for="post in posts" :post="post" />
 			<h4 v-if="posts.length < 1" class="pl-2">No {{ title }} to display!</h4>
 		</div>
-		<div v-if="posts.length > 3" class="rounded-xl flex justify-center text-center p-2">
-			<p class="text-xl font-light cursor-pointer hover:text-accent">View More</p>
+		<div v-if="posts.length >= 1" class="rounded-xl flex justify-center text-center p-2">
+			<RouterLink :to="url" class="text-xl font-light cursor-pointer hover:text-accent">View More</RouterLink>
 		</div>
 	</div>
 </template>

@@ -80,7 +80,6 @@ API.get("/home").then((res) => {
 });
 
 // News
-// TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
 react.news = [];
 API.get("/articles/recent?type=news&count=3").then((res) => {
 	let data = res.data;
@@ -88,7 +87,6 @@ API.get("/articles/recent?type=news&count=3").then((res) => {
 });
 
 // Community Posts
-// TODO: Clicking "View More" sends another API request with max +3, like ?max=6, ?max=9, etc.
 react.community = [];
 API.get("/articles/recent?type=community&count=5").then((res) => {
 	let data = res.data;
@@ -131,8 +129,8 @@ function splitHomePosts(posts) {
 				</div>
 			</div>
 			<div class="w-full flex flex-col lg:w-64 gap-4">
-				<SidebarPosts title="News" :posts="react.news" use-images />
-				<SidebarPosts title="Community Posts" :posts="react.community" />
+				<SidebarPosts title="News" :posts="react.news" url="/news" use-images />
+				<SidebarPosts title="Community Posts" :posts="react.community" url="/community/blog" />
 			</div>
 		</div>
 	</div>
