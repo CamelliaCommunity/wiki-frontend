@@ -31,7 +31,7 @@ const props = defineProps({
 			<h4 v-if="posts.length < 1" class="pl-2">No {{ title }} to display!</h4>
 		</div>
 		<div v-if="posts.length >= 1" class="rounded-xl flex justify-center text-center p-2">
-			<RouterLink :to="url" class="text-xl font-light cursor-pointer hover:text-accent">View More</RouterLink>
+			<RouterLink :to="url" class="text-xl font-light cursor-pointer transition-colors duration-200 hover:duration-50 hover:text-accent">View More</RouterLink>
 		</div>
 	</div>
 </template>
