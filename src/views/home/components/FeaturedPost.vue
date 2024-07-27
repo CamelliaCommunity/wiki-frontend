@@ -4,10 +4,6 @@ import { RouterLink } from 'vue-router';
 import OverlapGrid from '@/components/OverlapGrid.vue';
 import LoadingImage from '@/components/LoadingImage.vue';
 
-import TestImage from '@/assets/images/test-image-sherii.png';
-import TestImage2 from '@/assets/images/test-image-banginburst.png';
-import EmptyImage from '@/assets/images/empty.png';
-
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
@@ -31,7 +27,7 @@ const props = defineProps({
 
 <template>
     <OverlapGrid class="featured-post w-full h-52 rounded-lg" v-if="post.meta">
-        <LoadingImage :src="post.meta.image || (otherImage ? TestImage2 : TestImage) || EmptyImage" class="object-cover" />
+        <LoadingImage :src="post.meta.image" class="object-cover" />
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">
