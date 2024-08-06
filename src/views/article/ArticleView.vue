@@ -64,7 +64,7 @@ API.get(articleUrl).then((res) => {
 	}, 500);
 });
 // }, 4000); 
-function edit() { // paper smells so we wont use editor (maybe one day?)
+function edit() { // paper smells so we wont use editor (maybe one day?) // yes, we will - john
     window.open(`https://admin.camellia.wiki/${path}`);
 }
 </script>
