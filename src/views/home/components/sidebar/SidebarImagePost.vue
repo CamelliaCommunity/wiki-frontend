@@ -20,7 +20,7 @@ const props = defineProps({
             <LoadingImage :src="post.meta.image || DefaultImage" alt="card background" class="object-cover" />
             <div class="sidebar-image-dim"></div>
             <div class="flex flex-col justify-end p-3">
-                <h2 class="text-xl font-semibold line-clamp-3 leading-tight">{{ post.meta.title }}</h2>
+                <h2 class="text-xl font-semibold line-clamp-3 leading-tight text-shadow">{{ post.meta.title }}</h2>
                 <p class="text-base leading-tight">by {{ post.meta.author }}</p>
             </div>
         </OverlapGrid>
@@ -40,4 +40,7 @@ const props = defineProps({
     }
 }
 
+.text-shadow {
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
 </style>
