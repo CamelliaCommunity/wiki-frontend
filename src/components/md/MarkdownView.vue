@@ -86,10 +86,26 @@ onMounted(() => renderMd(props.article));
     }
 
     mark {
-        background-color: var(--accent-1-opaque);
-        color: var(--background-1);
-        padding: 2px 5px;
-        border-radius: 5px;
+        color: inherit;
+        margin: 0 -0.4em;
+        padding: 0.1em 0.4em;
+        border-radius: 0.8em 0.3em;
+        background: transparent;
+        // variables didnt work with this because they arent rgb. maybe im stupid! - john
+        background-image: linear-gradient(
+            105deg,
+            transparent 0,
+            transparent 0.3em,
+            rgba(248, 118, 211, 0.7) 0.5em,
+            rgba(248, 118, 211, 0.4) 1.6em,
+            rgba(248, 118, 211, 0.4) calc(100% - 1.4em),
+            rgba(248, 118, 211, 0.7) calc(100% - 0.5em),
+            transparent calc(100% - 0.3em),
+            transparent 100%
+        );
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        text-shadow: 0 0 0.75em var(--background-2);
     }
 
     ul, ol {
