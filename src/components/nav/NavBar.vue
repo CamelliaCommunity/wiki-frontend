@@ -60,7 +60,7 @@ window.addEventListener("keydown", (e) => {
 <template>
 	<div class="w-screen h-16 fixed bg-background-3 py-2 z-40">
 		<nav class="w-full z-10 px-2 xl:px-0">
-			<div class="flex justify-between max-w-screen-lg mx-auto">
+			<div class="flex justify-between xl:w-content-width xl:mx-auto">
 				<div class="flex items-center text-center gap-4">
 					<NavBarButton @click="togNav(false)" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
 						<Transition name="fade">

@@ -47,7 +47,7 @@ onMounted(() => renderMd(props.article));
 
 <style lang="scss">
 .md-content {
-    // TODO: Make things easier to read based on the figma design or wikipedia (padding and margins)
+    // TODO: Make things easier to read and look better based on the figma design or wikipedia (padding and margins)
     display: flex;
     flex-direction: column;
     gap: 10px;
