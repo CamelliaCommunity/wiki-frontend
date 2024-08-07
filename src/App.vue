@@ -1,11 +1,13 @@
-<script setup>
-import { RouterView } from 'vue-router'
+<script setup lang ="ts">
+import { RouterView } from 'vue-router';
+import { useOverlayScrollbars } from 'overlayscrollbars-vue';
 
 import NavBar from './components/nav/NavBar.vue';
 import FooterBar from './components/footer/FooterBar.vue';
 import ScrollToTop from './components/ScrollToTop.vue';
 
 import API from '@/utils/API';
+import { onMounted } from 'vue';
 API.fetchUser();
 
 kofiWidgetOverlay.draw('camelliacommunity', {
@@ -14,6 +16,19 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 	'floating-chat.donateButton.background-color': '#323842',
 	'floating-chat.donateButton.text-color': '#fff'
 });
+
+const [initBodyOverlayScrollBars] =
+useOverlayScrollbars({
+    defer: true,
+    options: {
+      scrollbars: {
+        theme: 'os-theme-light',
+        clickScroll: true,
+      },
+    },
+  });
+
+onMounted(() => initBodyOverlayScrollBars(document.body));
 </script>
 
 <template>

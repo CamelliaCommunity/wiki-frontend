@@ -50,5 +50,6 @@ Sentry.init({
 
 // -- Overlay Scrollbars (Vue)
 import 'overlayscrollbars/overlayscrollbars.css';
+import {OverlayScrollbars, ScrollbarsHidingPlugin, SizeObserverPlugin, ClickScrollPlugin} from 'overlayscrollbars';
 
 app.mount('#app')
