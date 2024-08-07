@@ -83,6 +83,11 @@ onMounted(() => renderMd(props.article));
 
     a {
         color: var(--accent-1);
+
+        &:hover {
+            text-decoration: underline;
+            color: #F68384;
+        }
     }
 
     mark {

@@ -41,7 +41,7 @@ const props = defineProps({
             <div>
                 <p class="post-description w-full md:w-96 leading-tight">{{ post.meta.description }}</p>
                 <RouterLink :to="post.url || '/not-found'" class="w-fit">
-                    <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
+                    <p class="text-base text-accent cursor-pointer readMoreHover">Read More</p>
                 </RouterLink>
             </div>
         </div>
@@ -79,6 +79,11 @@ const props = defineProps({
             -webkit-box-orient: vertical;
             margin-bottom: 5px;
         }
+    }
+
+    .readMoreHover:hover {
+        text-decoration: underline;
+        color: #F68384;
     }
 }
 </style>

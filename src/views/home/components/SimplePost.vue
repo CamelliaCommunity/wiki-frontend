@@ -18,8 +18,15 @@ const props = defineProps({
         <div class="w-full flex-col px-6 py-4 gap-3">
             <p class="text-lg w-full leading-tight break-words whitespace-pre-wrap">{{ post.meta.description || "post description" }}</p>
             <RouterLink v-if="post.url" :to="post.url || '/not-found'" class="w-full text-right text-lg">
-                <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
+                <p class="text-base text-accent cursor-pointer readMoreHover">Read More</p>
             </RouterLink>
         </div>
     </div>
 </template>
+
+<style>
+    .readMoreHover:hover {
+        text-decoration: underline;
+        color: #F68384;
+    }
+</style>
