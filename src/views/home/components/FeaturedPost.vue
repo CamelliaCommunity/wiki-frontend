@@ -80,10 +80,5 @@ const props = defineProps({
             margin-bottom: 5px;
         }
     }
-
-    .readMoreHover:hover {
-        text-decoration: underline;
-        color: #F68384;
-    }
 }
 </style>

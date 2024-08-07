@@ -86,3 +86,10 @@ body {
 .Toastify__progress-bar--error {
     background: #dd0000 !important;
 }
+
+/* Band-Aids */
+.readMoreHover:hover {
+    // because the homepage uses all sorts of neat things that need this class
+    text-decoration: underline;
+    color: #f68384;
+}

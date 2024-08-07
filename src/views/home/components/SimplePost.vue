@@ -23,10 +23,3 @@ const props = defineProps({
         </div>
     </div>
 </template>
-
-<style>
-    .readMoreHover:hover {
-        text-decoration: underline;
-        color: #F68384;
-    }
-</style>

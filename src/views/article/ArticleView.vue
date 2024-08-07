@@ -81,7 +81,7 @@ function edit() { // paper smells so we wont use editor (maybe one day?) // yes,
 						<RouterLink v-else :to=part.path>{{ part.name }}</RouterLink>
 					</span>
 				</p>
-				<p class="text-accent cursor-pointer" @click="edit">Edit this page!</p>
+				<p class="text-accent cursor-pointer readMoreHover" @click="edit">Edit this page!</p>
 			</div>
 			<div class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
