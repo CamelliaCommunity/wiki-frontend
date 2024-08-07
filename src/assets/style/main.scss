@@ -8,7 +8,8 @@
     font-weight: 400;
 }
 
-/* Scrollbar - Default (Not Vue) */
+/* Scrollbar - Default - Non Vue */
+/* This is to fix horizontal scrollbars. Will get back to later (or someone can take a shot) */
 /* Common styles for Chrome, Safari, Edge */
 ::-webkit-scrollbar {
     width: 0px;
