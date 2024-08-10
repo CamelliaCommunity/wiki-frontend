@@ -45,7 +45,7 @@ const rightLinkList = [{
 function openLink(e, url) {
 	e.preventDefault();
 
-	if (url.startsWith('/')) || url.startsWith("#") {
+	if (url.startsWith('/') || url.startsWith("#")) {
 		router.push(url);
 	} else {
 		window.open(url, '_blank');
