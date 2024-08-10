@@ -38,7 +38,7 @@ const rightLinkList = [{
 	
 }, {
     route: "/",
-    name: "File Manager",
+    name: "User Info",
 }];
 
 // we basically "hook" info the anchor click
