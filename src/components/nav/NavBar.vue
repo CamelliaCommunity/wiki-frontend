@@ -22,7 +22,7 @@ const leftLinkList = [{
     route: "/",
     name: "Main Page",
 }, {
-    route: "/community/server/staff-guidelines",
+    route: "/community/server/staff/guidelines",
     name: "Staff Guidelines",
 }, {
     route: "/wiki/contributing",
@@ -33,12 +33,11 @@ const leftLinkList = [{
 }];
 
 const rightLinkList = [{
-    route: "https://admin.camellia.wiki",
+    route: "#",
     name: "Wiki Editor",
-	
 }, {
-    route: "/",
-    name: "User Info",
+    route: "#",
+    name: "My Account",
 }];
 
 // we basically "hook" info the anchor click
@@ -46,7 +45,7 @@ const rightLinkList = [{
 function openLink(e, url) {
 	e.preventDefault();
 
-	if (url.startsWith('/')) {
+	if (url.startsWith('/')) || url.startsWith("#") {
 		router.push(url);
 	} else {
 		window.open(url, '_blank');

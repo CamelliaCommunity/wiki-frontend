@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 
-import { PhCaretRight, PhLinkSimple, PhPaperPlaneRight } from '@phosphor-icons/vue';
+import { PhCaretRight } from '@phosphor-icons/vue';
 
 import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
@@ -14,7 +14,6 @@ import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 import ArticleSkeleton from './ArticleSkeleton.vue';
 import API from '@/utils/API';
-import Toast from '@/utils/Toast';
 
 const route = useRoute();
 
@@ -64,24 +63,28 @@ API.get(articleUrl).then((res) => {
 	}, 500);
 });
 // }, 4000); 
-function edit() { // paper smells so we wont use editor (maybe one day?) // yes, we will - john
-    window.open(`https://admin.camellia.wiki/${path}`);
-}
+
+
+// TODO: We'll be moving the editor into the Wiki Frontend itself.
+// For now, I removed the click and function to goto admin.camellia.wiki.
+// Just code cleanup.
+// ~ codertek
 </script>
 
 <template>
     <div class="article-page w-full xl:w-content-width">
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
-			<div class="flex justify-between w-full mb-2">
-				<p class="flex gap-1">
-					<RouterLink to="/">Home</RouterLink>
-					<span v-for="part in react.breadcrumbs" class="flex items-center gap-1">
-						<PhCaretRight :size="16" />
-						<span v-if='part.name.toLowerCase() == "news"'>{{ part.name }}</span>
-						<RouterLink v-else :to=part.path>{{ part.name }}</RouterLink>
+			<div class="flex justify-between w-full mb-2 px-5">
+				<p class="flex gap-0.5">
+					<RouterLink to="/" class="text-light-gray hover:text-accent transition-colors duration-200 hover:duration-50">Home</RouterLink>
+					<span v-for="(part,index) in react.breadcrumbs" class="flex items-center gap-1">
+						<PhCaretRight :size="16" class="text-light-gray" />
+						<span v-if='part.name.toLowerCase() == "news"' class="text-light-gray">{{ part.name }}</span>
+						<span v-else-if="index == (Object.keys(react.breadcrumbs).length - 1)">{{ part.name }}</span>
+						<RouterLink v-else class="text-light-gray hover:text-accent transition-colors duration-200 hover:duration-50'" :to=part.path>{{ part.name }}</RouterLink>
 					</span>
 				</p>
-				<p class="text-accent cursor-pointer readMoreHover" @click="edit">Edit this page!</p>
+				<p class="text-accent cursor-pointer readMoreHover">Edit this page!</p>
 			</div>
 			<div class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
