@@ -35,6 +35,10 @@ const leftLinkList = [{
 const rightLinkList = [{
     route: "https://admin.camellia.wiki",
     name: "Wiki Editor",
+	
+}, {
+    route: "/",
+    name: "File Manager",
 }];
 
 // we basically "hook" info the anchor click
