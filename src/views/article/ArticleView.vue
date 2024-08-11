@@ -76,12 +76,12 @@ API.get(articleUrl).then((res) => {
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
 			<div class="flex justify-between w-full mb-2 px-5">
 				<p class="flex gap-0.5">
-					<RouterLink to="/" class="text-light-gray hover:text-accent transition-colors duration-200 hover:duration-50">Home</RouterLink>
+					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span v-for="(part,index) in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />
 						<span v-if='part.name.toLowerCase() == "news"' class="text-light-gray">{{ part.name }}</span>
 						<span v-else-if="index == (Object.keys(react.breadcrumbs).length - 1)">{{ part.name }}</span>
-						<RouterLink v-else class="text-light-gray hover:text-accent transition-colors duration-200 hover:duration-50'" :to=part.path>{{ part.name }}</RouterLink>
+						<RouterLink v-else class="text-light-gray readMoreHover" :to=part.path>{{ part.name }}</RouterLink>
 					</span>
 				</p>
 				<p class="text-accent cursor-pointer readMoreHover">Edit this page!</p>
