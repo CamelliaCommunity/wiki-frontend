@@ -1,13 +1,14 @@
 <script setup>
 import Formatting from '@/utils/Formatting';
 import API from '@/utils/API';
+import Events from '@/utils/Events';
 
 function onClick(e) {
 	e.preventDefault();
 
 	// Check if logged in
 	if (API.user.loggedIn) {
-		API.performLogout();
+        Events.Emit('profile-overlay', API.user.id)
 	} else {
 		API.performLogin();
 	};
