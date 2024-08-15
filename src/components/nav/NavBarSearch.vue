@@ -16,11 +16,6 @@ import { PhMagnifyingGlass } from "@phosphor-icons/vue";
 		outline: none;
 		padding: 0 0 0 8px;
 		width: 100%;
-		font-style: italic;
-
-		&:focus-visible {
-			font-style: normal;
-		}
 	}
 }
 </style>

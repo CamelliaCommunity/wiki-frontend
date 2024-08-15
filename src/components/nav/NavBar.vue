@@ -22,7 +22,7 @@ const leftLinkList = [{
     route: "/",
     name: "Main Page",
 }, {
-    route: "/community/server/staff-guidelines",
+    route: "/community/server/staff/guidelines",
     name: "Staff Guidelines",
 }, {
     route: "/wiki/contributing",
@@ -33,8 +33,11 @@ const leftLinkList = [{
 }];
 
 const rightLinkList = [{
-    route: "https://admin.camellia.wiki",
+    route: "#",
     name: "Wiki Editor",
+}, {
+    route: "#",
+    name: "My Account",
 }];
 
 // we basically "hook" info the anchor click
@@ -42,7 +45,7 @@ const rightLinkList = [{
 function openLink(e, url) {
 	e.preventDefault();
 
-	if (url.startsWith('/')) {
+	if (url.startsWith('/') || url.startsWith("#")) {
 		router.push(url);
 	} else {
 		window.open(url, '_blank');
@@ -58,9 +61,9 @@ window.addEventListener("keydown", (e) => {
 </script>
 
 <template>
-	<div class="w-screen h-16 fixed bg-background-3 py-2 z-40">
+	<div class="w-screen h-16 fixed bg-background-3 z-40" id="iDontKnowHowToFixTheNavbarByOnePixel">
 		<nav class="w-full z-10 px-2 xl:px-0">
-			<div class="flex justify-between max-w-screen-lg mx-auto">
+			<div class="flex justify-between xl:w-content-width xl:mx-auto">
 				<div class="flex items-center text-center gap-4">
 					<NavBarButton @click="togNav(false)" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
 						<Transition name="fade">
@@ -89,7 +92,7 @@ window.addEventListener("keydown", (e) => {
 		</Transition>
 		<Transition name="slidedown-fade">
 			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
-				<div class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between max-w-screen-lg mx-auto px-2 xl:px-0 py-4 lg:py-2">
+				<div class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between xl:w-content-width xl:mx-auto mx-auto px-2 xl:px-0 py-4 lg:py-2">
 					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<NavBarAccount />
 						<a class="hover:text-accent text-lg font-light cursor-pointer" v-for="link in leftLinkList"
@@ -142,5 +145,10 @@ window.addEventListener("keydown", (e) => {
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
+}
+
+#iDontKnowHowToFixTheNavbarByOnePixel {
+	padding-top: 0.5rem;
+    padding-bottom: 57px;
 }
 </style>

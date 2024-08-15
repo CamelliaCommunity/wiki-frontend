@@ -40,13 +40,12 @@ const react = reactive({
 	}
 });
 
-const welcomePost = {
+const latestSongRelease = {
 	meta: {
-		title: "Let's get started!",
-		// i dunno rewrite this or something
-		// but dont make it a stupid tutorial on how to use a fucking navbar
-		// im going to leave it for now as a placeholder, fuck u - jogn
-		description: "The Header has important buttons to keep in mind. The navigation bar, the search bar, the GitHub button, and the Discord button. \n\nEach of these buttons serves a purpose with navigation, including navigating you out of the site! It is recommended to use this homepage or the sidebar when exploring the site (to access the sidebar, click the hamburger icon on the top far left). If you don't know what you're looking for, use the search bar in the header to search for an article. You can search for author names, too!"
+		title: "Latest Song Release",
+		// for now we are lorem
+		// in the figma, theres a video attached to the side. maybe we could add a read more that leads to discography? - john
+		description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 	}
 };
 
@@ -121,7 +120,7 @@ function splitHomePosts(posts) {
 					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<HomeStats class="w-full md:w-64" :stats="react.stats" />
 				</div>
-				<SimplePost :post="welcomePost" />
+				<SimplePost :post="latestSongRelease" />
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div class="w-full flex flex-col gap-4" v-for="side in react.posts">
 						<SimplePost v-for="post in side" :post="post" />

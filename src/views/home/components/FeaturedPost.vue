@@ -4,6 +4,9 @@ import { RouterLink } from 'vue-router';
 import OverlapGrid from '@/components/OverlapGrid.vue';
 import LoadingImage from '@/components/LoadingImage.vue';
 
+import EmptyImage from '@/assets/images/empty.png';
+import DefaultImage from '@/assets/images/test-image-default.png';
+
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
@@ -17,17 +20,13 @@ const props = defineProps({
     post: {
         type: Object,
         required: true
-    },
-    otherImage: {
-        type: Boolean,
-        default: false
     }
 });
 </script>
 
 <template>
     <OverlapGrid class="featured-post w-full h-52 rounded-lg" v-if="post.meta">
-        <LoadingImage :src="post.meta.image" class="object-cover" />
+        <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
         <div class="dim" v-if="linearBackground"></div>
         <div class="radial-dim" v-else></div>
         <div class="card-content">
@@ -42,7 +41,7 @@ const props = defineProps({
             <div>
                 <p class="post-description w-full md:w-96 leading-tight">{{ post.meta.description }}</p>
                 <RouterLink :to="post.url || '/not-found'" class="w-fit">
-                    <p class="text-base font-medium text-accent cursor-pointer">Read More</p>
+                    <p class="text-base text-accent cursor-pointer readMoreHover">Read More</p>
                 </RouterLink>
             </div>
         </div>

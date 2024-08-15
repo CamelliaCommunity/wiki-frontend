@@ -1,12 +1,44 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
+import { useOverlayScrollbars } from 'overlayscrollbars-vue';
+import { onMounted, ref } from 'vue';
 
 import NavBar from './components/nav/NavBar.vue';
 import FooterBar from './components/footer/FooterBar.vue';
 import ScrollToTop from './components/ScrollToTop.vue';
+import Modal from './components/modal/Modal.vue';
 
 import API from '@/utils/API';
-API.fetchUser();
+
+const isModalVisible = ref(false);
+
+function openModal() {
+  isModalVisible.value = true;
+  console.log("Modal opened");
+}
+
+function closeModal() {
+  isModalVisible.value = false;
+  console.log("Modal closed");
+}
+
+window.openModal = openModal; // testing purposes
+
+onMounted(() => {
+  API.fetchUser();
+
+  const [initBodyOverlayScrollBars] = useOverlayScrollbars({
+    defer: true,
+    options: {
+      scrollbars: {
+        theme: 'os-theme-light',
+        clickScroll: true,
+      },
+    },
+  });
+
+  initBodyOverlayScrollBars(document.body);
+});
 
 kofiWidgetOverlay.draw('camelliacommunity', {
 	'type': 'floating-chat',
@@ -17,8 +49,8 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 </script>
 
 <template>
+    <Modal v-if="isModalVisible" @close="closeModal" />
     <NavBar />
-
     <div class="content-background-wrapper md:px-4">
         <div class="content-background"></div>
     </div>
@@ -33,7 +65,6 @@ kofiWidgetOverlay.draw('camelliacommunity', {
         </div>
 		<FooterBar />
     </div>
-
 	<ScrollToTop />
 </template>
 

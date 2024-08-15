@@ -48,9 +48,9 @@ const skeleData = {
 	<div v-else-if="error" class="flex flex-col items-center justify-center mt-32 p-8 rounded-2xl gap-3 bg-background-3">
 		<img :src="CameCry" class="h-20 w-20" />
 		<div class="flex flex-col w-fit items-center leading-tight">
-			<h1 class="text-3xl font-extrabold">NOT FOUND</h1>
-			<p class="text-1xl">The requested article does not exist.</p>
-			<p class="text-1xl">Have a cookie 🍪</p>
+			<h1 class="text-3xl font-extrabold">404 - NOT FOUND</h1>
+			<p class="text-1xl">The requested page does not exist.</p>
+			<p class="text-1xl">Sorry for the inconvenience! 🍪</p>
 		</div>
 	</div>
 	<slot v-else></slot>

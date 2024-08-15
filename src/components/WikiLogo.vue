@@ -20,6 +20,8 @@ const props = defineProps({
     align-items: center;
     justify-content: center;
     gap: 12px;
+    user-select: none;
+    -webkit-user-select: none; 
 
     &.size-small {
         img {
