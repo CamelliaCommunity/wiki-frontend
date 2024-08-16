@@ -60,7 +60,10 @@ function openLink(e, url) {
 
 window.addEventListener("keydown", (e) => {
 	const inputFocused = e.target.tagName.toLowerCase() == 'input' || e.target.tagName.toLowerCase() == 'textarea';
-	if (e.key == "q" && !inputFocused) togNav();
+	if (!inputFocused) {
+		if (e.key == "q") togNav();
+		else if (e.key == "l" && API.user.loggedIn) API.performLogout();
+	};
 });
 </script>
 
