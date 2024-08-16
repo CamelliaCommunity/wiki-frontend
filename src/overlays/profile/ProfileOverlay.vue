@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 
 import Events from '@/utils/Events';
+import API from '@/utils/API';
 
 const content = ref();
 
@@ -14,8 +15,14 @@ Events.Register('profile-overlay', () => {
 })
 
 document.addEventListener("keydown", e => {
+    if (e.repeat)
+        return;
+
     if (e.key == "Escape")
         Close(null);
+
+    if (e.key == "p" && API.user.loggedIn)
+        react.open = !react.open;
 })
 
 function Close(e) {
@@ -28,9 +35,9 @@ function Close(e) {
 
 <template>
     <Transition name="overlay">
-        <div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-black bg-opacity-50 backdrop-blur-sm overflow-y-scroll"
+        <div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-black bg-opacity-25 backdrop-blur-sm overflow-y-scroll"
             @click="Close" v-if="react.open">
-            <div class="w-content-width min-h-full bg-background-2 opacity-75 shadow-xl rounded-xl flex flex-col items-center justify-center" ref="content">
+            <div class="z-0 w-content-width min-h-full bg-background-2 bg-opacity-80 shadow-xl rounded-xl flex flex-col items-center justify-center" ref="content">
                 <p class="text-3xl mb-2">welcome to the profile overlay!</p>
                 <p class="text-lg leading-none opacity-80">unfortunately nothing is here yet...</p>
                 <p class="text-lg leading-none opacity-80">maybe come back another time?</p>
