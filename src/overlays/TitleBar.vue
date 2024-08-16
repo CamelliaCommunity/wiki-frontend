@@ -1,0 +1,19 @@
+<script setup>
+
+import { PhX } from '@phosphor-icons/vue';
+import GradientLine from '@/components/GradientLine.vue';
+
+defineProps({
+	close: Function
+});
+</script>
+
+<template>
+	<div class="flex w-full mb-2">
+		<p class="text-3xl font-bold w-full">Profile</p>
+		<div class="bg-background-3 p-3 flex justify-center items-center rounded-lg" @click="close(null)">
+			<PhX :size="16" @click="close(null)" />
+		</div>
+	</div>
+	<GradientLine :overshoot="false" class="mb-2" />
+</template>

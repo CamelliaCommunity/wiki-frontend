@@ -5,6 +5,7 @@ export default {
         colors: {
             'black': '#000',
             'accent': '#F876D3',
+			'red': '#FF5555',
 			'light-gray': 'rgba(255, 255, 255, 0.7)',
 			'gray': 'rgba(255, 255, 255, 0.4)',
             'background': {
