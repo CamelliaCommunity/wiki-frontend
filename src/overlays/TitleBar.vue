@@ -10,8 +10,8 @@ defineProps({
 
 <template>
 	<div class="flex w-full mb-2">
-		<p class="text-3xl font-bold w-full">Profile</p>
-		<div class="bg-background-3 p-3 flex justify-center items-center rounded-lg" @click="close(null)">
+		<p class="text-4xl font-bold w-full">Profile</p>
+		<div class="bg-background-3 p-3 flex justify-center items-center rounded-lg hover:bg-background-4" @click="close(null)">
 			<PhX :size="16" @click="close(null)" />
 		</div>
 	</div>
