@@ -3,6 +3,8 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import { PhList, PhX, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
 
+import API from "@/utils/API";
+
 import WikiLogo from "@/components/WikiLogo.vue";
 import NavBarButton from "./NavBarButton.vue";
 import NavBarAccount from "./NavBarAccount.vue";
@@ -12,33 +14,35 @@ const isOpen = ref(false);
 
 const togNav = (newValue) => { // pass newValue to force toggle
 	if (!newValue) newValue = !isOpen.value;
-    isOpen.value = newValue;
+	isOpen.value = newValue;
 	document.body.classList[newValue ? "add" : "remove"]("overflow-hidden");
 };
 
 const router = useRouter();
 
 const leftLinkList = [{
-    route: "/",
-    name: "Main Page",
+	route: "/",
+	name: "Main Page",
 }, {
-    route: "/community/server/staff/guidelines",
-    name: "Staff Guidelines",
+	route: "/community/server/staff/guidelines",
+	name: "Staff Guidelines",
 }, {
-    route: "/wiki/contributing",
-    name: "How to Contribute",
+	route: "/wiki/contributing",
+	name: "How to Contribute",
 }, {
-    route: "/wiki/about",
-    name: "About Page",
+	route: "/wiki/about",
+	name: "About Page",
 }];
 
 const rightLinkList = [{
-    route: "#",
-    name: "Wiki Editor",
-}, {
-    route: "#",
-    name: "My Account",
+	route: "#",
+	name: "Wiki Editor"
 }];
+
+if (API.user.loggedIn) rightLinkList.push({
+	route: "/settings",
+	name: "Settings",
+});
 
 // we basically "hook" info the anchor click
 // and if it's an internal link, we use the router
@@ -65,12 +69,13 @@ window.addEventListener("keydown", (e) => {
 		<nav class="w-full z-10 px-2 xl:px-0">
 			<div class="flex justify-between xl:w-content-width xl:mx-auto">
 				<div class="flex items-center text-center gap-4">
-					<NavBarButton @click="togNav(false)" :class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
+					<NavBarButton @click="togNav(false)"
+						:class="(isOpen ? 'is-open' : '') + ' relative overflow-hidden'">
 						<Transition name="fade">
 							<Component :is="(isOpen ? PhX : PhList)" :size="28" class="absolute"></Component>
 						</Transition>
 					</NavBarButton>
-					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer"/>
+					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer" />
 				</div>
 				<div class="hidden md:flex items-center text-center gap-4">
 					<NavSearch />
@@ -88,11 +93,14 @@ window.addEventListener("keydown", (e) => {
 		</nav>
 		<Transition name="fade">
 			<div v-if="isOpen" @click="togNav(false)"
-				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm md:mx-4 w-screen md:w-layout-width rounded-t-2xl"></div>
+				class="fixed -z-10 top-16 bg-background-1/50 h-full backdrop-blur-sm md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
+			</div>
 		</Transition>
 		<Transition name="slidedown-fade">
-			<nav v-if="isOpen" class="fixed z-10 top-16 bg-background-1 md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
-				<div class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between xl:w-content-width xl:mx-auto mx-auto px-2 xl:px-0 py-4 lg:py-2">
+			<nav v-if="isOpen"
+				class="fixed z-10 top-16 bg-background-1 md:mx-4 w-screen md:w-layout-width rounded-t-2xl">
+				<div
+					class="flex flex-col lg:flex-row gap-4 lg:gap-0 md:justify-between xl:w-content-width xl:mx-auto mx-auto px-2 xl:px-0 py-4 lg:py-2">
 					<div class="flex flex-col lg:flex-row items-center text-center gap-4">
 						<NavBarAccount />
 						<a class="hover:text-accent text-lg font-light cursor-pointer" v-for="link in leftLinkList"
@@ -109,31 +117,34 @@ window.addEventListener("keydown", (e) => {
 </template>
 
 <style lang="scss">
-.is-open { background: var(--background-nav-open); }
+.is-open {
+	background: var(--background-nav-open);
+}
+
 .slidedown-fade-enter-active,
 .slidedown-fade-leave-active {
-    transition: opacity 0.15s ease-in-out, max-height 0.2s ease-in-out;
+	transition: opacity 0.15s ease-in-out, max-height 0.2s ease-in-out;
 }
 
 .slidedown-fade-enter-to,
 .slidedown-fade-leave-from {
-    overflow: hidden;
+	overflow: hidden;
 	max-height: 100vh;
-    opacity: 1;
+	opacity: 1;
 
 	@media screen and (min-width: 1024px) {
-    	max-height: var(--nav-height);
+		max-height: var(--nav-height);
 	}
 }
 
 .slidedown-fade-enter-from,
 .slidedown-fade-leave-to {
-    overflow: hidden;
+	overflow: hidden;
 	max-height: 100vh;
-    opacity: 0;
+	opacity: 0;
 
 	@media screen and (min-width: 1024px) {
-    	max-height: 0;
+		max-height: 0;
 	}
 }
 
