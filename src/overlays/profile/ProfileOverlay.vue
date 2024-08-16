@@ -43,7 +43,7 @@ function Close(e) {
 				ref="content">
 				<TitleBar :close="Close" />
 				<div class="flex grow"></div>
-				<p class="text-sm text-red bottom-0 justify-center mx-auto">Report Profile</p>
+				<p class="text-lg text-red bottom-0 justify-center mx-auto">Report Profile</p>
 			</div>
 		</div>
 	</Transition>
