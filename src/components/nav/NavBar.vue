@@ -61,7 +61,7 @@ window.addEventListener("keydown", (e) => {
 </script>
 
 <template>
-	<div class="w-screen h-16 fixed bg-background-3 z-40" id="iDontKnowHowToFixTheNavbarByOnePixel">
+	<div class="w-screen h-16 fixed bg-background-3 z-40 pt-2 pb-14">
 		<nav class="w-full z-10 px-2 xl:px-0">
 			<div class="flex justify-between xl:w-content-width xl:mx-auto">
 				<div class="flex items-center text-center gap-4">
@@ -145,10 +145,5 @@ window.addEventListener("keydown", (e) => {
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
-}
-
-#iDontKnowHowToFixTheNavbarByOnePixel {
-	padding-top: 0.5rem;
-    padding-bottom: 57px;
 }
 </style>
