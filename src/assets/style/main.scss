@@ -63,28 +63,28 @@ body {
 }
 
 .Toastify__toast--info {
-    border-color: #0044ff !important;
+    border-color: var(--userfeedback-info) !important;
 }
 .Toastify__progress-bar--info {
-    background: #0044ff !important;
+    background: var(--userfeedback-info) !important;
 }
 .Toastify__toast--success {
-    border-color: #00ff00 !important;
+    border-color: var(--userfeedback-success) !important;
 }
 .Toastify__progress-bar--success {
-    background: #00ff00 !important;
+    background: var(--userfeedback-success) !important;
 }
 .Toastify__toast--warning {
-    border-color: #ffdd00 !important;
+    border-color: var(--userfeedback-warning) !important;
 }
 .Toastify__progress-bar--warning {
-    background: #ffdd00 !important;
+    background: var(--userfeedback-warning) !important;
 }
 .Toastify__toast--error {
-    border-color: #dd0000 !important;
+    border-color: var(--userfeedback-error) !important;
 }
 .Toastify__progress-bar--error {
-    background: #dd0000 !important;
+    background: var(--userfeedback-error) !important;
 }
 
 /* Band-Aids */
