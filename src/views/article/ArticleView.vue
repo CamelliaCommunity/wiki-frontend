@@ -21,10 +21,10 @@ const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
 
 const react = reactive({
-    article: '',
-    sections: [],
-    meta: {},
-    breadcrumbs: [],
+	article: '',
+	sections: [],
+	meta: {},
+	breadcrumbs: [],
 	loaded: false,
 	error: false
 });
@@ -32,37 +32,54 @@ const react = reactive({
 // get article data from backend
 let articleUrl = `/articles?path=/${path}`;
 
-// uncomment the setTimeout to simulate long loading
-// setTimeout(() => {
-API.get(articleUrl).then((res) => {
-	if (res.message != "OK" || res.status != 200) {
-		react.error = true;
-		react.loaded = true;
-		Utils.setTitle("Error");
-		return;
-	}
+if (path === 'style-test') {
+	articleUrl = 'https://raw.githubusercontent.com/mxstbr/markdown-test-file/master/TEST.md';
 
-	let data = res.data;
-	var md = MarkdownUtils.parse(data);
-    var meta = data.meta;
+	fetch(articleUrl)
+		.then((response) => response.text())
+		.then((text) => {
+			var md = MarkdownUtils.parse({ meta: {}, content: text });
+			console.log(text, md);
 
-    react.meta = meta;
-	react.breadcrumbs = data.breadcrumbs;
-        
-    Utils.setTitle(meta.title);
+			Utils.setTitle("Style Test");
 
-    react.article = MarkdownUtils.render(md.content);
-    react.sections = md.sections;
-	react.loaded = true; // nuke loading since we got something now!
+			react.article = MarkdownUtils.render(md.content);
+			react.sections = md.sections;
+			react.loaded = true; // nuke loading since we got something now!
+		});
+} else {
+	// uncomment the setTimeout to simulate long loading
+	// setTimeout(() => {
+	API.get(articleUrl).then((res) => {
+		if (res.message != "OK" || res.status != 200) {
+			react.error = true;
+			react.loaded = true;
+			Utils.setTitle("Error");
+			return;
+		}
 
-	setTimeout(() => { // this is so stupid that i have to do this.
-		if (route.hash) { // attempt to navigate to hash
-			const hashToHeader = document.getElementById(route.hash.split("#")[1]);
-			if (hashToHeader) hashToHeader.scrollIntoView();
-		};
-	}, 500);
-});
-// }, 4000); 
+		let data = res.data;
+		var md = MarkdownUtils.parse(data);
+		var meta = data.meta;
+
+		react.meta = meta;
+		react.breadcrumbs = data.breadcrumbs;
+
+		Utils.setTitle(meta.title);
+
+		react.article = MarkdownUtils.render(md.content);
+		react.sections = md.sections;
+		react.loaded = true; // nuke loading since we got something now!
+
+		setTimeout(() => { // this is so stupid that i have to do this.
+			if (route.hash) { // attempt to navigate to hash
+				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
+				if (hashToHeader) hashToHeader.scrollIntoView();
+			};
+		}, 500);
+	});
+	// }, 4000); 
+};
 
 
 // TODO: We'll be moving the editor into the Wiki Frontend itself.
@@ -72,26 +89,30 @@ API.get(articleUrl).then((res) => {
 </script>
 
 <template>
-    <div class="article-page w-full xl:w-content-width">
+	<div class="article-page w-full xl:w-content-width">
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
 			<div class="flex justify-between w-full mb-2 px-5">
 				<p class="flex gap-0.5">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
-					<span v-for="(part,index) in react.breadcrumbs" class="flex items-center gap-1">
+					<span v-for="(part, index) in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />
 						<span v-if='part.name.toLowerCase() == "news"' class="text-light-gray">{{ part.name }}</span>
 						<span v-else-if="index == (Object.keys(react.breadcrumbs).length - 1)">{{ part.name }}</span>
-						<RouterLink v-else class="text-light-gray readMoreHover" :to=part.path>{{ part.name }}</RouterLink>
+						<RouterLink v-else class="text-light-gray readMoreHover" :to=part.path>{{ part.name }}
+						</RouterLink>
 					</span>
 				</p>
 				<p class="text-accent cursor-pointer readMoreHover">Edit this page!</p>
 			</div>
-			<div class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
+			<div
+				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
-				<p class="font-extralight">Written by {{ react.meta.author }} on {{ Formatting.formatDate(react.meta.date) }}</p>
+				<p class="font-extralight">Written by {{ react.meta.author }} on {{
+					Formatting.formatDate(react.meta.date) }}</p>
 			</div>
 			<div class="article-content max-h-full">
-				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5" v-if="react.meta.layout == 'article'">
+				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
+					v-if="react.meta.layout == 'article'">
 					<div class="sticky top-20 flex flex-col">
 						<h4 class="text-lg font-semibold">Contents</h4>
 						<ol class="list-decimal list-inside">
@@ -116,22 +137,22 @@ API.get(articleUrl).then((res) => {
 				<!-- comment data would go here -->
 			</div>
 		</ArticleSkeleton>
-    </div>
+	</div>
 </template>
 
 <style lang="scss">
 .article-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
 
-    .article-content {
-        width: 100%;
-        display: flex;
-        gap: 40px;
-    }
+	.article-content {
+		width: 100%;
+		display: flex;
+		gap: 40px;
+	}
 
 	.article-comments {
 		margin-top: 120px;
