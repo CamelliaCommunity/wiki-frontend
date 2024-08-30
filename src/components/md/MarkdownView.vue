@@ -84,6 +84,8 @@ onMounted(() => renderMd(props.article));
 
 	p {
 		font-size: 18px;
+
+		// margin: 0.5em 0 1em 0;
 	}
 
 	a {
@@ -128,7 +130,8 @@ onMounted(() => renderMd(props.article));
 
 	blockquote {
 		border-left: 2px solid var(--pure-white);
-		padding-left: 16px;
+		background-color: var(--background-1);
+		padding: 10px 16px;
 		margin-left: 0;
 		font-size: 18px;
 
@@ -141,13 +144,12 @@ onMounted(() => renderMd(props.article));
 				border-left: 2px solid var(--userfeedback-info);
 			}
 
-			&.bq-warning,
-			&.bq-caution {
-				border-left: 2px solid var(--userfeedback-warning);
+			&.bq-danger, &.bq-caution {
+				border-left: 2px solid var(--userfeedback-error);
 			}
 
-			&.bq-danger {
-				border-left: 2px solid var(--userfeedback-error);
+			&.bq-warning, &.bq-disclaimer {
+				border-left: 2px solid var(--userfeedback-warning);
 			}
 		}
 	}
