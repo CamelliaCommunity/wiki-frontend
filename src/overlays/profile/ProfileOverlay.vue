@@ -9,10 +9,32 @@ import TitleBar from '../TitleBar.vue';
 const content = ref();
 
 const react = reactive({
-	open: false
+	open: false,
+	user: {}
 });
 
-Events.Register('profile-overlay', () => {
+const CacheSystem = {
+	users: {},
+	refresh: 15, // In seconds
+};
+
+Events.Register('profile-overlay', (userID) => {
+	let toRefresh = true;
+	if (CacheSystem[userID]) {
+		if (Date.now() < CacheSystem[userID].refreshedAt + (CacheSystem.refresh * 1000))
+			toRefresh = false;
+	};
+	console.log("looking up user using cache? " + ((CacheSystem[userID] !== undefined) ? "yes" : "no"));
+
+	if (toRefresh) {
+		let profileData = API.get(`/profile/${userID}`);
+		CacheSystem[userID] = {
+			data: profileData,
+			refreshedAt: Date.now()
+		};
+		react.user = profileData;
+	};
+
 	react.open = true;
 })
 
@@ -23,8 +45,10 @@ document.addEventListener("keydown", e => {
 	if (e.key == "Escape")
 		Close(null);
 
-	if (e.key == "p" && API.user.loggedIn)
-		react.open = !react.open;
+	if (e.key == "p" && API.user.loggedIn) {
+		if (react.open) Close(null);
+		else react.open = true;
+	};
 })
 
 function Close(e) {
@@ -32,6 +56,7 @@ function Close(e) {
 		return;
 
 	react.open = false;
+	react.user = {};
 }
 </script>
 
@@ -42,7 +67,9 @@ function Close(e) {
 			<div class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-80 shadow-xl rounded-xl flex flex-col p-5 gap-1"
 				ref="content">
 				<TitleBar :close="Close" />
-				<div class="flex grow"></div>
+				<div class="flex grow">
+					<div class="w-full flex mb-2.5"></div>
+				</div>
 				<p class="text-lg text-red bottom-0 justify-center mx-auto">Report Profile</p>
 			</div>
 		</div>
