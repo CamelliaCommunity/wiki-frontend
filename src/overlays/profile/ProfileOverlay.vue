@@ -62,9 +62,9 @@ function Close(e) {
 
 <template>
 	<Transition name="overlay">
-		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-black bg-opacity-25 backdrop-blur-sm overflow-y-scroll"
+		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
 			@click="Close" v-if="react.open">
-			<div class="z-0 w-content-width min-h-full bg-background-1 theShadow bg-opacity-95 shadow-xl rounded-xl flex flex-col p-5 gap-1"
+			<div class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
 				ref="content">
 				<TitleBar :close="Close" />
 				<div class="flex grow">
