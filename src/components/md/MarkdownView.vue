@@ -47,11 +47,19 @@ onMounted(() => renderMd(props.article));
 
 <style lang="scss">
 .md-content {
-	// TODO: Make things easier to read and look better based on the figma design or wikipedia (padding and margins)
+	// IN PROGRESS: Make things easier to read and look better based on the figma design or wikipedia (padding and margins)
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	// gap: 10px;
 	max-width: 100%;
+
+	.gradient-line.overshoot {
+		margin-bottom: 18px;
+	}
+
+	.gray-line {
+		margin-bottom: 6px;
+	}
 
 	/* this stupid thing should account for the navbar */
 	h1,
@@ -82,10 +90,10 @@ onMounted(() => renderMd(props.article));
 		font-size: 20px;
 	}
 
-	p {
+	p:not(blockquote p) {
 		font-size: 18px;
 
-		// margin: 0.5em 0 1em 0;
+		margin-bottom: 18px;
 	}
 
 	a {
@@ -122,11 +130,17 @@ onMounted(() => renderMd(props.article));
 	ol {
 		padding-left: 20px;
 
+		margin-bottom: 18px;
+
 		li {
 			font-size: 18px;
-			list-style-type: disc;
+
+			margin-bottom: 4px;
 		}
 	}
+
+	ul { list-style-type: disc; }
+	ol { list-style-type: decimal; }
 
 	blockquote {
 		border-left: 2px solid var(--pure-white);
@@ -134,6 +148,8 @@ onMounted(() => renderMd(props.article));
 		padding: 10px 16px;
 		margin-left: 0;
 		font-size: 18px;
+
+		margin-bottom: 18px;
 
 		&.md-bq {
 			background-color: var(--background-1);
