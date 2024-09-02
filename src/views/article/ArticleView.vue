@@ -114,12 +114,12 @@ if (path === 'style-test') {
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
 					v-if="react.meta.layout == 'article'">
 					<div class="sticky top-20 flex flex-col">
-						<h4 class="text-lg font-semibold">Contents</h4>
+						<h4 class="text-lg font-semibold mb-2">Contents</h4>
 						<ol class="list-decimal list-inside">
-							<li v-for="section in react.sections" class="text-xl">
+							<li v-for="section in react.sections" class="text-xl mb-3 text-light-gray">
 								<a :href="'#' + section.id">{{ section.title }}</a>
-								<ul v-if="section.subsections.length > 0" class="list-disc list-inside pl-3">
-									<li v-for="subsection in section.subsections" class="text-lg">
+								<ul v-if="section.subsections.length > 0" class="list-[circle] pl-3">
+									<li v-for="subsection in section.subsections" class="text-lg ml-4">
 										<a :href="'#' + subsection.id">{{ subsection.title }}</a>
 									</li>
 								</ul>
