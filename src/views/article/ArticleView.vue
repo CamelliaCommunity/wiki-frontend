@@ -107,8 +107,9 @@ if (path === 'style-test') {
 			<div
 				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
-				<p class="font-extralight">Written by {{ react.meta.author }} on {{
-					Formatting.formatDate(react.meta.date) }}</p>
+				<!-- want to remove author and have last updated instead eventually -john -->
+				<p class="font-extralight">Created {{
+					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
 			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
