@@ -40,8 +40,45 @@ export default class MarkdownUtils {
     }
 
     static render(content) {
+        let sectionOpen = false;
+        let subsectionOpen = false;
+
         const renderer = {
-            heading: (text, level) => `<MarkdownHeader text="${text}" :level=${level} />`,
+            heading: (text, level) => {
+                // add new section for h2
+                if (level === 2) {
+                    // close both subsections and sections if theyre open
+                    let html = '';
+                    if (subsectionOpen) {
+                        html += `</section>`;
+                        subsectionOpen = false;
+                    }
+                    if (sectionOpen) {
+                        html += `</section>`;
+                    }
+                    // add new section for h2
+                    sectionOpen = true;
+                    const id = text.toLowerCase().trim().replace(/[^\w]+/g, '-');
+                    html += `<section id="${id}"><MarkdownHeader text="${text}" :level="${level}" />`;
+                    return html;
+                }
+                // handle subsections (h3), they stay within the current section
+                if (level === 3) {
+                    // close previous subsection if its open
+                    let html = '';
+                    if (subsectionOpen) {
+                        html += `</section>`;
+                    }
+                    // add new subsection for h3
+                    subsectionOpen = true;
+                    const id = text.toLowerCase().trim().replace(/[^\w]+/g, '-');
+                    html += `<section id="${id}"><MarkdownHeader text="${text}" :level="${level}" />`;
+                    return html;
+                }
+                // return any other headings
+                return `<MarkdownHeader text="${text}" :level="${level}" />`;
+            },
+            paragraph: (text) => `<p>${text}</p>`,
             blockquote: (quote) => {
                 // remove <p> tags
                 var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
@@ -64,6 +101,14 @@ export default class MarkdownUtils {
 
         var html = marked.parse(content);
 		html = html.replace(`<h2 id="footnote-label" class="sr-only">Footnotes</h2>`, "");
+
+                // Close any open section after parsing
+                if (sectionOpen) {
+                    html += "</section>";
+                }
+                if (subsectionOpen) {
+                    html += "</section>";
+                }
         return html;
     }
 

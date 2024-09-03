@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, nextTick } from 'vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 
@@ -71,22 +71,69 @@ if (path === 'style-test') {
 		react.sections = md.sections;
 		react.loaded = true; // nuke loading since we got something now!
 
-		setTimeout(() => { // this is so stupid that i have to do this.
-			if (route.hash) { // attempt to navigate to hash
+		nextTick(() => {
+			// Navigate to hash after content is rendered
+			if (route.hash) {
 				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
 				if (hashToHeader) hashToHeader.scrollIntoView();
-			};
-		}, 500);
-	});
-	// }, 4000); 
-};
+			}
 
+			// render shit first
+			setupObserver();
+		});
+	});
+
+	// Observer setup function
+	// Eaten from https://codepen.io/bramus/pen/ExaEqMJ
+	// Highlight Contents wedge when user is in a new section of the page
+	function setupObserver() {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((sectionEntry) => {
+				const id = sectionEntry.target.getAttribute('id');
+				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`).parentElement;
+
+				if (sectionEntry.isIntersecting)
+					wedgeLink.classList.add('active');
+				else
+					wedgeLink.classList.remove('active');
+			});
+		});
+
+		// Observe all sections with an id
+		document.querySelectorAll("section[id]").forEach((section) => {
+			observer.observe(section);
+		});
+	}
+};
 
 // TODO: We'll be moving the editor into the Wiki Frontend itself.
 // For now, I removed the click and function to goto admin.camellia.wiki.
 // Just code cleanup.
 // ~ codertek
 </script>
+
+<style>
+ol li.active {
+	color: var(--pure-white);
+}
+
+ul li.active {
+	color: var(--pure-white);
+	list-style-type: disc;
+}
+
+div {
+	ol li a:hover {
+		text-decoration: underline;
+		color: #f68384;
+	}
+
+	ul li a:hover {
+		text-decoration: underline;
+		color: #f68384;
+	}
+}
+</style>
 
 <template>
 	<div class="article-page w-full xl:w-content-width">
