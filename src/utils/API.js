@@ -90,10 +90,10 @@ export default class API {
 					if (this.user.attemptToken >= this.maxTokenAttempts) {
 						if (isDueToBadToken) {
 							Toast.showToast("Your session has expired.\nPlease login again.", { type: "error" });
+							this.performLogout(true);
 						} else {
 							Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
 						};
-						this.performLogout(true);
 					} else {
 						setTimeout(this.fetchUser, (isDueToBadToken ? 1500 : 5000));
 					};
