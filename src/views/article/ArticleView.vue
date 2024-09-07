@@ -149,7 +149,7 @@ if (path === 'style-test') {
 					v-if="react.meta.layout == 'article'">
 					<div class="sticky top-20 flex flex-col">
 						<h4 class="text-lg font-semibold mb-2">Contents</h4>
-						<ol class="list-decimal list-inside">
+						<ol class="overflow-auto max-h-[87vh] list-decimal list-inside">
 							<li v-for="section in react.sections" class="text-xl mb-3 text-light-gray">
 								<a class="hover:underline hover:text-accent-soft" :href="'#' + section.id">{{
 									section.title }}</a>
