@@ -3,8 +3,21 @@ import markedFootnote from "marked-footnote";
 
 export default class MarkdownUtils {
     static regex = /^---([\s\S]*?)---/;
+	static headerRegex = /[ `~!@#$%^&*()_|+\-=?;:'",.<>]/g;
 
     static parse(markdown) {
+		const headerStorage = {};
+		const genHead = (headerId) => {
+			if (headerStorage[headerId] == null)
+				headerStorage[headerId] = 0;
+			else
+				headerStorage[headerId]++;
+
+			if (headerStorage[headerId] > 0) headerId = `${headerId}-${headerStorage[headerId]}`;
+
+			return headerId;
+		}
+
         let data = {
             sections: [],
             content: ''
@@ -16,7 +29,7 @@ export default class MarkdownUtils {
             if (line.startsWith('## ')) {
                 data.sections.push({
                     title: line.slice(3),
-					id: line.slice(3).toLowerCase().trim().replace(/[^\w]+/g, '-'),
+					id: genHead(line.slice(3).toLowerCase().trim().replace(this.headerRegex, '-')),
                     subsections: []
                 });
             }
@@ -29,7 +42,7 @@ export default class MarkdownUtils {
 
                 var subsection = {
                     title: line.slice(4),
-					id: line.slice(4).toLowerCase().trim().replace(/[^\w]+/g, '-')
+					id: genHead(line.slice(4).toLowerCase().trim().replace(this.headerRegex, '-'))
                 };
 
                 last.subsections.push(subsection);
@@ -40,8 +53,20 @@ export default class MarkdownUtils {
     }
 
     static render(content) {
+		const headerStorage = {};
         const renderer = {
-            heading: (text, level) => `<MarkdownHeader text="${text}" :level=${level} />`,
+            heading: (text, level) => {
+				const d = (s, r) => s.replace(/&\w+;|&#\d+;/g, r);
+				let headerId = d(text.toLowerCase(), "-").replace(this.headerRegex, '-');
+				if (headerStorage[headerId] == null)
+					headerStorage[headerId] = 0;
+				else
+					headerStorage[headerId]++;
+
+				if (headerStorage[headerId] > 0) headerId = `${headerId}-${headerStorage[headerId]}`;
+				return `<MarkdownHeader text="${text}" :level="${level}" headerId="${headerId}" />`
+			},
+            paragraph: (text) => `<p>${text}</p>`,
             blockquote: (quote) => {
                 // remove <p> tags
                 var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
@@ -64,6 +89,7 @@ export default class MarkdownUtils {
 
         var html = marked.parse(content);
 		html = html.replace(`<h2 id="footnote-label" class="sr-only">Footnotes</h2>`, "");
+
         return html;
     }
 

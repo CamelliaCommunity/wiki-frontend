@@ -11,6 +11,7 @@ export default {
                 'header-buttons': '#56304C'
             },
             'accent': '#F876D3',
+			'accent-soft': '#F68384',
 			'black': '#000',
 			'white': "#FFF",
 			'red': '#FF5555',
