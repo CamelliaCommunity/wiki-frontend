@@ -149,7 +149,10 @@ div {
 						</RouterLink>
 					</span>
 				</p>
-				<p class="text-accent cursor-pointer readMoreHover">Edit this page!</p>
+				<!-- basic redirection for editing articles. will be replaced once the editor is live -->
+				<a :href='"https://github.com/CamelliaCommunity/wiki-articles/edit/main" + `${route.path}` + "/en.md"'
+					target="_blank" class="text-accent cursor-pointer readMoreHover">Edit this
+					page!</a>
 			</div>
 			<div
 				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">

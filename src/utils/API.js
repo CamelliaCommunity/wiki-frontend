@@ -11,7 +11,7 @@ export default class API {
         return fetch(this.url + endpoint, {
             method: 'GET',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-        }).then(response => response.json());
+        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
     static async post(endpoint, body) {
@@ -19,7 +19,7 @@ export default class API {
             method: 'POST',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
             body: JSON.stringify(body),
-        }).then(response => response.json());
+        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
     static async put(endpoint, body) {
@@ -27,14 +27,14 @@ export default class API {
             method: 'PUT',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
             body: JSON.stringify(body),
-        }).then(response => response.json());
+        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
     static async delete(endpoint) {
         return fetch(this.url + endpoint, {
             method: 'DELETE',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-        }).then(response => response.json());
+        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
 	static user = reactive({
@@ -45,11 +45,13 @@ export default class API {
 		id: 0,
 		staff: false,
 		color: "#FFFFFF",
-		loggedIn: false
+		loggedIn: false,
+		attemptToken: 0
 	});
 
-	static cookie_name_token = "wiki-auth-token"
-	static cookie_name_user = "wiki-auth-user"
+	static cookie_name_token = "wiki-auth-token";
+	static cookie_name_user = "wiki-auth-user";
+	static maxTokenAttempts = 3;
 
 	static setData = (user = {}) => {
 		this.user.loggedIn = (user.name && user.id);
@@ -61,9 +63,12 @@ export default class API {
 		this.user.avatar = user.avatar || DefaultAvatar;
 		this.user.color = user.color || "#FFFFFF";
 		this.user.staff = user.staff || false;
+		this.user.attemptToken = 0;
 	}
 
 	static fetchUser = async() => {
+		if (this.user.attemptToken >= this.maxTokenAttempts) return; // dont attempt if attempted already.
+
 		let user = $cookies.get(this.cookie_name_user);
 		let token = $cookies.get(this.cookie_name_token);
 		if (!user) user = {};
@@ -72,14 +77,30 @@ export default class API {
 
 		if (token) {
 			const data = await this.get("/account");
-			if (data.status != 200 || data.message != "OK") {
-				if (data.message != "OK" ? (data.message.includes("re" + "turned" + " co" + "de 404")) : (data.status != 200)) {
+			this.user.attemptToken++;
+
+			if (data == null || data.status != 200 || data.message != "OK") {
+				if (data.message != "OK" ? (data.message.includes("User not found")) : (data.status != 200)) {
+					this.user.attemptToken = 0; // reset to 0.
+
 					Toast.showToast("Failed to login as you are not in the server!\nClick this toast to open the Discord server invite (in a new tab)!", { type: "error", onClick: () => { window.open("https://discord.gg/camellia", "_blank") } })
 					this.performLogout(true);
 				} else {
-					Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
+					let isDueToBadToken = (data.message != "OK" ? (data.message.includes("Invalid token")) : (data.status == 401));
+					if (this.user.attemptToken >= this.maxTokenAttempts) {
+						if (isDueToBadToken) {
+							Toast.showToast("Your session has expired.\nPlease login again.", { type: "error" });
+							this.performLogout(true);
+						} else {
+							Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
+						};
+					} else {
+						setTimeout(this.fetchUser, (isDueToBadToken ? 1500 : 5000));
+					};
 				};
 				return;
+			} else {
+				this.user.attemptToken = 0; // reset to 0.
 			};
 
 			if (user == "new_login")
@@ -104,7 +125,7 @@ export default class API {
 		let popupWindow;
 		// Create Discord popup
 		const DISCORD_CLIENT_ID = "1169155506988929024";
-		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=833,height=654";
+		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=960,height=727";
 		popupWindow = window.open(
 			`https://discord.com/oauth2/authorize?response_type=token&client_id=${DISCORD_CLIENT_ID}&scope=identify&redirect_uri=${window.location.protocol}//${window.location.host}/oauthComplete`,
 			"popup",
@@ -116,15 +137,23 @@ export default class API {
 
 		// This stupid thing will wait for the oauth complete page to send back our required data :)
 		window.addEventListener("message", async(event) => {
-			if (popupWindow && !popupWindow.closed && event.data.token) {
-				popupWindow.close();
-				clearInterval(popupMsgAlert); // We should have the data by now.
+			if (popupWindow && !popupWindow.closed && (event.data.token || event.data.error)) {
+				// We should have the data by now.
+				setTimeout(() => popupWindow.close(), event.data.token ? 0 : 1500);
+				clearInterval(popupMsgAlert);
 
-				$cookies.set(API.cookie_name_token, event.data.token);
-				$cookies.set(API.cookie_name_user, "new_login");
+				// If token - set up cookies | If error - fail
+				if (event.data.token) {
+					$cookies.set(API.cookie_name_token, event.data.token);
+					$cookies.set(API.cookie_name_user, "new_login");
 
-				// Now that we are logged in, let's GOOOOOOOOOOOOOOOOOOOOOO
-				API.fetchUser();
+					API.fetchUser(); // Now that we are logged in, let's GOOOOOOOOOOOOOOOOOOOOOO
+				} else {
+					if (event.data.error == "access_denied")
+						Toast.showToast("You denied the login request.\nPlease login again.", { type: "error" });
+					else
+						Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
+				};
 			};
 		});
 
