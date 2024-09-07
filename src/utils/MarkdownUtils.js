@@ -3,8 +3,21 @@ import markedFootnote from "marked-footnote";
 
 export default class MarkdownUtils {
     static regex = /^---([\s\S]*?)---/;
+	static headerRegex = /[ `~!@#$%^&*()_|+\-=?;:'",.<>]/g;
 
     static parse(markdown) {
+		const headerStorage = {};
+		const genHead = (headerId) => {
+			if (headerStorage[headerId] == null)
+				headerStorage[headerId] = 0;
+			else
+				headerStorage[headerId]++;
+
+			if (headerStorage[headerId] > 0) headerId = `${headerId}-${headerStorage[headerId]}`;
+
+			return headerId;
+		}
+
         let data = {
             sections: [],
             content: ''
@@ -16,7 +29,7 @@ export default class MarkdownUtils {
             if (line.startsWith('## ')) {
                 data.sections.push({
                     title: line.slice(3),
-					id: line.slice(3).toLowerCase().trim().replace(/[^\w]+/g, '-'),
+					id: genHead(line.slice(3).toLowerCase().trim().replace(this.headerRegex, '-')),
                     subsections: []
                 });
             }
@@ -29,7 +42,7 @@ export default class MarkdownUtils {
 
                 var subsection = {
                     title: line.slice(4),
-					id: line.slice(4).toLowerCase().trim().replace(/[^\w]+/g, '-')
+					id: genHead(line.slice(4).toLowerCase().trim().replace(this.headerRegex, '-'))
                 };
 
                 last.subsections.push(subsection);
@@ -40,44 +53,19 @@ export default class MarkdownUtils {
     }
 
     static render(content) {
-        let sectionOpen = false;
-        let subsectionOpen = false;
-
+		const headerStorage = {};
         const renderer = {
             heading: (text, level) => {
-                // add new section for h2
-                if (level === 2) {
-                    // close both subsections and sections if theyre open
-                    let html = '';
-                    if (subsectionOpen) {
-                        html += `</section>`;
-                        subsectionOpen = false;
-                    }
-                    if (sectionOpen) {
-                        html += `</section>`;
-                    }
-                    // add new section for h2
-                    sectionOpen = true;
-                    const id = text.toLowerCase().trim().replace(/[^\w]+/g, '-');
-                    html += `<section id="${id}"><MarkdownHeader text="${text}" :level="${level}" />`;
-                    return html;
-                }
-                // handle subsections (h3), they stay within the current section
-                if (level === 3) {
-                    // close previous subsection if its open
-                    let html = '';
-                    if (subsectionOpen) {
-                        html += `</section>`;
-                    }
-                    // add new subsection for h3
-                    subsectionOpen = true;
-                    const id = text.toLowerCase().trim().replace(/[^\w]+/g, '-');
-                    html += `<section id="${id}"><MarkdownHeader text="${text}" :level="${level}" />`;
-                    return html;
-                }
-                // return any other headings
-                return `<MarkdownHeader text="${text}" :level="${level}" />`;
-            },
+				const d = (s, r) => s.replace(/&\w+;|&#\d+;/g, r);
+				let headerId = d(text.toLowerCase(), "-").replace(this.headerRegex, '-');
+				if (headerStorage[headerId] == null)
+					headerStorage[headerId] = 0;
+				else
+					headerStorage[headerId]++;
+
+				if (headerStorage[headerId] > 0) headerId = `${headerId}-${headerStorage[headerId]}`;
+				return `<MarkdownHeader text="${text}" :level="${level}" headerId="${headerId}" />`
+			},
             paragraph: (text) => `<p>${text}</p>`,
             blockquote: (quote) => {
                 // remove <p> tags
@@ -102,13 +90,6 @@ export default class MarkdownUtils {
         var html = marked.parse(content);
 		html = html.replace(`<h2 id="footnote-label" class="sr-only">Footnotes</h2>`, "");
 
-                // Close any open section after parsing
-                if (sectionOpen) {
-                    html += "</section>";
-                }
-                if (subsectionOpen) {
-                    html += "</section>";
-                }
         return html;
     }
 

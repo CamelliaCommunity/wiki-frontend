@@ -76,7 +76,7 @@ if (path === 'style-test') {
 			if (route.hash) {
 				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
 				if (hashToHeader) hashToHeader.scrollIntoView();
-			}
+			};
 
 			// render shit first
 			setupObserver();
@@ -90,19 +90,25 @@ if (path === 'style-test') {
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach((sectionEntry) => {
 				const id = sectionEntry.target.getAttribute('id');
-				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`).parentElement;
+				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
 
-				if (sectionEntry.isIntersecting)
-					wedgeLink.classList.add('active');
-				else
-					wedgeLink.classList.remove('active');
+				if (wedgeLink) {
+					wedgeLink.classList[sectionEntry.isIntersecting ? "add" : "remove"]("text-white");
+
+					let wedgeLinkParent = wedgeLink.parentElement;
+
+					let hasCir = wedgeLinkParent.parentElement.classList.contains("list-[circle]") || wedgeLinkParent.parentElement.classList.contains("list-[disc]");
+					console.log(hasCir)
+					if (hasCir) {
+						wedgeLinkParent.classList[sectionEntry.isIntersecting ? "add" : "remove"]("list-[disc]")
+						wedgeLinkParent.classList[!sectionEntry.isIntersecting ? "add" : "remove"]("list-[circle]")
+					};
+				};
 			});
 		});
 
 		// Observe all sections with an id
-		document.querySelectorAll("section[id]").forEach((section) => {
-			observer.observe(section);
-		});
+		document.querySelectorAll("h2[id],h3[id]").forEach((section) => observer.observe(section));
 	}
 };
 
@@ -111,29 +117,6 @@ if (path === 'style-test') {
 // Just code cleanup.
 // ~ codertek
 </script>
-
-<style>
-ol li.active {
-	color: var(--pure-white);
-}
-
-ul li.active {
-	color: var(--pure-white);
-	list-style-type: disc;
-}
-
-div {
-	ol li a:hover {
-		text-decoration: underline;
-		color: #f68384;
-	}
-
-	ul li a:hover {
-		text-decoration: underline;
-		color: #f68384;
-	}
-}
-</style>
 
 <template>
 	<div class="article-page w-full xl:w-content-width">
@@ -168,10 +151,12 @@ div {
 						<h4 class="text-lg font-semibold mb-2">Contents</h4>
 						<ol class="list-decimal list-inside">
 							<li v-for="section in react.sections" class="text-xl mb-3 text-light-gray">
-								<a :href="'#' + section.id">{{ section.title }}</a>
+								<a class="hover:underline hover:text-accent-soft" :href="'#' + section.id">{{
+									section.title }}</a>
 								<ul v-if="section.subsections.length > 0" class="list-[circle] pl-3">
 									<li v-for="subsection in section.subsections" class="text-lg ml-4">
-										<a :href="'#' + subsection.id">{{ subsection.title }}</a>
+										<a class="hover:underline hover:text-accent-soft" :href="'#' + subsection.id">{{
+											subsection.title }}</a>
 									</li>
 								</ul>
 							</li>
