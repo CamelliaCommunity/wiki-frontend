@@ -125,7 +125,7 @@ export default class API {
 		let popupWindow;
 		// Create Discord popup
 		const DISCORD_CLIENT_ID = "1169155506988929024";
-		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=833,height=654";
+		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=960,height=727";
 		popupWindow = window.open(
 			`https://discord.com/oauth2/authorize?response_type=token&client_id=${DISCORD_CLIENT_ID}&scope=identify&redirect_uri=${window.location.protocol}//${window.location.host}/oauthComplete`,
 			"popup",
@@ -137,15 +137,23 @@ export default class API {
 
 		// This stupid thing will wait for the oauth complete page to send back our required data :)
 		window.addEventListener("message", async(event) => {
-			if (popupWindow && !popupWindow.closed && event.data.token) {
-				popupWindow.close();
-				clearInterval(popupMsgAlert); // We should have the data by now.
+			if (popupWindow && !popupWindow.closed && (event.data.token || event.data.error)) {
+				// We should have the data by now.
+				setTimeout(() => popupWindow.close(), event.data.token ? 0 : 1500);
+				clearInterval(popupMsgAlert);
 
-				$cookies.set(API.cookie_name_token, event.data.token);
-				$cookies.set(API.cookie_name_user, "new_login");
+				// If token - set up cookies | If error - fail
+				if (event.data.token) {
+					$cookies.set(API.cookie_name_token, event.data.token);
+					$cookies.set(API.cookie_name_user, "new_login");
 
-				// Now that we are logged in, let's GOOOOOOOOOOOOOOOOOOOOOO
-				API.fetchUser();
+					API.fetchUser(); // Now that we are logged in, let's GOOOOOOOOOOOOOOOOOOOOOO
+				} else {
+					if (event.data.error == "access_denied")
+						Toast.showToast("You denied the login request.\nPlease login again.", { type: "error" });
+					else
+						Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
+				};
 			};
 		});
 
