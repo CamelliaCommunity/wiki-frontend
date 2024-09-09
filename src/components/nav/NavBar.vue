@@ -35,8 +35,11 @@ const leftLinkList = [{
 }];
 
 const rightLinkList = [{
-	route: "#",
-	name: "Wiki Editor"
+	route: "/settings",
+	name: "Settings"
+}, {
+	route: "/polls",
+	name: "Polls"
 }];
 
 if (API.user.loggedIn) rightLinkList.push({
