@@ -61,6 +61,11 @@ onMounted(() => renderMd(props.article));
 		margin-bottom: 6px;
 	}
 
+	/* incase anyone really loves hr */
+	hr {
+		margin-bottom: 6px;
+	}
+
 	/* this stupid thing should account for the navbar */
 	h1,
 	h2,
@@ -92,7 +97,6 @@ onMounted(() => renderMd(props.article));
 
 	p:not(blockquote p) {
 		font-size: 18px;
-
 		margin-bottom: 18px;
 	}
 
@@ -134,13 +138,29 @@ onMounted(() => renderMd(props.article));
 
 		li {
 			font-size: 18px;
-
 			margin-bottom: 4px;
+
+			blockquote:last-child {
+				margin-bottom: 0;
+			}
+
+			pre:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		li:last-child p:last-child {
+			margin-bottom: 0;
 		}
 	}
 
-	ul { list-style-type: disc; }
-	ol { list-style-type: decimal; }
+	ul {
+		list-style-type: disc;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
 
 	blockquote {
 		border-left: 2px solid var(--pure-white);
@@ -148,8 +168,15 @@ onMounted(() => renderMd(props.article));
 		padding: 10px 16px;
 		margin-left: 0;
 		font-size: 18px;
-
 		margin-bottom: 18px;
+
+		p:not(p:last-child) {
+			margin-bottom: 18px;
+		}
+
+		pre:last-child {
+			margin-bottom: 0;
+		}
 
 		&.md-bq {
 			background-color: var(--background-1);
@@ -160,11 +187,13 @@ onMounted(() => renderMd(props.article));
 				border-left: 2px solid var(--userfeedback-info);
 			}
 
-			&.bq-danger, &.bq-caution {
+			&.bq-danger,
+			&.bq-caution {
 				border-left: 2px solid var(--userfeedback-error);
 			}
 
-			&.bq-warning, &.bq-disclaimer {
+			&.bq-warning,
+			&.bq-disclaimer {
 				border-left: 2px solid var(--userfeedback-warning);
 			}
 		}
@@ -176,6 +205,7 @@ onMounted(() => renderMd(props.article));
 		padding: 10px;
 		border-radius: 10px;
 		overflow-x: scroll;
+		margin-bottom: 18px;
 	}
 
 	/* TODO: remake codeblocks to be components instead */
