@@ -25,27 +25,25 @@ const props = defineProps({
 </script>
 
 <template>
-    <OverlapGrid class="featured-post w-full h-52 rounded-lg" v-if="post.meta">
-        <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
-        <div class="dim" v-if="linearBackground"></div>
-        <div class="radial-dim" v-else></div>
-        <div class="card-content">
-            <div>
-                <div class="flex justify-between">
-                    <h3 class="text-lg font-semibold">{{ postType }}</h3>
-                    <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
+    <RouterLink :to="post.url || '/not-found'" class="w-fit">
+        <OverlapGrid class="featured-post w-full h-48 rounded-lg" v-if="post.meta">
+            <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
+            <div class="dim" v-if="linearBackground"></div>
+            <div class="radial-dim" v-else></div>
+            <div class="card-content">
+                <div>
+                    <div class="flex justify-between">
+                        <h3 class="text-lg font-semibold">{{ postType }}</h3>
+                        <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
+                    </div>
+                    <h2 class="text-2xl font-medium">{{ post.meta.title }}</h2>
                 </div>
-                <h2 class="text-2xl font-medium">{{ post.meta.title }}</h2>
+                <div>
+                    <p class="post-description w-full md:w-48 leading-tight">{{ post.meta.description }}</p>
+                </div>
             </div>
-
-            <div>
-                <p class="post-description w-full md:w-96 leading-tight">{{ post.meta.description }}</p>
-                <RouterLink :to="post.url || '/not-found'" class="w-fit">
-                    <p class="text-base text-accent cursor-pointer readMoreHover">Read More</p>
-                </RouterLink>
-            </div>
-        </div>
-    </OverlapGrid>
+        </OverlapGrid>
+    </RouterLink>
 </template>
 
 <style lang="scss">
@@ -58,13 +56,17 @@ const props = defineProps({
         background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 70%);
     }
 
+    &:hover>.dim {
+        background: rgba(0, 0, 0, 0.3) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
+    }
+
     .card-content {
         display: flex;
         flex-direction: column;
         padding: 20px;
         justify-content: space-between;
 
-        > div {
+        >div {
             display: flex;
             flex-direction: column;
         }

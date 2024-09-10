@@ -34,7 +34,7 @@ const props = defineProps({
         background: rgba(0, 0, 0, 0.4) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
     }
 
-    &:hover > .sidebar-image-dim {
+    &:hover>.sidebar-image-dim {
         transition: background 50ms;
         background: rgba(0, 0, 0, 0.0) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
     }

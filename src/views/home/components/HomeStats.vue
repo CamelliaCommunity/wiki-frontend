@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="home-stats min-w-64 w-64 h-52 bg-background-1 rounded-lg">
+    <div class="home-stats min-w-64 w-64 h-48 bg-background-1 rounded-lg">
         <div class="flex flex-col h-full p-5 gap-1">
             <h3 class="text-xl font-semibold">Wiki Statistics</h3>
             <GradientLine />
