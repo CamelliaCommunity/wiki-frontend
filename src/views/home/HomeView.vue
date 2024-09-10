@@ -115,12 +115,24 @@ function splitHomePosts(posts) {
 		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
-				<FeaturedPost post-type="Featured Post" :post="react.featured" />
+				<!-- row 1 -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
-					<HomeStats class="w-full md:w-64" :stats="react.stats" />
+					<div class="flex w-full md:flex-col gap-4">
+						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.popular"
+							linearBackground other-image />
+						<!-- this will be a random post - john -->
+						<FeaturedPost class="w-full md:w-96" post-type="Popular Today" :post="react.popular"
+							linearBackground other-image />
+						<HomeStats class="w-full md:w-96" :stats="react.stats" />
+					</div>
 				</div>
-				<SimplePost :post="latestSongRelease" />
+				<!-- row 2 -->
+				<!-- will replace with whats in design - john -->
+				<div class="w-full flex flex-col md:flex-row gap-4">
+					<SimplePost :post="latestSongRelease" />
+				</div>
+				<!-- below the cards -->
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div class="w-full flex flex-col gap-4" v-for="side in react.posts">
 						<SimplePost v-for="post in side" :post="post" />
