@@ -4,7 +4,7 @@ const toastSettings = {
 	theme: "dark",
 	type: "default",
 	transition: "slide",
-	newestOnTop: true,
+	newestOnTop: false,
 	clearOnUrlChange: false,
 	dangerouslyHTMLString: false,
 	colored: true
