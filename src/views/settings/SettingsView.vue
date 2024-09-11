@@ -26,7 +26,7 @@ gotta base on working this thing bcz it might require 3 sites due to options...
 					<PhUserGear class="size-8"></PhUserGear>
 					<div class="px-2">
 						<p class="text-xl font-medium">General</p>
-						<p class="test-lg">Edit General Settings</p>
+						<p class="text-lg">Edit General Settings</p>
 					</div>
 				</div>
 				<div class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
