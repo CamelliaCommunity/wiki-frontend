@@ -6,6 +6,8 @@ import API from '@/utils/API';
 
 import TitleBar from '../TitleBar.vue';
 
+import Toast from '@/utils/Toast';
+
 const content = ref();
 
 const react = reactive({
@@ -58,6 +60,15 @@ function Close(e) {
 	react.open = false;
 	react.user = {};
 }
+
+// temporary functions - john
+function wipToast() {
+	Toast.showToast("That feature is not implemented yet but will be soon!", { type: "error" })
+}
+
+function logOut() {
+	if (API.user.loggedIn) API.performLogout()
+}
 </script>
 
 <template>
@@ -70,7 +81,11 @@ function Close(e) {
 				<div class="flex grow">
 					<div class="w-full flex mb-2.5"></div>
 				</div>
-				<p class="text-lg text-red bottom-0 justify-center mx-auto">Report Profile</p>
+				<!-- the log out button is temporary - john -->
+				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="logOut">
+					Log Out</p>
+				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">Report
+					Profile</p>
 			</div>
 		</div>
 	</Transition>
