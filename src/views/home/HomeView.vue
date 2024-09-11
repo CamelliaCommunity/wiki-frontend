@@ -119,7 +119,7 @@ function splitHomePosts(posts) {
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<div class="flex w-full md:flex-col gap-4">
-						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.popular"
+						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.featured"
 							linearBackground other-image />
 						<!-- this will be a random post - john -->
 						<FeaturedPost class="w-full md:w-96" post-type="Popular Today" :post="react.popular"
