@@ -34,7 +34,7 @@ gotta base on working this thing bcz it might require 3 sites due to options...
 					<PhGithubLogo class="size-8"></PhGithubLogo>
 					<div class="px-2">
 						<p class="text-xl font-medium">Github</p>
-						<p class"text-lg">Link you GitHub Account</p>
+						<p class="text-lg">Link you GitHub Account</p>
 					</div>
 				</div>
 				<div class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
@@ -42,7 +42,7 @@ gotta base on working this thing bcz it might require 3 sites due to options...
 					<PhLockKey class="size-8"></PhLockKey>
 					<div class="px-2">
 						<p class="text-xl font-medium">Privacy</p>
-						<p class"text-lg">Edit Account Privacy</p>
+						<p class="text-lg">Edit Account Privacy</p>
 					</div>
 				</div>
 		    	<div class="gray-line opacity-40"></div>
@@ -52,7 +52,7 @@ gotta base on working this thing bcz it might require 3 sites due to options...
 					<PhSignOut class="size-8"></PhSignOut>
 					<div class="px-2">
 						<p class="text-xl font-medium">Logout</p>
-						<p class"text-lg">Log out of your Account</p>
+						<p class="text-lg">Log out of your Account</p>
 					</div>
 				</div>
 			</div>
