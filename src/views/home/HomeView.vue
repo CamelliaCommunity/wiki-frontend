@@ -8,6 +8,7 @@ import SidebarPosts from './components/SidebarPosts.vue';
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
+import BigPost from './components/BigPost.vue';
 
 Utils.setTitle('Homepage');
 
@@ -117,7 +118,7 @@ function splitHomePosts(posts) {
 			<div class="flex w-full flex-col gap-4">
 				<!-- row 1 -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
-					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
+					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<div class="flex w-full md:flex-col gap-4">
 						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.featured"
 							linearBackground other-image />
