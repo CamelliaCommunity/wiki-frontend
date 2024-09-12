@@ -13,16 +13,27 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+
     {
       path: '/settings',
       name: 'settings',
       component: SettingsView
     },
     {
+      path: '/settings/:id',
+      name: 'settings-option',
+      component: SettingsView
+    },
+    {
       path: '/polls',
       name: 'polls',
       component: PollsView
-    }, //add /{id} soon
+    },
+    {
+      path: '/polls/:id',
+      name: 'poll',
+      component: PollsView
+    },
 	  {
       path: '/oauthComplete',
       name: 'oauthComplete',
