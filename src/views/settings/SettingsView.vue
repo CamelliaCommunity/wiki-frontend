@@ -2,11 +2,13 @@
 //packages
 
 //icons
-import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLockKeyOpen } from '@phosphor-icons/vue';
+import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut } from '@phosphor-icons/vue';
 
 /*
-gotta base on working this thing bcz it might require 3 sites due to options... 
+gotta base on working this thing bcz it might require 3 sites due to options...
 (idk maybe 1 site is enough if I mess around)
+
+one site is enough - john
 */
 //Almost spaghetti html xDDD
 </script>
@@ -17,46 +19,44 @@ gotta base on working this thing bcz it might require 3 sites due to options...
 			<h1 class="text-2xl font-semibold text-center px-2 py-2">Settings</h1>
 		</div>
 		<div class="gray-line opacity-40"></div>
-
-
-		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-8">
+		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
 			<div class="flex-column">
 				<div class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
          border-l-2 border-l-background-2 hover:border-l-accent">
 					<PhUserGear class="size-8"></PhUserGear>
 					<div class="px-2">
-						<p class="text-xl font-medium">General</p>
-						<p class="text-lg">Edit General Settings</p>
+						<p class="text-xl font-medium leading-6">General</p>
+						<p class="text-lg leading-6">Edit General Settings</p>
 					</div>
 				</div>
 				<div class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
          border-l-2 border-l-background-2 hover:border-l-accent">
 					<PhGithubLogo class="size-8"></PhGithubLogo>
 					<div class="px-2">
-						<p class="text-xl font-medium">Github</p>
-						<p class="text-lg">Link you GitHub Account</p>
+						<p class="text-xl font-medium leading-6">Github</p>
+						<p class="text-lg leading-6">Link your GitHub Account</p>
 					</div>
 				</div>
 				<div class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
          border-l-2 border-l-background-2 hover:border-l-accent">
 					<PhLockKey class="size-8"></PhLockKey>
 					<div class="px-2">
-						<p class="text-xl font-medium">Privacy</p>
-						<p class="text-lg">Edit Account Privacy</p>
+						<p class="text-xl font-medium leading-6">Privacy</p>
+						<p class="text-lg leading-6">Edit Account Privacy</p>
 					</div>
 				</div>
-		    	<div class="gray-line opacity-40"></div>
+				<div class="gray-line opacity-40"></div>
 				<div class="flex flex-row items-center cursor-pointer py-2 px-2 pl-4
          border-l-2 border-l-background-2 text-red fill-red hover:fill-accent-soft
 				  hover:border-l-accent-soft hover:text-accent-soft">
 					<PhSignOut class="size-8"></PhSignOut>
 					<div class="px-2">
-						<p class="text-xl font-medium">Logout</p>
-						<p class="text-lg">Log out of your Account</p>
+						<p class="text-xl font-medium leading-6">Logout</p>
+						<p class="text-lg leading-6">Log out of your Account</p>
 					</div>
 				</div>
 			</div>
-			<div class="flex-column  pl-2">
+			<div class="flex-column">
 				<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
 			</div>
 		</div>
