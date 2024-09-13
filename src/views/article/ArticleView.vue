@@ -8,6 +8,7 @@ import MarkdownView from '@/components/md/MarkdownView.vue';
 import GradientLine from '@/components/GradientLine.vue';
 
 import NewComment from '@/components/comments/NewComment.vue';
+import Comment from '@/components/comments/Comment.vue';
 
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
@@ -88,6 +89,25 @@ if (path === 'style-test') {
 	// Highlight Contents wedge when user is in a new section of the page
 	function setupObserver() {
 		const observer = new IntersectionObserver((entries) => {
+			// let sectionEntries = {};
+			// entries.forEach((sectionEntry) => {
+			//     const id = sectionEntry.target.getAttribute('id');
+			//     const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
+
+			//     if (wedgeLink) {
+
+			//         console.log(wedgeLink.parentElement.children[0].getAttribute("id"));
+			//         console.log(wedgeLink.parentElement.parentElement.children[0].getAttribute("id"));
+			//         console.log(wedgeLink.parentElement.parentElement.parentElement.children[0].getAttribute("id"));
+			//         console.log(wedgeLink.parentElement.parentElement.parentElement.parentElement.children[0].getAttribute("id"));
+			//         console.log({
+			//             id,
+			//             wedgeLink,
+			//             parent: wedgeLink.parentElement.parentElement,
+			//             parentParent: wedgeLink.parentElement.parentElement.parentElement.children[0].getAttribute("id"),
+			//         });
+			//     };
+			// });
 			entries.forEach((sectionEntry) => {
 				const id = sectionEntry.target.getAttribute('id');
 				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
@@ -98,7 +118,6 @@ if (path === 'style-test') {
 					let wedgeLinkParent = wedgeLink.parentElement;
 
 					let hasCir = wedgeLinkParent.parentElement.classList.contains("list-[circle]") || wedgeLinkParent.parentElement.classList.contains("list-[disc]");
-					console.log(hasCir)
 					if (hasCir) {
 						wedgeLinkParent.classList[sectionEntry.isIntersecting ? "add" : "remove"]("list-[disc]")
 						wedgeLinkParent.classList[!sectionEntry.isIntersecting ? "add" : "remove"]("list-[circle]")
@@ -169,7 +188,13 @@ if (path === 'style-test') {
 			</div>
 			<div class="article-comments">
 				<NewComment />
+				<!-- <div>
+					<span>Sort by</span>
+				</div> -->
 				<GradientLine />
+				<Comment>
+
+				</Comment>
 				<!-- comment data would go here -->
 			</div>
 		</ArticleSkeleton>

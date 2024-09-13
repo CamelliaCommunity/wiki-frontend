@@ -12,6 +12,7 @@ export default {
             },
             'accent': '#F876D3',
 			'accent-soft': '#F68384',
+			'primary': '#F06C9B',
 			'black': '#000',
 			'white': "#FFF",
 			'red': '#FF5555',

@@ -39,6 +39,7 @@ export default class API {
 
 	static user = reactive({
 		username: "Not logged in!",
+		nickname: "",
 		avatar: DefaultAvatar,
 		comments: 0,
 		join: null,
