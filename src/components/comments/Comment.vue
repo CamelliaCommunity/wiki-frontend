@@ -26,17 +26,16 @@ const chngMoreActions = () => comment.moreActions = !comment.moreActions;
 	<div class="bg-background-2 hover:bg-background-3 rounded-xl w-full max-w-screen-lg min-h-24 gap-3 px-2 py-2 flex m-auto"
 		@mouseover="comment.hovered = true" @mouseleave="comment.hovered = false">
 		<div class="flex flex-col gap-2">
-			<img :class="`rounded-xl border-2 h-16 min-w-fit`" :src="user.avatar" :style="`border-color: ${user.color}`"
-				alt="avatar" />
+			<img :class="`rounded-2xl border-2 h-14 min-w-fit`" :src="user.avatar"
+				:style="`border-color: ${user.color}`" alt="avatar" />
 		</div>
 		<div class="flex flex-col w-full">
 			<div class="flex text-xl justify-between items-center align-middle relative">
 				<div class="text-primary">
 					<span class="font-bold">{{ user.nickname || user.username }}</span>
-					<span class="text-light-gray text-base gap-2">
-						@{{ user.username }}
+					<span class="text-light-gray text-base gap-2">&nbsp;@{{ user.username }}
 						&nbsp;&#8226;&nbsp;
-						Jul 27th, 2024 - 6 years ago
+						Jul 27th, 2024 - 727 years ago
 					</span>
 				</div>
 				<div class="bg-background-1 rounded-md hover:bg-background-2 cursor-pointer w-fit"
@@ -56,7 +55,7 @@ const chngMoreActions = () => comment.moreActions = !comment.moreActions;
 				</div>
 			</div>
 			<div class="flex text-lg w-5/6">{{ comment.text }}</div>
-			<div class="flex text-xl mt-3 justify-between gap-1 items-center align-middle">
+			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp class="cursor-pointer hover:text-white" :size="24" @click="comment.votes++" />
 					{{ Math.floor(comment.votes) }}
