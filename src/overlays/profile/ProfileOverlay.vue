@@ -44,13 +44,8 @@ document.addEventListener("keydown", e => {
 	if (e.repeat)
 		return;
 
-	if (e.key == "Escape")
+	if (e.key == "Escape" && react.open)
 		Close(null);
-
-	if (e.key == "p" && API.user.loggedIn) {
-		if (react.open) Close(null);
-		else react.open = true;
-	};
 })
 
 function Close(e) {
