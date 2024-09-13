@@ -58,7 +58,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 					</div>
 				</a>
-				<a href="/settings/github">
+				<a href="/settings/privacy">
 					<div :class="[($route.params.id === 'privacy') ?
 						'border-l-accent text-white' : 'border-l-background-2']" 
 						class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
