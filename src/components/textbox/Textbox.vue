@@ -10,11 +10,13 @@ const props = defineProps({
 </script>
 
 <template>
+	<!-- gaps are suppose to be gap-2 not gap-1 -->
+	<!-- tried fixing some but the height is complicated -john -->
 	<div class="h-auto w-full flex flex-col rounded-xl bg-background-3 p-1.5 gap-1">
 		<div class="w-full flex gap-1">
 			<textarea
 				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1.5 text-lg outline-none"
-				placeholder="Soon(TM)  Press enter to post. Use shift+enter to make a new line." disabled />
+				placeholder="Soon(TM) Press enter to post. Use shift+enter to make a new line." disabled />
 			<div class="m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1">
 				<PhPaperPlaneTilt :size="20" />
 			</div>

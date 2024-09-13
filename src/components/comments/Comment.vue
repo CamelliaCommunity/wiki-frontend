@@ -44,7 +44,7 @@ const chngMoreActions = () => comment.moreActions = !comment.moreActions;
 					<div class="absolute mt-1 h-fit flex flex-col bg-background-1 w-fit py-2 rounded-md"
 						v-if="comment.moreActions">
 						<span
-							class="flex text-gray cursor-pointer align-middle items-center gap-1 text-base rounded-sm px-2 hover:text-white">
+							class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-base rounded-sm px-2 hover:text-white">
 							<PhLink /> Link
 						</span>
 						<span
@@ -56,18 +56,18 @@ const chngMoreActions = () => comment.moreActions = !comment.moreActions;
 			</div>
 			<div class="flex text-lg w-5/6">{{ comment.text }}</div>
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
-				<div class="flex text-gray align-middle items-center gap-1 text-lg select-none">
+				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp class="cursor-pointer hover:text-white" :size="24" @click="comment.votes++" />
 					{{ Math.floor(comment.votes) }}
 					<PhArrowFatDown class="cursor-pointer hover:text-white" :size="24" @click="comment.votes--" />
 				</div>
 				<div class="flex" v-if="comment.hovered">
 					<span
-						class="flex text-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
+						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhArrowBendUpLeft /> Reply
 					</span>
 					<span
-						class="flex text-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
+						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhPencil /> Edit
 					</span>
 					<span
