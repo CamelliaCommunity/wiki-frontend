@@ -123,7 +123,7 @@ function splitHomePosts(posts) {
 						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.featured"
 							linearBackground other-image />
 						<!-- this will be a random post - john -->
-						<FeaturedPost class="w-full md:w-96" post-type="Popular Today" :post="react.popular"
+						<FeaturedPost class="w-full md:w-96" post-type="Random Post" :post="react.popular"
 							linearBackground other-image />
 						<HomeStats class="w-full md:w-96" :stats="react.stats" />
 					</div>
