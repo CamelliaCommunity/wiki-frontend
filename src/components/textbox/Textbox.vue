@@ -1,5 +1,11 @@
 <script setup>
-import { PhPaperPlaneTilt, PhTextBolder, PhTextItalic, PhTextH, PhTextUnderline, PhTextStrikethrough, PhListBullets, PhListNumbers, PhListChecks, PhQuotes, PhCodeSimple, PhHighlighter, PhSelection, PhGridFour, PhLinkSimple, PhImage } from '@phosphor-icons/vue';
+import { nextTick, ref, shallowRef } from 'vue';
+import { PhPaperPlaneTilt, PhXCircle, PhCheckCircle, PhArrowClockwise, PhTextBolder, PhTextItalic, PhTextH, PhTextUnderline, PhTextStrikethrough, PhListBullets, PhListNumbers, PhListChecks, PhQuotes, PhCodeSimple, PhHighlighter, PhSelection, PhGridFour, PhLinkSimple, PhImage } from '@phosphor-icons/vue';
+
+import API from '@/utils/API';
+import Toast from '@/utils/Toast';
+import TextboxIcon from './TextboxIcon.vue';
+
 
 const props = defineProps({
 	isEditor: {
@@ -7,44 +13,156 @@ const props = defineProps({
 		default: false
 	}
 });
+
+const doTheInput = (e) => {
+	textareaHeight(e);
+	if (e.keyCode === 13) {
+		if (e.shiftKey) e.target.value += "\n";
+		else submitComment();
+		e.preventDefault();
+	};
+};
+
+const knownStates = {
+	NORMAL: { icon: PhPaperPlaneTilt },
+	SUBMITTING: { icon: PhArrowClockwise },
+	OK: { icon: PhCheckCircle },
+	ERROR: { icon: PhXCircle },
+};
+
+let beDisabled = ref(!API.user.loggedIn);
+let currentState = shallowRef(knownStates.NORMAL);
+let previousState = shallowRef(knownStates.NORMAL);
+
+const textareaHeight = (e) => {
+	e.target.style.height = "";
+	e.target.style.height = e.target.scrollHeight + "px";
+};
+
+const updateTextbox = () => {
+	nextTick(() => {
+		const submitBtn = document.getElementById("submit");
+		submitBtn.children[0].classList[currentState.value == knownStates.SUBMITTING ? "add" : "remove"]("spin-spin-spin");
+	});
+};
+const updateState = (newState) => {
+	previousState.value = currentState.value;
+	currentState.value = newState;
+};
+
+const submitComment = () => {
+	if (beDisabled || currentState.value != knownStates.NORMAL) return;
+
+	updateState(knownStates.SUBMITTING);
+	beDisabled = true;
+	updateTextbox();
+
+	setTimeout(() => {
+		updateState(knownStates.ERROR);
+		beDisabled = false;
+		updateTextbox();
+		Toast.showToast("An internal error occurred while processing your request.", { type: "error" });
+
+		setTimeout(() => {
+			updateState(knownStates.SUBMITTING);
+			beDisabled = true;
+			updateTextbox();
+			setTimeout(() => {
+				updateState(knownStates.OK);
+				updateTextbox();
+
+				setTimeout(() => {
+					updateState(knownStates.NORMAL);
+					beDisabled = false;
+					updateTextbox();
+				}, 1000);
+			}, 2000);
+		}, 2000);
+	}, 2000);
+};
+
+nextTick(() => {
+	beDisabled = !API.user.loggedIn;
+});
+
 </script>
 
 <template>
-	<!-- gaps are suppose to be gap-2 not gap-1 -->
-	<!-- tried fixing some but the height is complicated -john -->
-	<div class="h-auto w-full flex flex-col rounded-xl bg-background-3 p-1.5 gap-1">
-		<div class="w-full flex gap-1">
+	<div class="h-auto w-full flex flex-col rounded-xl bg-background-3 p-2 gap-2">
+		<div class="w-full flex gap-2">
 			<textarea
-				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1.5 text-lg outline-none"
-				placeholder="Soon(TM) Press enter to post. Use shift+enter to make a new line." disabled />
-			<div class="m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1">
-				<PhPaperPlaneTilt :size="20" />
+				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none"
+				placeholder="Soon(TM) Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput" />
+
+			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
+				id="submit" @click="submitComment" :disabled="beDisabled">
+				<Component :is="currentState.icon" :size="20" :disabled="beDisabled"></Component>
 			</div>
 		</div>
 		<div class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
 			<div id="formatting" class="w-auto flex gap-3">
-				<PhTextBolder :size="24" />
-				<PhTextItalic :size="24" />
-				<PhTextH :size="24" v-if="isEditor" />
-				<PhTextUnderline :size="24" />
-				<PhTextStrikethrough :size="24" />
+				<TextboxIcon :icon="PhTextBolder" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhTextItalic" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhTextH" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhTextUnderline" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhTextStrikethrough" :disabled="beDisabled" />
 			</div>
 			<div class="h-auto w-0.5" style="background: rgba(255, 255, 255, 15%);"></div>
 			<div id="list" class="w-auto flex gap-3">
-				<PhListBullets :size="24" />
-				<PhListNumbers :size="24" />
-				<PhListChecks v-if="isEditor" :size="24" />
+				<TextboxIcon :icon="PhListBullets" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhListNumbers" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhListChecks" :disabled="beDisabled" />
 			</div>
 			<div class="h-auto w-0.5" style="background: rgba(255, 255, 255, 15%);"></div>
 			<div id="list" class="w-auto flex gap-3">
-				<PhQuotes :size="24" />
-				<PhCodeSimple :size="24" v-if="isEditor" />
-				<PhHighlighter :size="24" />
-				<PhSelection :size="24" v-if="isEditor" />
-				<PhGridFour :size="24" v-if="isEditor" />
-				<PhLinkSimple :size="24" />
-				<PhImage :size="24" />
+				<TextboxIcon :icon="PhQuotes" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhCodeSimple" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhHighlighter" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhSelection" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhGridFour" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhLinkSimple" :disabled="beDisabled" />
+				<TextboxIcon :icon="PhImage" :disabled="beDisabled" />
 			</div>
 		</div>
 	</div>
 </template>
+
+<style>
+@keyframes spin-spin-spin {
+	from {
+		transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes spin-spin-spin {
+	from {
+		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+.spin-spin-spin {
+	-webkit-animation: spin-spin-spin 1s linear infinite;
+	-moz-animation: spin-spin-spin 1s linear infinite;
+	-ms-animation: spin-spin-spin 1s linear infinite;
+	-o-animation: spin-spin-spin 1s linear infinite;
+	animation: spin-spin-spin 1s linear infinite;
+}
+</style>
