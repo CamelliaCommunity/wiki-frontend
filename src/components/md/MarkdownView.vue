@@ -165,7 +165,7 @@ onMounted(() => renderMd(props.article));
 	blockquote {
 		border-left: 2px solid var(--pure-white);
 		background-color: var(--background-1);
-		padding: 10px 16px;
+		padding: 12px 16px;
 		margin-left: 0;
 		font-size: 18px;
 		margin-bottom: 18px;

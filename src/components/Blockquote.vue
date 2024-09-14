@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-    type: {
+	type: {
 		type: String,
 		validator(value) {
 			return value == null || ['tip', 'danger', 'caution', 'warning', 'disclaimer'].includes(value)
@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <blockquote :class="(type != null ? ('md-bq bq-' + type) : '')">
+	<blockquote :class="(type != null ? ('md-bq bq-' + type) : '')">
 		<slot></slot>
 	</blockquote>
 </template>
@@ -19,7 +19,7 @@ const props = defineProps({
 blockquote {
 	border-left: 2px solid var(--pure-white);
 	background-color: var(--background-1);
-	padding: 10px 16px;
+	padding: 12px 16px;
 	margin-left: 0;
 	font-size: 18px;
 	//margin-bottom: 18px;
@@ -34,7 +34,7 @@ blockquote {
 
 	&.md-bq {
 		background-color: var(--background-1);
-		padding: 10px 16px;
+		padding: 12px 16px;
 		border-radius: 0;
 
 		&.bq-tip {

@@ -4,6 +4,8 @@ import FeaturedPost from './components/FeaturedPost.vue';
 import SimplePost from './components/SimplePost.vue';
 import HomeStats from './components/HomeStats.vue';
 import SidebarPosts from './components/SidebarPosts.vue';
+import Blockquote from '@/components/Blockquote.vue';
+import BlockquoteNote from '@/components/BlockquoteNote.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
@@ -115,6 +117,16 @@ function splitHomePosts(posts) {
 		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
+				<Blockquote type="danger">
+					danger blockquote aaaaaaa
+				</Blockquote>
+				<BlockquoteNote title="A tip for you" type="danger">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+					et
+					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex
+					ea commodo consequat.
+				</BlockquoteNote>
 				<FeaturedPost post-type="Featured Post" :post="react.featured" />
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
