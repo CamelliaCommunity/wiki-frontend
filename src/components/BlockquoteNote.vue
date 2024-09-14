@@ -3,7 +3,7 @@ import Blockquote from '@/components/Blockquote.vue';
 import GradientLine from '@/components/GradientLine.vue';
 
 const props = defineProps({
-    title: {
+	title: {
 		type: String,
 		required: true
 	}
@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <Blockquote v-bind="$attrs">
+	<Blockquote v-bind="$attrs">
 		<h3 class="text-center mb-2">{{ title }}</h3>
 		<div class="w-2/3 m-auto">
 			<GradientLine :overshoot="false" />
@@ -22,5 +22,4 @@ const props = defineProps({
 	</Blockquote>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
