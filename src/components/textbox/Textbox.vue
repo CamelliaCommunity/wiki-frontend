@@ -92,7 +92,7 @@ nextTick(() => {
 		<div class="w-full flex gap-2">
 			<textarea
 				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none"
-				placeholder="Soon(TM) Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput" />
+				placeholder="Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput" />
 
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="submitComment" :disabled="beDisabled">
@@ -126,43 +126,3 @@ nextTick(() => {
 		</div>
 	</div>
 </template>
-
-<style>
-@keyframes spin-spin-spin {
-	from {
-		transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		-ms-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-		-o-transform: rotate(360deg);
-		-ms-transform: rotate(360deg);
-		-moz-transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-	}
-}
-
-@-webkit-keyframes spin-spin-spin {
-	from {
-		transform: rotate(0deg);
-		-webkit-transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-		-webkit-transform: rotate(360deg);
-	}
-}
-
-.spin-spin-spin {
-	-webkit-animation: spin-spin-spin 1s linear infinite;
-	-moz-animation: spin-spin-spin 1s linear infinite;
-	-ms-animation: spin-spin-spin 1s linear infinite;
-	-o-animation: spin-spin-spin 1s linear infinite;
-	animation: spin-spin-spin 1s linear infinite;
-}
-</style>
