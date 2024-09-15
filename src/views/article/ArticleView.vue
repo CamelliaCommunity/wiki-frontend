@@ -5,16 +5,15 @@ import { reactive, nextTick } from 'vue';
 import { PhCaretRight } from '@phosphor-icons/vue';
 
 import MarkdownView from '@/components/md/MarkdownView.vue';
-import GradientLine from '@/components/GradientLine.vue';
 
-import NewComment from '@/components/comments/NewComment.vue';
-import Comment from '@/components/comments/Comment.vue';
+import ArticleSkeleton from './ArticleSkeleton.vue';
+import CommentsSkeleton from './CommentsSkeleton.vue';
 
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
-import ArticleSkeleton from './ArticleSkeleton.vue';
 import API from '@/utils/API';
+import Toast from '@/utils/Toast';
 
 const route = useRoute();
 
@@ -27,11 +26,17 @@ const react = reactive({
 	meta: {},
 	breadcrumbs: [],
 	loaded: false,
-	error: false
+	error: false,
+	commentSystem: {
+		loaded: false,
+		error: false,
+		cache: []
+	}
 });
 
 // get article data from backend
 let articleUrl = `/articles?path=/${path}`;
+let routeHash = route.hash?.split("#").filter(e => e.length > 0);
 
 if (path === 'style-test') {
 	articleUrl = 'https://raw.githubusercontent.com/mxstbr/markdown-test-file/master/TEST.md';
@@ -72,15 +77,49 @@ if (path === 'style-test') {
 		react.sections = md.sections;
 		react.loaded = true; // nuke loading since we got something now!
 
-		nextTick(() => {
+		nextTick(async () => {
+			setupObserver();
+
 			// Navigate to hash after content is rendered
-			if (route.hash) {
-				const hashToHeader = document.getElementById(route.hash.split("#")[1]);
+			if (routeHash[0] && !routeHash[0].startsWith("comment-")) {
+				const hashToHeader = document.getElementById(routeHash[0]);
 				if (hashToHeader) hashToHeader.scrollIntoView();
 			};
 
-			// render shit first
-			setupObserver();
+			const getComments = async (url) => {
+				const res = await API.get(url);
+				if (res.message != "OK" || res.status != 200) return { error: true };
+				else return { data: res.data };
+			};
+
+			let commentData;
+			const commentRes = await getComments(`/posts/${path.split("/").pop()}/comments`);
+			if (commentRes.error || commentRes.data.length < 1) {
+				const fallbackCommentRes = await getComments(`/posts/${Utils.makeSlug(meta.title.toLowerCase())}/comments`);
+				if (fallbackCommentRes.error) {
+					Toast.showToast("Failed to load comments!", { type: "error" });
+					react.commentSystem.error = true;
+				} else {
+					commentData = fallbackCommentRes.data;
+				};
+			} else {
+				commentData = commentRes.data;
+			};
+
+			react.commentSystem.loaded = true;
+			if (commentData) {
+				react.commentSystem.cache = commentData;
+			};
+
+			nextTick(() => {
+				if (routeHash[0] && routeHash[0].startsWith("comment-")) {
+					const hashToHeader = document.getElementById(routeHash[0]);
+					if (hashToHeader) {
+						hashToHeader.classList.add("highlighted-comment");
+						hashToHeader.scrollIntoView();
+					};
+				};
+			});
 		});
 	});
 
@@ -89,25 +128,6 @@ if (path === 'style-test') {
 	// Highlight Contents wedge when user is in a new section of the page
 	function setupObserver() {
 		const observer = new IntersectionObserver((entries) => {
-			// let sectionEntries = {};
-			// entries.forEach((sectionEntry) => {
-			//     const id = sectionEntry.target.getAttribute('id');
-			//     const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
-
-			//     if (wedgeLink) {
-
-			//         console.log(wedgeLink.parentElement.children[0].getAttribute("id"));
-			//         console.log(wedgeLink.parentElement.parentElement.children[0].getAttribute("id"));
-			//         console.log(wedgeLink.parentElement.parentElement.parentElement.children[0].getAttribute("id"));
-			//         console.log(wedgeLink.parentElement.parentElement.parentElement.parentElement.children[0].getAttribute("id"));
-			//         console.log({
-			//             id,
-			//             wedgeLink,
-			//             parent: wedgeLink.parentElement.parentElement,
-			//             parentParent: wedgeLink.parentElement.parentElement.parentElement.children[0].getAttribute("id"),
-			//         });
-			//     };
-			// });
 			entries.forEach((sectionEntry) => {
 				const id = sectionEntry.target.getAttribute('id');
 				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
@@ -128,13 +148,8 @@ if (path === 'style-test') {
 
 		// Observe all sections with an id
 		document.querySelectorAll("h2[id],h3[id]").forEach((section) => observer.observe(section));
-	}
+	};
 };
-
-// TODO: We'll be moving the editor into the Wiki Frontend itself.
-// For now, I removed the click and function to goto admin.camellia.wiki.
-// Just code cleanup.
-// ~ codertek
 </script>
 
 <template>
@@ -186,16 +201,8 @@ if (path === 'style-test') {
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>
-			<div class="article-comments">
-				<NewComment />
-				<!-- <div>
-					<span>Sort by</span>
-				</div> -->
-				<GradientLine />
-				<Comment>
-
-				</Comment>
-				<!-- comment data would go here -->
+			<div class="article-comments relative inline-block h-max w-max">
+				<CommentsSkeleton :commentSystem="react.commentSystem" />
 			</div>
 		</ArticleSkeleton>
 	</div>

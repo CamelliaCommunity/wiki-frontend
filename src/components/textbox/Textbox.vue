@@ -6,9 +6,12 @@ import API from '@/utils/API';
 import Toast from '@/utils/Toast';
 import TextboxIcon from './TextboxIcon.vue';
 
-
 const props = defineProps({
 	isEditor: {
+		type: Boolean,
+		default: false
+	},
+	beDisabled: {
 		type: Boolean,
 		default: false
 	}
@@ -30,7 +33,7 @@ const knownStates = {
 	ERROR: { icon: PhXCircle },
 };
 
-let beDisabled = ref(!API.user.loggedIn);
+let beDisabled = ref(API.user.loggedIn ? props.beDisabled : true);
 let currentState = shallowRef(knownStates.NORMAL);
 let previousState = shallowRef(knownStates.NORMAL);
 
@@ -51,7 +54,8 @@ const updateState = (newState) => {
 };
 
 const submitComment = () => {
-	if (beDisabled || currentState.value != knownStates.NORMAL) return;
+	if (beDisabled) return;
+	if (currentState.value != knownStates.NORMAL) return;
 
 	updateState(knownStates.SUBMITTING);
 	beDisabled = true;
@@ -92,7 +96,8 @@ nextTick(() => {
 		<div class="w-full flex gap-2">
 			<textarea
 				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none"
-				placeholder="Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput" />
+				placeholder="Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput"
+				:disabled="beDisabled" />
 
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="submitComment" :disabled="beDisabled">

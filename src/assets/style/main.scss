@@ -149,3 +149,23 @@ body {
 	-o-animation-duration: 2s;
 	animation-duration: 2s;
 }
+
+/* Highlight Comment Animation */
+@keyframes highlighted {
+	0%,
+	50% {
+		background: var(--background-3);
+	}
+	100% {
+		background: transparent;
+	}
+}
+
+.highlighted-comment {
+	-webkit-animation: highlighted 2s ease-out;
+	-moz-animation: highlighted 2s ease-out;
+	-ms-animation: highlighted 2s ease-out;
+	-o-animation: highlighted 2s ease-out;
+	animation: highlighted 2s ease-out;
+	scroll-margin-top: var(--nav-height);
+}
