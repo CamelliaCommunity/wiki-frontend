@@ -16,5 +16,6 @@ const props = defineProps({
 </script>
 
 <template>
-	<Component :is="icon" :size="size" :disabled="disabled" :class='"cursor-" + `${disabled ? "deny" : "pointer"}`' />
+	<Component :is="icon" :size="size" :disabled="disabled"
+		:class='"hover:bg-background-4 rounded cursor-" + `${disabled ? "deny" : "pointer"}`' />
 </template>

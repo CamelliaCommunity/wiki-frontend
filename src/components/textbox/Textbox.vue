@@ -125,7 +125,7 @@ nextTick(() => {
 				<TextboxIcon :icon="PhListChecks" :disabled="beDisabled" />
 			</div>
 			<div class="h-auto w-0.5" style="background: rgba(255, 255, 255, 15%);"></div>
-			<div id="list" class="w-auto flex gap-3">
+			<div id="misc" class="w-auto flex gap-3">
 				<TextboxIcon :icon="PhQuotes" :disabled="beDisabled" />
 				<TextboxIcon :icon="PhCodeSimple" :disabled="beDisabled" />
 				<TextboxIcon :icon="PhHighlighter" :disabled="beDisabled" />
