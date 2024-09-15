@@ -72,6 +72,7 @@ const props = defineProps({
         }
 
         .post-description {
+            // fuck shit description too long and it breaks - john
             font-size: 18px;
             max-height: 3em;
             overflow: hidden;
