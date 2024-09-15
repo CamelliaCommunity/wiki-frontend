@@ -17,15 +17,6 @@ const props = defineProps({
 	}
 });
 
-const doTheInput = (e) => {
-	textareaHeight(e);
-	if (e.keyCode === 13) {
-		if (e.shiftKey) e.target.value += "\n";
-		else submitComment();
-		e.preventDefault();
-	};
-};
-
 const knownStates = {
 	NORMAL: { icon: PhPaperPlaneTilt },
 	SUBMITTING: { icon: PhArrowClockwise },
@@ -36,6 +27,21 @@ const knownStates = {
 let beDisabled = ref(API.user.loggedIn ? props.beDisabled : true);
 let currentState = shallowRef(knownStates.NORMAL);
 let previousState = shallowRef(knownStates.NORMAL);
+
+// shift+tab handling
+const handleKeydown = (e) => {
+	if (e.keyCode === 13 && e.shiftKey) {
+		textareaHeight(e);
+	}
+	else if (e.keyCode === 13) { // if da user press enter it should SUBMIT
+		submitComment();
+		e.preventDefault();
+	}
+};
+
+const handleInput = (e) => {
+	textareaHeight(e);
+};
 
 const textareaHeight = (e) => {
 	e.target.style.height = "";
@@ -95,9 +101,9 @@ nextTick(() => {
 	<div class="h-auto w-full flex flex-col rounded-xl bg-background-3 p-2 gap-2">
 		<div class="w-full flex gap-2">
 			<textarea
-				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none"
-				placeholder="Press enter to post. Use shift+enter to make a new line." @keydown="doTheInput"
-				:disabled="beDisabled" />
+				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-1 focus:ring-2"
+				placeholder="Press enter to post. Use shift+enter to make a new line." @input="handleInput"
+				@keydown="handleKeydown" :disabled="beDisabled" />
 
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="submitComment" :disabled="beDisabled">
