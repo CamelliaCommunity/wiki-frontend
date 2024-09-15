@@ -2,17 +2,15 @@
 
 import { ref, toRaw } from 'vue';
 import { PhArrowClockwise } from "@phosphor-icons/vue";
-import CameCry from "@/assets/images/CameCry.webp";
 
 import GradientLine from '@/components/GradientLine.vue';
 
 import NewComment from '@/components/comments/NewComment.vue';
 import Comment from '@/components/comments/Comment.vue';
+import BlockquoteNote from '@/components/BlockquoteNote.vue';
+import { useRoute } from 'vue-router';
 
-// const props = defineProps({
-// 	loading: Boolean,
-// 	error: Boolean
-// });
+const route = useRoute();
 
 const props = defineProps({
 	commentSystem: {
@@ -42,10 +40,11 @@ const commentSystem = ref(toRaw(props.commentSystem));
 					</div> -->
 	<GradientLine />
 
-	<div v-if="commentSystem.error"
-		class="flex flex-col items-center justify-center p-8 rounded-2xl gap-3 bg-background-3">
-		<img :src="CameCry" class="h-20 w-20" />
-	</div>
+	<BlockquoteNote v-if="commentSystem.error" title="Failed to load comments!" type="danger">
+		Let's try
+		<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
+		and if that doesn't work, please contact us.
+	</BlockquoteNote>
 	<div v-else-if="commentSystem.loaded && !commentSystem.blog">
 		<Comment :comments="toRaw(commentSystem.cache)">
 

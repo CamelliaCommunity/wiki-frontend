@@ -38,7 +38,6 @@ const changeHover = (commentId, isOpen) => {
 	if (!isOpen) comment.moreActions = false;
 };
 
-
 const commentAction = (commentId, action, options) => {
 	const commentIndex = comments.value.findIndex(c => c.id === commentId);
 	if (commentIndex == null) return;
