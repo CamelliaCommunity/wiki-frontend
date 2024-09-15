@@ -106,7 +106,7 @@ const fixAvatar = (e) => e.target.src = Logo;
 		class="bg-background-2 hover:bg-background-3 rounded-xl w-full max-w-screen-lg min-h-24 gap-3 px-2 py-2 flex m-auto"
 		@mouseover="changeHover(comment.id, true)" @mouseleave="changeHover(comment.id, false)"
 		:set="commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comment.time)">
-		<div class="flex gap-2 w-full">
+		<div class="flex gap-3 w-full">
 			<div class="flex flex-col gap-2">
 				<img alt="Avatar" :class="`rounded-2xl border-2 h-14 min-w-fit`" :src="comment.author.avatar"
 					:style="`border-color: ${comment.author.color}`" @error="fixAvatar" />
