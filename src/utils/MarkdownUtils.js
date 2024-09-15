@@ -76,10 +76,10 @@ export default class MarkdownUtils {
                 
                 if (match) {
                     var type = match[1];
-                    return `<blockquote class="md-bq bq-${type}">${content.replace(match[0], '')}</blockquote>`;
+                    return `<Blockquote type="${type}">${content.replace(match[0], '')}</Blockquote>`;
                 }
 
-                return `<blockquote>${quote}</blockquote>`;
+                return `<Blockquote>${quote}</Blockquote>`;
             },
 			image: (href, title, text) => `<MarkdownImage url="${href}" alt="${text}" />`
         };

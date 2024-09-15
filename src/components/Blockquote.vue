@@ -22,7 +22,6 @@ blockquote {
 	padding: 12px 16px;
 	margin-left: 0;
 	font-size: 18px;
-	//margin-bottom: 18px;
 
 	p:not(p:last-child) {
 		margin-bottom: 18px;
