@@ -2,13 +2,13 @@
 import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
 import SimplePost from './components/SimplePost.vue';
+import BigPost from './components/BigPost.vue';
 import HomeStats from './components/HomeStats.vue';
 import SidebarPosts from './components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
-import BigPost from './components/BigPost.vue';
 
 Utils.setTitle('Homepage');
 
@@ -120,12 +120,12 @@ function splitHomePosts(posts) {
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<div class="flex w-full md:flex-col gap-4">
-						<FeaturedPost class="w-full md:w-96" post-type="Featured Post" :post="react.featured"
-							linearBackground other-image />
+						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
+							other-image />
 						<!-- this will be a random post - john -->
-						<FeaturedPost class="w-full md:w-96" post-type="Random Post" :post="react.popular"
-							linearBackground other-image />
-						<HomeStats class="w-full md:w-96" :stats="react.stats" />
+						<FeaturedPost class="w-full" post-type="Random Post" :post="react.popular" linearBackground
+							other-image />
+						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
 				</div>
 				<!-- row 2 -->

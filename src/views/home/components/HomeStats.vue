@@ -10,11 +10,11 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="home-stats min-w-64 w-64 h-48 bg-background-1 rounded-lg">
+    <div class="home-stats min-w-64 w-64 h-36 bg-background-1 rounded-lg">
         <div class="flex flex-col h-full p-5 gap-1">
-            <h3 class="text-xl font-semibold">Wiki Statistics</h3>
+            <h3 class="text-xl font-semibold leading-5">Wiki Statistics</h3>
             <GradientLine />
-            <div class="flex flex-col h-full">
+            <div class="flex flex-col h-full leading-5">
                 <div class="stat">
                     <h2>Articles</h2>
                     <h3>{{ stats.articles }}</h3>
