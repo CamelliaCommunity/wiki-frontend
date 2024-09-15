@@ -4,8 +4,6 @@ import FeaturedPost from './components/FeaturedPost.vue';
 import SimplePost from './components/SimplePost.vue';
 import HomeStats from './components/HomeStats.vue';
 import SidebarPosts from './components/SidebarPosts.vue';
-import Blockquote from '@/components/Blockquote.vue';
-import BlockquoteNote from '@/components/BlockquoteNote.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
