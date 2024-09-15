@@ -1,6 +1,8 @@
 <script setup>
 
-import { ref, toRaw } from 'vue';
+import { ref, toRaw, toRefs, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
 import { PhArrowClockwise } from "@phosphor-icons/vue";
 
 import GradientLine from '@/components/GradientLine.vue';
@@ -8,7 +10,6 @@ import GradientLine from '@/components/GradientLine.vue';
 import NewComment from '@/components/comments/NewComment.vue';
 import Comment from '@/components/comments/Comment.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
@@ -19,7 +20,24 @@ const props = defineProps({
 	}
 });
 
+// const commentSystem = ref(toRaw(props.commentSystem));
+// const { commentSystem } = ref(toRaw(props.commentSystem));
 const commentSystem = ref(toRaw(props.commentSystem));
+const { sortedBy } = toRefs(commentSystem.value);
+
+const commentSorter = (direction) => {
+
+	if (sortedBy.value == direction) return;
+
+	if (direction == 1) // New
+		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.time < b.time);
+	else if (direction == 2) // Old
+		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.time > b.time);
+	else if (direction == 3) // Top
+		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.ups < b.ups);
+
+	sortedBy.value = direction;
+};
 
 </script>
 
@@ -31,13 +49,17 @@ const commentSystem = ref(toRaw(props.commentSystem));
 	</div>
 
 	<NewComment :error="commentSystem.error" :loaded="commentSystem.loaded" />
-	<!-- TODO: implement this sometime
-					<div class="m-0 p-0">
-						<span class="mx-7 font-normal text-light-gray">Sort by</span>
-						<span class="ml-5 mr-4" @click="commentSorter(1)">New</span>
-						<span class="mx-4" @click="commentSorter(2)">Old</span>
-						<span class="mx-4" @click="commentSorter(3)">Top</span>
-					</div> -->
+
+	<div class="m-0 p-0">
+		<span class="mx-7 font-normal text-light-gray">Sort by</span>
+		<span :class="`ml-5 mr-4 cursor-pointer ${sortedBy == 1 ? 'text-accent' : 'text-white'}`"
+			@click="commentSorter(1)">New</span>
+		<span :class="`mx-4 cursor-pointer ${sortedBy == 2 ? 'text-accent' : 'text-white'}`"
+			@click="commentSorter(2)">Old</span>
+		<span :class="`mx-4 cursor-pointer ${sortedBy == 3 ? 'text-accent' : 'text-white'}`"
+			@click="commentSorter(3)">Top</span>
+	</div>
+
 	<GradientLine />
 
 	<BlockquoteNote v-if="commentSystem.error" title="Failed to load comments!" type="danger">
@@ -45,10 +67,8 @@ const commentSystem = ref(toRaw(props.commentSystem));
 		<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
 		and if that doesn't work, please contact us.
 	</BlockquoteNote>
-	<div v-else-if="commentSystem.loaded && !commentSystem.blog">
-		<Comment :comments="toRaw(commentSystem.cache)">
-
-		</Comment>
+	<div v-else-if="commentSystem.loaded && !commentSystem.error">
+		<Comment :comments="commentSystem.cache" />
 	</div>
 </template>
 

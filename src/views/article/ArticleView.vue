@@ -30,7 +30,8 @@ const react = reactive({
 	commentSystem: {
 		loaded: false,
 		error: false,
-		cache: []
+		cache: [],
+		sortedBy: 0
 	}
 });
 
@@ -108,7 +109,9 @@ if (path === 'style-test') {
 
 			react.commentSystem.loaded = true;
 			if (commentData) {
-				react.commentSystem.cache = commentData;
+				// TODO: This is where we get the default from localstorage or cookies or something
+				react.commentSystem.sortedBy = 1;
+				react.commentSystem.cache = commentData.sort((a, b) => a.time < b.time);
 			};
 
 			nextTick(() => {

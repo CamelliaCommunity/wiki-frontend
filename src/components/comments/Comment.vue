@@ -9,7 +9,6 @@ import Formatting from '@/utils/Formatting';
 import Logo from "@/assets/images/avatar.png";
 import { PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 
-
 const route = useRoute();
 
 const props = defineProps({
