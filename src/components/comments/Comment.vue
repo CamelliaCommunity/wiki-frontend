@@ -91,6 +91,8 @@ const fixAvatar = (e) => e.target.src = Logo;
 
 const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comment.time);
 
+if (comment.isDeleted) comment.author = { id: 0, name: "[deleted]", color: "" };
+
 </script>
 
 <template class="flex flex-col">
@@ -130,36 +132,41 @@ const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comme
 							class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-base rounded-sm px-2 hover:text-white hover:bg-gray py-1">
 							<PhLink /> Link
 						</span>
-						<span @click="commentAction(5)"
+						<span v-if="!comment.isDeleted" @click="commentAction(5)"
 							class="flex text-red cursor-pointer align-middle items-center gap-1 text-base rounded-sm px-2 hover:text-white hover:bg-gray py-1">
 							<PhFlag /> Report
 						</span>
 					</div>
 				</div>
 			</div>
-			<div class="flex text-lg w-5/6">{{ comment.content }}</div>
+			<div :class="`flex text-lg w-5/6 ${(comment.isDeleted) ? 'italic' : ''}`">
+				{{ comment.isDeleted ? "Comment was deleted" : comment.content }}
+			</div>
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp
-						:class="`cursor-pointer ${comment.vote == 1 ? 'text-accent hover:text-accent-soft' : 'hover:text-white'}`"
-						:size="24" @click="commentAction(0, { type: comment.vote == 1 ? 0 : 1 })" />
+						:class="!comment.isDeleted ? `cursor-pointer hover:text-white ${comment.vote == 1 ? 'text-accent' : ''}` : ''"
+						:size="24"
+						@click="() => comment.isDeleted ? false : commentAction(0, { type: comment.vote == 1 ? 0 : 1 })" />
 					<span>{{ Math.floor(comment.ups -
 						comment.downs)
 						}}</span>
 					<PhArrowFatDown
-						:class="`cursor-pointer hover:text-white ${comment.vote == -1 ? 'text-accent' : ''}`" :size="24"
-						@click="commentAction(0, { type: comment.vote == -1 ? 0 : -1 })" />
+						:class="!comment.isDeleted ? `cursor-pointer hover:text-white ${comment.vote == -1 ? 'text-accent' : ''}` : ''"
+						:size="24"
+						@click="() => comment.isDeleted ? false : commentAction(0, { type: comment.vote == -1 ? 0 : -1 })" />
 				</div>
 				<div class="flex" v-if="comment.hovered">
-					<span @click="commentAction(1)"
+					<span v-if="!comment.isReply" @click="commentAction(1)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhArrowBendUpLeft /> Reply
 					</span>
-					<span @click="commentAction(2)"
+					<span v-if="comment.author.id == API.user.id" @click="commentAction(2)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhPencil /> Edit
 					</span>
-					<span v-if="comment.author.id == API.user.id || API.user.staff" @click="commentAction(3)"
+					<span v-if="!comment.isDeleted ? (comment.author.id == API.user.id || API.user.staff) : false"
+						@click="commentAction(3)"
 						class="flex text-red cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhTrash /> Delete
 					</span>
