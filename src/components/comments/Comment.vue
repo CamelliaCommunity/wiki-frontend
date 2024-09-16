@@ -7,7 +7,7 @@ import API from "@/utils/API";
 import Formatting from '@/utils/Formatting';
 
 import Logo from "@/assets/images/avatar.png";
-import { PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
+import { PhArrowClockwise, PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 import GradientLine from '../GradientLine.vue';
 
 const route = useRoute();
@@ -93,13 +93,19 @@ const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comme
 
 </script>
 
-<template>
+<template class="flex flex-col">
+	<div v-if="comment.isLoading" id="comment-loading-overlay">
+		<div class="m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1">
+			<PhArrowClockwise :size="32" class="spin-spin-spin" />
+		</div>
+	</div>
+
 	<div class="hover:bg-background-3 p-2 flex gap-3 w-full rounded-xl" @mouseover="changeHover(true)"
 		@mouseleave="changeHover(false)">
 		<div v-if="comment.isReply">
 			<GradientLine lineStyle="vert" :overshoot="false" class="!h-14" />
 		</div>
-		<div class=" flex flex-col gap-2">
+		<div class="flex flex-col gap-2">
 			<img alt="Avatar" :class="`rounded-2xl border-2 h-14 min-w-fit`" :src="comment.author.avatar"
 				:style="`border-color: ${comment.author.color}`" @error="fixAvatar" />
 		</div>
@@ -164,3 +170,18 @@ const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comme
 
 	<slot></slot>
 </template>
+
+<style lang="scss">
+#comment-loading-overlay {
+	display: flex;
+	justify-content: center;
+	position: absolute;
+	z-index: 40;
+	height: 100%;
+	width: calc(100% + 20px);
+	left: 0;
+	top: 0;
+	margin: 0 -10px;
+	background: rgba(0, 0, 0, 0.2);
+}
+</style>

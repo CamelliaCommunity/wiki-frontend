@@ -10,6 +10,7 @@ import GradientLine from '@/components/GradientLine.vue';
 import NewComment from '@/components/comments/NewComment.vue';
 import Comment from '@/components/comments/Comment.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
+import GrayLine from '@/components/GrayLine.vue';
 
 const route = useRoute();
 
@@ -89,22 +90,25 @@ provide("commentSystem", react);
 
 	<GradientLine />
 
-	<BlockquoteNote v-if="react.error" title="Failed to load comments!" type="danger">
-		Let's try
-		<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
-		and if that doesn't work, please contact us.
-	</BlockquoteNote>
-	<div v-else-if="react.loaded && !react.error && react.comments.withoutReplies.length > 0">
-		<div v-for="(comment, index) in react.comments.withoutReplies" :id="`comment-${comment.id}`" :key="comment.id"
-			class="rounded-xl w-full max-w-screen-lg min-h-24 gap-3 p-0 flex m-auto flex-col">
+	<div class="flex flex-col mt-2">
+		<BlockquoteNote v-if="react.error" title="Failed to load comments!" type="danger">
+			Let's try
+			<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
+			and if that doesn't work, please contact us.
+		</BlockquoteNote>
+
+		<div v-else-if="react.loaded && !react.error && react.comments.withoutReplies.length > 0"
+			v-for="(comment, index) in react.comments.withoutReplies" :id="`comment-${comment.id}`" :key="comment.id"
+			class="rounded-xl w-full max-w-screen-lg min-h-24 p-0 flex my-0 mx-auto flex-col relative">
 			<Comment :comment="comment">
 				<div v-if="react.comments.replies.length > 0"
 					v-for="(reply, replyIndex) in react.comments.replies.filter(r => r.parent === comment.id)"
 					:id="`comment-${reply.id}`" :key="reply.id"
-					class="rounded-xl w-full max-w-screen-lg min-h-24 gap-3 py-0 m-auto pl-3 flex">
+					class="rounded-xl w-full max-w-screen-lg min-h-24 gap-3 py-0 m-auto pl-3 flex relative mt-3">
 					<Comment :comment="{ ...reply, isReply: true }" />
 				</div>
 			</Comment>
+			<GrayLine v-if="(index + 1) != react.comments.withoutReplies.length" class="!h-0.5" />
 		</div>
 	</div>
 </template>
