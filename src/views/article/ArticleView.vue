@@ -120,6 +120,9 @@ if (path === 'style-test') {
 					if (hashToHeader) {
 						hashToHeader.classList.add("highlighted-comment");
 						hashToHeader.scrollIntoView();
+						setInterval(() => {
+							hashToHeader.classList.remove("highlighted-comment");
+						}, 3000);
 					};
 				};
 			});
