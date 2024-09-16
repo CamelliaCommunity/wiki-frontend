@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, toRaw, toRefs, watch } from 'vue';
+import { provide, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { PhArrowClockwise } from "@phosphor-icons/vue";
@@ -20,35 +20,62 @@ const props = defineProps({
 	}
 });
 
-// const commentSystem = ref(toRaw(props.commentSystem));
-// const { commentSystem } = ref(toRaw(props.commentSystem));
-const commentSystem = ref(toRaw(props.commentSystem));
-const { sortedBy } = toRefs(commentSystem.value);
+const react = reactive({
+	loaded: false,
+	error: false,
+	comments: {
+		fullCache: [],
+		replies: [],
+		withoutReplies: []
+	}
+});
+const sortedBy = ref(0);
+
+const commentSystem = ref(props.commentSystem);
 
 const commentSorter = (direction) => {
-
-	if (sortedBy.value == direction) return;
-
 	if (direction == 1) // New
-		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.time < b.time);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time < b.time);
 	else if (direction == 2) // Old
-		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.time > b.time);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time > b.time);
 	else if (direction == 3) // Top
-		commentSystem.value.cache = commentSystem.value.cache.sort((a, b) => a.ups < b.ups);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.ups < b.ups);
 
 	sortedBy.value = direction;
 };
 
+const updateData = () => {
+	react.loaded = commentSystem.value.loaded;
+	react.error = commentSystem.value.error;
+
+	if (react.loaded && !react.error) {
+		react.comments.fullCache = commentSystem.value.cache;
+		if (react.comments.fullCache.length > 0) {
+			react.comments.replies = commentSystem.value.cache.filter(c => c.parent != null && c.parent != "");
+			react.comments.withoutReplies = commentSystem.value.cache.filter(c => c.parent == null || c.parent == "");
+		};
+
+		if (sortedBy.value == 0) {
+			sortedBy.value = commentSystem.value.sortedBy;
+			commentSorter(sortedBy.value);
+		};
+	};
+};
+updateData();
+watch(commentSystem.value, updateData);
+
+// Provide commentSystem (react) to other things :)
+provide("commentSystem", react);
 </script>
 
 <template>
-	<div v-if="!commentSystem.loaded && !commentSystem.error" id="comment-loading-overlay">
+	<div v-if="!react.loaded && !react.error" id="comment-loading-overlay">
 		<div class="m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1">
 			<PhArrowClockwise :size="32" class="spin-spin-spin" />
 		</div>
 	</div>
 
-	<NewComment :error="commentSystem.error" :loaded="commentSystem.loaded" />
+	<NewComment :error="react.error" :loaded="react.loaded" />
 
 	<div class="m-0 p-0">
 		<span class="mx-7 font-normal text-light-gray">Sort by</span>
@@ -62,13 +89,23 @@ const commentSorter = (direction) => {
 
 	<GradientLine />
 
-	<BlockquoteNote v-if="commentSystem.error" title="Failed to load comments!" type="danger">
+	<BlockquoteNote v-if="react.error" title="Failed to load comments!" type="danger">
 		Let's try
 		<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
 		and if that doesn't work, please contact us.
 	</BlockquoteNote>
-	<div v-else-if="commentSystem.loaded && !commentSystem.error">
-		<Comment :comments="commentSystem.cache" />
+	<div v-else-if="react.loaded && !react.error && react.comments.withoutReplies.length > 0">
+		<div v-for="(comment, index) in react.comments.withoutReplies" :id="`comment-${comment.id}`" :key="comment.id"
+			class="rounded-xl w-full max-w-screen-lg min-h-24 gap-3 p-0 flex m-auto flex-col">
+			<Comment :comment="comment">
+				<div v-if="react.comments.replies.length > 0"
+					v-for="(reply, replyIndex) in react.comments.replies.filter(r => r.parent === comment.id)"
+					:id="`comment-${reply.id}`" :key="reply.id"
+					class="rounded-xl w-full max-w-screen-lg min-h-24 gap-3 py-0 m-auto pl-3 flex">
+					<Comment :comment="{ ...reply, isReply: true }" />
+				</div>
+			</Comment>
+		</div>
 	</div>
 </template>
 
