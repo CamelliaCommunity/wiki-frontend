@@ -77,13 +77,31 @@ const commentAction = (action, options) => {
 			};
 		});
 
+	} else if (action == 3) { // Delete
+		comment.isLoading = true;
+		if (confirm(`Are you sure you want to delete the comment?\nID: ${comment.id}\nAuthor: ${comment.author?.name}\nContent: ${comment.content}`)) {
+			comment.isLoading = false;
+			API.delete(`/comments/${comment.id}`).then(res => {
+				comment.isLoading = false;
+				if (res.message != "OK" || res.status != 200) {
+					Toast.showToast("Failed to delete the comment! Please try again.", { type: "error" });
+				} else {
+					comment.isDeleted = true;
+					comment.author = { id: 0, name: "[deleted]", color: "" };
+					commentSystem.value.cache = commentSystem.value.cache.forEach((c) => {
+						if (c.id === comment.id) { c.author = undefined; c.content = undefined; };
+					});
+				};
+			});
+		};
+
 	} else if (action == 4) { // Copy to clipboard
 		const url = `${route.fullPath.split("#")[0]}#comment-${comment.id}`;
 
 		if (!navigator.clipboard) {
 			Toast.showToast("Your browser does not support copying to the clipboard, sorry.", { type: "error" });
 			return;
-		}
+		};
 
 		navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${url}`)
 			.then(() => Toast.showToast("Copied to clipboard!", { type: "success" }))

@@ -66,7 +66,7 @@ updateData();
 watch(commentSystem.value, updateData);
 
 // Provide commentSystem (react) to other things :)
-provide("commentSystem", react);
+provide("commentSystem", commentSystem);
 </script>
 
 <template>
