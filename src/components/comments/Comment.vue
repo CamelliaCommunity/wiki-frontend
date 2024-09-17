@@ -25,9 +25,12 @@ const props = defineProps({
 	}
 });
 
+const MAX_COMMENT_LENGTH = 300;
+
 const comment = reactive(props.comment);
 comment.moreActions = ref(false);
 comment.hovered = ref(false);
+comment.showMore = ref(true);
 
 const changeHover = (isOpen) => {
 	comment.hovered = isOpen;
@@ -97,8 +100,12 @@ const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comme
 if (comment.isDeleted) comment.author = { id: 0, name: "[deleted]", color: "" };
 
 // TODO: Probably not use this one as it renders articles, which comments should have more restrictions.
-var md = MarkdownUtils.parse({ meta: {}, content: comment.content });
-comment.content = MarkdownUtils.render(md.content, false);
+const updateComment = (content) => {
+	var md = MarkdownUtils.parse({ meta: {}, content });
+	comment.renderedContent = MarkdownUtils.render(md.content, false);
+};
+updateComment(comment.content);
+if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 </script>
 
 <template class="flex flex-col">
@@ -109,7 +116,7 @@ comment.content = MarkdownUtils.render(md.content, false);
 	</div>
 
 	<div class="hover:bg-background-3 p-2 flex gap-3 w-full rounded-xl" @mouseover="changeHover(true)"
-		@mouseleave="changeHover(false)">
+		@mouseleave="changeHover(false)" id="comment">
 		<div v-if="comment.isReply">
 			<GradientLine lineStyle="vert" :overshoot="false" class="!h-14" />
 		</div>
@@ -125,8 +132,8 @@ comment.content = MarkdownUtils.render(md.content, false);
 						&nbsp;&#8226;&nbsp;
 						{{ Formatting.formatDate(comment.time) }}
 						-
-						{{ commentTime + "" + (commentTime != "just now" ? " ago" : "")
-						}}
+						{{ commentTime + ""
+							+ (commentTime != "just now" ? " ago" : "") }}
 					</span>
 				</div>
 				<div class="bg-background-1 rounded-md hover:bg-background-2 cursor-pointer w-fit"
@@ -146,7 +153,12 @@ comment.content = MarkdownUtils.render(md.content, false);
 				</div>
 			</div>
 			<div v-if="comment.isDeleted" class="flex text-lg w-5/6 italic">Comment was deleted</div>
-			<MarkdownView v-else :article="comment.content" class="flex text-lg w-5/6" />
+			<p v-else class="flex flex-col text-lg w-5/6 overflow-hidden text-ellipsis relative">
+				<MarkdownView :article="comment.renderedContent"
+					:class="`${!comment.showMore ? 'imFading max-h-16' : ''}`" />
+			</p>
+			<span v-if="!comment.showMore" class="text-accent text-base w-max hover:text-accent-soft cursor-pointer"
+				@click="comment.showMore = true">Read more</span>
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp
@@ -195,5 +207,22 @@ comment.content = MarkdownUtils.render(md.content, false);
 	top: 0;
 	margin: 0 -10px;
 	background: rgba(0, 0, 0, 0.2);
+}
+
+/* Stupid fade effect for the read more */
+.imFading::after {
+	background-image: linear-gradient(180deg, transparent, var(--background-2));
+	bottom: 0;
+	content: "";
+	display: block;
+	height: 38px;
+	left: 0;
+	pointer-events: none;
+	position: absolute;
+	width: 100%;
+}
+
+#comment:hover .imFading::after {
+	background-image: linear-gradient(180deg, transparent, var(--background-3));
 }
 </style>
