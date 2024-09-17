@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import Toast from '@/utils/Toast';
 import API from "@/utils/API";
@@ -9,8 +9,11 @@ import Formatting from '@/utils/Formatting';
 import Logo from "@/assets/images/avatar.png";
 import { PhArrowClockwise, PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 import GradientLine from '../GradientLine.vue';
+import MarkdownUtils from '@/utils/MarkdownUtils';
+import MarkdownView from '../md/MarkdownView.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const commentSystem = inject("commentSystem");
 
@@ -93,6 +96,9 @@ const commentTime = Formatting.convertHumanFromStamp((Date.now() / 1000) - comme
 
 if (comment.isDeleted) comment.author = { id: 0, name: "[deleted]", color: "" };
 
+// TODO: Probably not use this one as it renders articles, which comments should have more restrictions.
+var md = MarkdownUtils.parse({ meta: {}, content: comment.content });
+comment.content = MarkdownUtils.render(md.content, false);
 </script>
 
 <template class="flex flex-col">
@@ -139,9 +145,8 @@ if (comment.isDeleted) comment.author = { id: 0, name: "[deleted]", color: "" };
 					</div>
 				</div>
 			</div>
-			<div :class="`flex text-lg w-5/6 ${(comment.isDeleted) ? 'italic' : ''}`">
-				{{ comment.isDeleted ? "Comment was deleted" : comment.content }}
-			</div>
+			<div v-if="comment.isDeleted" class="flex text-lg w-5/6 italic">Comment was deleted</div>
+			<MarkdownView v-else :article="comment.content" class="flex text-lg w-5/6" />
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp
