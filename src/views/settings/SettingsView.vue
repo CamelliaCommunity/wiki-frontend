@@ -109,21 +109,21 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 					</div>
 
-					<div class="py-4" v-if="!github_acc">
-						<a class="flex right-1 float-right cursor-pointer
+					<div class="py-4 flex flex-row-reverse" v-if="!github_acc">
+						<button class="flex items-center justify-center right
 						bg-background-header-buttons hover:bg-background-3
-						py-2 px-4 rounded-xl items-center">
-							<PhLinkSimple></PhLinkSimple>
-							<h3 class="text-lg pl-1 font-medium">Link GitHub Account</h3>
-						</a>
+						p-2 rounded-xl text-lg cursor-pointer" @click="github_login">
+							<PhLinkSimple :size="18"></PhLinkSimple>
+							<h3 class="pl-1 font-medium">Link GitHub Account</h3>
+						</button>
 					</div>
-					<div class="py-4" v-else>
-						<a class="flex right-1 float-right cursor-pointer
+					<div class="py-4 flex flex-row-reverse" v-else>
+						<button class="flex items-center justify-center right
 						bg-background-header-buttons hover:bg-background-3
-						py-2 px-4 rounded items-center">
-							<PhLinkBreak></PhLinkBreak>
-							<h3 class="text-lg pl-1 font-medium">Unlink GitHub Account</h3>
-						</a>
+						p-2 rounded-xl text-lg cursor-pointer" @click="github_logout">
+							<PhLinkBreak :size="18"></PhLinkBreak>
+							<h3 class="pl-1 font-medium">Unlink GitHub Account</h3>
+						</button>
 					</div>
 				</div>
 
