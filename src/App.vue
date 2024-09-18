@@ -8,11 +8,11 @@ import FooterBar from './components/footer/FooterBar.vue';
 import ScrollToTop from './components/ScrollToTop.vue';
 
 import ProfileOverlay from './overlays/profile/ProfileOverlay.vue';
-import PopupOverlay from './overlays/popup/PopupOverlay.vue';
 
 import API from '@/utils/API';
 
 import Events from './utils/Events'; // test code
+import PopupOverlay from './overlays/popup/PopupOverlay.vue';
 window.Events = Events; // test code
 
 onMounted(() => {
@@ -59,14 +59,7 @@ kofiWidgetOverlay.draw('camelliacommunity', {
     <ScrollToTop />
 
     <ProfileOverlay />
-    <!-- <PopupOverlay /> -->
-    <PopupOverlay type="yesNo">
-        Please confirm the article path and the article type. If all seems good, click
-        continue.
-
-        Please confirm the article path and the article type. If all seems good, click
-        continue.
-    </PopupOverlay>
+    <PopupOverlay />
 </template>
 
 <style lang="scss">
