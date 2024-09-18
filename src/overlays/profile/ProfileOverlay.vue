@@ -8,7 +8,6 @@ import TitleBar from '../TitleBar.vue';
 
 import Toast from '@/utils/Toast';
 import PopupOverlay from '../popup/PopupOverlay.vue';
-import { PhCheckFat, PhTrashSimple } from '@phosphor-icons/vue';
 
 const content = ref();
 

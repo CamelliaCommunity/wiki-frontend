@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue';
+import { PhCheckFat, PhTrashSimple } from '@phosphor-icons/vue';
 
 const props = defineProps({
     type: {
@@ -61,16 +62,24 @@ defineExpose({
                 <!-- Buttons based on the type -->
                 <div v-if="react.type === 'yesNo'" class="flex justify-center gap-2">
                     <button @click="handleConfirm"
-                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Yes</button>
+                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Yes
+                        <PhCheckFat :size="18" weight="fill" />
+                    </button>
                     <button @click="handleCancel"
-                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">No</button>
+                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">No
+                        <PhTrashSimple :size="18" weight="fill" />
+                    </button>
                 </div>
 
                 <div v-if="react.type === 'submitCancel'" class="flex justify-center gap-2">
                     <button @click="handleConfirm"
-                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Submit</button>
+                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Submit
+                        <PhCheckFat :size="18" weight="fill" />
+                    </button>
                     <button @click="handleCancel"
-                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Cancel</button>
+                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Cancel
+                        <PhTrashSimple :size="18" weight="fill" />
+                    </button>
                 </div>
             </div>
         </div>
