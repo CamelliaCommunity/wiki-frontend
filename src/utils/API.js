@@ -112,7 +112,8 @@ export default class API {
 		};
 	}
 
-	static performLogout = async(force = false) => {
+	// its true cos uhhh yeah (temp) - john
+	static performLogout = async(force = true) => {
 		if (force || confirm("Are you sure you want to logout?")) {
 			$cookies.remove(this.cookie_name_token);
 			$cookies.remove(this.cookie_name_user);
