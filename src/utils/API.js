@@ -113,13 +113,11 @@ export default class API {
 	}
 
 	// its true cos uhhh yeah (temp) - john
-	static performLogout = async(force = true) => {
-		if (force || confirm("Are you sure you want to logout?")) {
-			$cookies.remove(this.cookie_name_token);
-			$cookies.remove(this.cookie_name_user);
-			this.setData({});
-			if (!force) Toast.showToast("Successfully logged out!", { type: "success" });
-		};
+	static performLogout = async() => {
+		$cookies.remove(this.cookie_name_token);
+		$cookies.remove(this.cookie_name_user);
+		this.setData({});
+		Toast.showToast("Successfully logged out!", { type: "success" });
 	}
 
 	static performLogin = async() => {
