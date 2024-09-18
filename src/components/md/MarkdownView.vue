@@ -5,6 +5,7 @@ import router from '@/router'
 import LoadingImage from '../LoadingImage.vue';
 import MarkdownHeader from './MarkdownHeader.vue';
 import MarkdownImage from './MarkdownImage.vue';
+import Blockquote from '@/components/Blockquote.vue';
 
 import { PhLinkSimple } from '@phosphor-icons/vue';
 
@@ -24,6 +25,7 @@ const renderMd = (htmlContent) => {
 			LoadingImage,
 			MarkdownHeader,
 			MarkdownImage,
+			Blockquote,
 			PhLinkSimple
 		}
 	});
@@ -163,40 +165,7 @@ onMounted(() => renderMd(props.article));
 	}
 
 	blockquote {
-		border-left: 2px solid var(--pure-white);
-		background-color: var(--background-1);
-		padding: 10px 16px;
-		margin-left: 0;
-		font-size: 18px;
 		margin-bottom: 18px;
-
-		p:not(p:last-child) {
-			margin-bottom: 18px;
-		}
-
-		pre:last-child {
-			margin-bottom: 0;
-		}
-
-		&.md-bq {
-			background-color: var(--background-1);
-			padding: 10px 16px;
-			border-radius: 0;
-
-			&.bq-tip {
-				border-left: 2px solid var(--userfeedback-info);
-			}
-
-			&.bq-danger,
-			&.bq-caution {
-				border-left: 2px solid var(--userfeedback-error);
-			}
-
-			&.bq-warning,
-			&.bq-disclaimer {
-				border-left: 2px solid var(--userfeedback-warning);
-			}
-		}
 	}
 
 	pre {

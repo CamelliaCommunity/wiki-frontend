@@ -2,8 +2,8 @@
 //packages
 
 //icons
-import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut } from '@phosphor-icons/vue';
-
+import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLink, PhLinkBreak } from '@phosphor-icons/vue';
+import blockquotenote from "@/components/BlockquoteNote.vue";
 /*
 gotta base on working this thing bcz it might require 3 sites due to options...
 (idk maybe 1 site is enough if I mess around)
@@ -25,9 +25,9 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 		<div class="gray-line opacity-40"></div>
 
-		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
+		<div class="flex flex-wrap flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
 
-			<div class="flex-column">
+			<div class="w-1/3">
 
 				<a href="/settings/general">
 					<div :class="[($route.params.id === 'general' || !$route.params.id) ?
@@ -58,7 +58,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 					</div>
 				</a>
-				<a href="/settings/github">
+				<a href="/settings/privacy">
 					<div :class="[($route.params.id === 'privacy') ?
 						'border-l-accent text-white' : 'border-l-background-2']" 
 						class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
@@ -76,7 +76,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 				<div class="gray-line opacity-40"></div>
 
 
-				<div class="flex flex-row items-center cursor-pointer py-2 px-2 pl-4
+				<div @click="API.user" class="flex flex-row items-center cursor-pointer py-2 px-2 pl-4
          		border-l-2 border-l-background-2 text-red 
 				hover:border-l-accent-soft hover:text-accent-soft">
 
@@ -89,17 +89,48 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 				</div>
 			</div>
 
-			<div class="flex-column">
-
+			<div class="w-2/3">
 				<div v-if="$route.params.id === 'general' || !$route.params.id">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
 				</div>
 
-				<div v-else-if="$route.params.id === 'github'">
-					<p class="text-lg">Github Account</p>
+				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="$route.params.id === 'github'">
+					<blockquotenote title="A tip for you" type="tip">
+						<p class="text-lg py-1">In order to contribute and create articles a GitHub
+							account must be linked. This is so we can receive changes on your behalf.</p>
+					</blockquotenote>
+
+					<p class="text-lg py-4">Github Account</p>
+
+					<div class="flex rounded-lg bg-background-1 py-2 px-4">
+						<img class="rounded-lg h-12" :src="[github_avatar?
+						github_avatar:'/src/assets/images/avatar.png']" alt="avatar">
+
+						<h1 class="text-2xl font-semibold px-2 py-2">{{ github_username?
+						github_username:"No Github account found." }}</h1>
+
+					</div>
+
+					<div class="py-4" v-if="!github_acc">
+						<a class="flex right-1 float-right cursor-pointer
+						bg-background-header-buttons hover:bg-background-3
+						py-2 px-4 rounded items-center">
+						<PhLink></PhLink>
+						<h3 class="text-lg pl-1 font-medium">Link GitHub Account</h3>
+						</a>
+					</div>
+					<div class="py-4" v-else>
+						<a class="flex right-1 float-right cursor-pointer
+						bg-background-header-buttons hover:bg-background-3
+						py-2 px-4 rounded items-center">
+						<PhLinkBreak></PhLinkBreak>
+						<h3 class="text-lg pl-1 font-medium">Unlink GitHub Account</h3>
+						</a>
+					</div>
 				</div>
 
 				<div v-else-if="$route.params.id === 'privacy'">
+
 					<p class="text-lg">Account Privacy</p>
 				</div>
 
