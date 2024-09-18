@@ -12,7 +12,6 @@ import ProfileOverlay from './overlays/profile/ProfileOverlay.vue';
 import API from '@/utils/API';
 
 import Events from './utils/Events'; // test code
-import PopupOverlay from './overlays/popup/PopupOverlay.vue';
 window.Events = Events; // test code
 
 onMounted(() => {
@@ -57,9 +56,7 @@ kofiWidgetOverlay.draw('camelliacommunity', {
     </div>
 
     <ScrollToTop />
-
     <ProfileOverlay />
-    <PopupOverlay />
 </template>
 
 <style lang="scss">
