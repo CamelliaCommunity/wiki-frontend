@@ -112,7 +112,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 					<div class="py-4" v-if="!github_acc">
 						<a class="flex right-1 float-right cursor-pointer
 						bg-background-header-buttons hover:bg-background-3
-						py-2 px-4 rounded-lg items-center">
+						py-2 px-4 rounded-xl items-center">
 							<PhLinkSimple></PhLinkSimple>
 							<h3 class="text-lg pl-1 font-medium">Link GitHub Account</h3>
 						</a>
