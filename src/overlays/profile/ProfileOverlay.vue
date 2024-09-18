@@ -7,7 +7,6 @@ import API from '@/utils/API';
 import TitleBar from '../TitleBar.vue';
 
 import Toast from '@/utils/Toast';
-import PopupOverlay from '../popup/PopupOverlay.vue';
 
 const content = ref();
 
@@ -70,17 +69,6 @@ function wipToast() {
 function logOut() {
 	if (API.user.loggedIn) API.performLogout()
 }
-
-// poppy upppp
-const popup = ref(null);
-function iClickedLogOut() {
-	popup.value.openOverlay({
-		type: 'yesNo',
-		message: 'Are you sure you want to log out?',
-		onConfirm: logOut,
-		onCancel: null
-	});
-}
 </script>
 
 <template>
@@ -94,15 +82,13 @@ function iClickedLogOut() {
 					<div class="w-full flex mb-2.5"></div>
 				</div>
 				<!-- the log out button is temporary - john -->
-				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="iClickedLogOut">
+				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="logOut">
 					Log Out</p>
 				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">Report
 					Profile</p>
 			</div>
 		</div>
 	</Transition>
-
-	<PopupOverlay ref="popup" />
 </template>
 
 <style>
