@@ -66,6 +66,7 @@ kofiWidgetOverlay.draw('camelliacommunity', {
         Please confirm the article path and the article type. If all seems good, click
         continue.
     </PopupOverlay>
+    <!-- was thinking of custom text, custom buttons, custom functions, etc. -john -->
 </template>
 
 <style lang="scss">
