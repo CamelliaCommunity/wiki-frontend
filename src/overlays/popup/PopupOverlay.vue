@@ -1,83 +1,90 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import Events from '@/utils/Events';
+import Toast from '@/utils/Toast';
 import { PhCheckFat, PhTrashSimple } from '@phosphor-icons/vue';
 
 const props = defineProps({
     type: {
         type: String,
         validator(value) {
-            return value == null || ['yesNo', 'submitCancel'].includes(value);
+            return value == null || ['submitCancel', 'yesNo'].includes(value)
         }
-    },
-    message: {
-        type: String,
-        default: ''
-    },
-    onConfirm: Function,
-    onCancel: Function
+    }
 });
+
+const content = ref();
 
 const react = reactive({
     open: false,
 });
 
-// open the overlay and make everything real ffs
-function openOverlay({ type, message, onConfirm, onCancel }) {
-    react.open = true;
-    react.type = type;
-    react.message = message;
-    react.onConfirm = onConfirm;
-    react.onCancel = onCancel;
-}
 
-function closeOverlay() {
+Events.Register('popup-overlay', () => {
+    console.log('event received');
+    react.open = true;
+});
+
+
+document.addEventListener("keydown", e => {
+    if (e.repeat) return;
+    if (e.key == "Escape") Close(null);
+});
+
+
+function Close(e) {
+    if (e && content?.value?.contains(e.target)) return;
     react.open = false;
 }
 
-function handleConfirm() {
-    if (react.onConfirm) react.onConfirm();
-    closeOverlay();
+// FUCK
+function wipToast() {
+    Close(null);
+    Toast.showToast("FUCK", { type: "success" });
 }
 
-function handleCancel() {
-    if (react.onCancel) react.onCancel();
-    closeOverlay();
+function wipToast2() {
+    Close(null);
+    Toast.showToast("FUCK2", { type: "success" });
 }
-
-defineExpose({
-    openOverlay,
-    closeOverlay
-});
 </script>
 
 <template>
     <Transition name="overlay">
-        <div v-if="react.open"
-            class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll">
-            <div
-                class="z-0 max-w-4xl bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1">
-                <div class="text-lg mb-3 text-center">
-                    {{ react.message }}
+        <div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
+            @click="Close" v-if="react.open">
+            <div class="z-0 max-w-4xl bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
+                ref="content">
+                <div class="flex grow">
+                    <div class="justify-center text-lg w-full flex mb-3">
+                        <p>
+                            <slot></slot>
+                        </p>
+                    </div>
                 </div>
-                <!-- Buttons based on the type -->
-                <div v-if="react.type === 'yesNo'" class="flex justify-center gap-2">
-                    <button @click="handleConfirm"
-                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Yes
+                <!-- skibidi - john -->
+                <div v-if="props.type === 'yesNo'" class="flex justify-center gap-2">
+                    <button
+                        class="colorButton1 flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+                        @click="wipToast">Yes
                         <PhCheckFat :size="18" weight="fill" />
                     </button>
-                    <button @click="handleCancel"
-                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">No
+                    <button
+                        class="colorButton2 flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+                        @click="wipToast2">No
                         <PhTrashSimple :size="18" weight="fill" />
                     </button>
                 </div>
 
-                <div v-if="react.type === 'submitCancel'" class="flex justify-center gap-2">
-                    <button @click="handleConfirm"
-                        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Submit
+                <div v-if="props.type === 'submitCancel'" class="flex justify-center gap-2">
+                    <button
+                        class="colorButton1 flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+                        @click="wipToast">Continue
                         <PhCheckFat :size="18" weight="fill" />
                     </button>
-                    <button @click="handleCancel"
-                        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">Cancel
+                    <button
+                        class="colorButton2 flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+                        @click="wipToast2">Cancel
                         <PhTrashSimple :size="18" weight="fill" />
                     </button>
                 </div>
@@ -109,38 +116,11 @@ defineExpose({
     box-shadow: 0 32px 40px 0 rgba(0, 0, 0, 0.24), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* we'll remove this once we establish button components and types - john */
 .colorButton1 {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    border-radius: 0.75rem;
-    font-size: 1.125rem;
-    cursor: pointer;
     background-color: rgba(0, 255, 0, 0.4);
-
-    &:hover {
-        background-color: rgba(0, 255, 0, 0.6);
-    }
 }
 
 .colorButton2 {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-    border-radius: 0.75rem;
-    font-size: 1.125rem;
-    cursor: pointer;
     background-color: rgba(221, 0, 0, 0.4);
-
-    &:hover {
-        background-color: rgba(221, 0, 0, 0.6);
-    }
 }
 </style>

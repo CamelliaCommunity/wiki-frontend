@@ -14,6 +14,8 @@ import API from '@/utils/API';
 import Events from './utils/Events'; // test code
 window.Events = Events; // test code
 
+import PopupOverlay from './overlays/popup/PopupOverlay.vue';
+
 onMounted(() => {
     API.fetchUser();
 
@@ -57,6 +59,13 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 
     <ScrollToTop />
     <ProfileOverlay />
+
+    <PopupOverlay type="yesNo">
+        Please confirm the article path and the article type. If all seems good, click
+        continue.
+        Please confirm the article path and the article type. If all seems good, click
+        continue.
+    </PopupOverlay>
 </template>
 
 <style lang="scss">
