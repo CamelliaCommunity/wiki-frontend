@@ -13,16 +13,16 @@ const props = defineProps({
     }
 });
 
-const content = ref();
+const popupContent = ref();
 
-const react = reactive({
+const popupReact = reactive({
     open: false,
 });
 
 
 Events.Register('popup-overlay', () => {
     console.log('event received');
-    react.open = true;
+    popupReact.open = true;
 });
 
 
@@ -33,8 +33,8 @@ document.addEventListener("keydown", e => {
 
 
 function Close(e) {
-    if (e && content?.value?.contains(e.target)) return;
-    react.open = false;
+    if (e && popupContent?.value?.contains(e.target)) return;
+    popupReact.open = false;
 }
 
 // FUCK
@@ -52,9 +52,9 @@ function wipToast2() {
 <template>
     <Transition name="overlay">
         <div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
-            @click="Close" v-if="react.open">
+            v-if="popupReact.open">
             <div class="z-0 max-w-4xl bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
-                ref="content">
+                ref="popupContent">
                 <div class="flex grow">
                     <div class="justify-center text-lg w-full flex mb-3">
                         <p>
@@ -118,9 +118,17 @@ function wipToast2() {
 
 .colorButton1 {
     background-color: rgba(0, 255, 0, 0.4);
+
+    &:hover {
+        background-color: rgba(0, 255, 0, 0.6);
+    }
 }
 
 .colorButton2 {
     background-color: rgba(221, 0, 0, 0.4);
+
+    &:hover {
+        background-color: rgba(221, 0, 0, 0.6);
+    }
 }
 </style>

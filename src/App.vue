@@ -60,6 +60,7 @@ kofiWidgetOverlay.draw('camelliacommunity', {
     <ScrollToTop />
     <ProfileOverlay />
 
+    <!-- todo: make the popup a button or something idk -->
     <PopupOverlay type="yesNo">
         Please confirm the article path and the article type. If all seems good, click
         continue.
