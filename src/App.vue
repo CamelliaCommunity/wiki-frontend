@@ -14,8 +14,6 @@ import API from '@/utils/API';
 import Events from './utils/Events'; // test code
 window.Events = Events; // test code
 
-import PopupOverlay from './overlays/popup/PopupOverlay.vue';
-
 onMounted(() => {
     API.fetchUser();
 
@@ -59,15 +57,6 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 
     <ScrollToTop />
     <ProfileOverlay />
-
-    <!-- todo: make the popup a button or something idk -->
-    <PopupOverlay type="yesNo">
-        Please confirm the article path and the article type. If all seems good, click
-        continue.
-        Please confirm the article path and the article type. If all seems good, click
-        continue.
-    </PopupOverlay>
-    <!-- was thinking of custom text, custom buttons, custom functions, etc. -john -->
 </template>
 
 <style lang="scss">
