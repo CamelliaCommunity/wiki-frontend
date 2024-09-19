@@ -8,6 +8,9 @@ import TitleBar from '../TitleBar.vue';
 
 import Toast from '@/utils/Toast';
 
+import PopupOverlay from '../popup/PopupOverlay.vue';
+import { PhCheckFat, PhTrashSimple } from '@phosphor-icons/vue';
+
 const content = ref();
 
 const react = reactive({
@@ -84,6 +87,32 @@ function logOut() {
 				<!-- the log out button is temporary - john -->
 				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="logOut">
 					Log Out</p>
+				<PopupOverlay event="open-popup2">
+					<template #header>
+						<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer">Log Out2</p>
+					</template>
+					<template #content></template>
+					<template #footer>
+						<div class="flex justify-center gap-2">
+							<button
+								class="colorButtonSuccess flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+								@click="() => { Close(null); }">Continue
+								<PhCheckFat :size="18" weight="fill" />
+							</button>
+							<button
+								class="colorButtonError flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+								@click="() => { Close(null); }">Cancel
+								<PhTrashSimple :size="18" weight="fill" />
+							</button>
+							<button
+								class="colorButtonDefault flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+								@click="() => { Close(null); }">Ok
+								<PhCheckFat :size="18" weight="fill" />
+							</button>
+						</div>
+					</template>
+				</PopupOverlay>
+				<!-- todo: make the popup a button or something idk -->
 				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">Report
 					Profile</p>
 			</div>
