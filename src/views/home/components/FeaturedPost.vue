@@ -26,15 +26,15 @@ const props = defineProps({
 
 <template>
     <RouterLink :to="post.url || '/not-found'" class="w-fit">
-        <OverlapGrid class="featured-post w-full h-36 rounded-lg" v-if="post.meta">
+        <OverlapGrid class="featured-post w-full h-40 rounded-lg" v-if="post.meta">
             <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
             <div class="dim" v-if="linearBackground"></div>
             <div class="radial-dim" v-else></div>
             <div class="card-content">
                 <div>
                     <div class="flex justify-between">
-                        <h3 class="text-lg font-semibold leading-5">{{ postType }}</h3>
-                        <h3 class="text-base font-medium leading-5">{{ Formatting.formatDate(post.meta.date) }}</h3>
+                        <h3 class="text-lg font-semibold">{{ postType }}</h3>
+                        <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
                     </div>
                     <h2 class="text-2xl font-medium leading-5">{{ post.meta.title }}</h2>
                 </div>
