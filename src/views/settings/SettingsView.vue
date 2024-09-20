@@ -119,7 +119,46 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<div class="w-2/3">
 				<div v-if="page===0">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
+					<div class="flex rounded-lg bg-background-1 py-2 px-4">
+						<img class="rounded-lg h-12" :src="[avatar ?
+							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
+
+						<h1 class="text-2xl font-semibold px-2 py-2">{{ username ?
+							github_username : "Please login for more access." }}</h1>
+					
+					</div>
+
+					<div v-if="about_me">
+						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
+						<input class="flex w-full rounded-lg bg-background-1 py-2 px-4">
+						</input>
+					</div>
+					<div class="grid grid-cols-2 gap-x-2 pt-6">
+						<div>
+							<h1 class="text-2xl font-medium pb-2 pt-6">Site Language</h1>
+							<div class="flex rounded-lg bg-background-4 py-2 px-4 text-lg">
+							idk
+							</div>
+						</div>
+						<div>
+							<h1 class="text-2xl font-medium pb-2 pt-6">Date Format</h1>
+							<select name="date_format" class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg">
+								<option value=1></option>
+							</select>
+						</div>
+						<div>
+							<h1 class="text-2xl font-medium pb-2 pt-6">Editor Font Style</h1>
+							<select name="font_style" class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg">
+								<option value="default">Default (Author)</option>
+								<option value="monospace">Monospace</option>
+								<option value="sans-serif">Sans Serif</option>
+								<option value="serif">Serif</option>
+							</select>
+						</div>
+					</div>
 				</div>
+
+				
 
 				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page===1">
 					<BlockquoteNote title="A tip for you" type="tip">
