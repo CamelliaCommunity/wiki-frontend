@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import Events from '@/utils/Events';
+import { PhCheckFat } from '@phosphor-icons/vue';
 
 const props = defineProps({
     event: {
@@ -20,22 +21,20 @@ Events.Register(props.event, () => {
     popupReact.open = true;
 });
 
+// need to rethink this cos it also closes profile-view and maybe other things
+// this needs to be given priority - john
 document.addEventListener("keydown", e => {
     if (e.repeat) return;
-    if (e.key == "Escape") Close(null);
+    if (e.key == "Escape") ClosePopup(null);
 });
 
-function Close(e) {
-    if (e && popupContent?.value?.contains(e.target)) return;
+function ClosePopup() {
     popupReact.open = false;
 }
 </script>
 
+<!-- we need to disable scrolling -->
 <template>
-    <!-- you must define the header (can be buttons that trigger the popup) -->
-    <div @click="Events.Emit(props.event)">
-        <slot name="header">Lorem ipsum dolor sit amet</slot>
-    </div>
     <Transition name="overlay">
         <div class="z-50 flex fixed inset-0 justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
             v-if="popupReact.open">
@@ -55,7 +54,16 @@ function Close(e) {
                         </p>
                     </div>
                 </div>
-                <slot name="footer">Lorem ipsum dolor sit amet</slot>
+                <!-- default values -->
+                <slot name="footer" :ClosePopup="ClosePopup">
+                    <div class="flex justify-center gap-2">
+                        <button
+                            class="colorButtonDefault flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+                            @click="ClosePopup">Ok
+                            <PhCheckFat :size="18" weight="fill" />
+                        </button>
+                    </div>
+                </slot>
             </div>
         </div>
     </Transition>

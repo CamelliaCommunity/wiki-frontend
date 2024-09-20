@@ -64,13 +64,17 @@ function Close(e) {
 	react.user = {};
 }
 
-// temporary functions - john
+// temporary function - john
 function wipToast() {
 	Toast.showToast("That feature is not implemented yet but will be soon!", { type: "error" })
 }
 
-function logOut() {
-	if (API.user.loggedIn) API.performLogout()
+// logs out then closes the popup - john
+function logOut(ClosePopup) {
+	if (API.user.loggedIn) {
+		API.performLogout();
+		ClosePopup();
+	}
 }
 </script>
 
@@ -85,39 +89,32 @@ function logOut() {
 					<div class="w-full flex mb-2.5"></div>
 				</div>
 				<!-- the log out button is temporary - john -->
-				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="logOut">
+				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer"
+					@click="Events.Emit('popup-logout')">
 					Log Out</p>
-				<PopupOverlay event="open-popup2">
-					<template #header>
-						<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer">Log Out2</p>
-					</template>
-					<template #content></template>
-					<template #footer>
-						<div class="flex justify-center gap-2">
-							<button
-								class="colorButtonSuccess flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-								@click="() => { Close(null); }">Continue
-								<PhCheckFat :size="18" weight="fill" />
-							</button>
-							<button
-								class="colorButtonError flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-								@click="() => { Close(null); }">Cancel
-								<PhTrashSimple :size="18" weight="fill" />
-							</button>
-							<button
-								class="colorButtonDefault flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-								@click="() => { Close(null); }">Ok
-								<PhCheckFat :size="18" weight="fill" />
-							</button>
-						</div>
-					</template>
-				</PopupOverlay>
-				<!-- todo: make the popup a button or something idk -->
 				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">Report
 					Profile</p>
 			</div>
 		</div>
 	</Transition>
+
+	<PopupOverlay event="popup-logout">
+		<template #content>Are you very sure you want to logout?</template>
+		<template #footer="{ ClosePopup }">
+			<div class="flex justify-center gap-2">
+				<button
+					class="colorButtonSuccess flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+					@click="logOut(ClosePopup)">Yes
+					<PhCheckFat :size="18" weight="fill" />
+				</button>
+				<button
+					class="colorButtonError flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
+					@click="ClosePopup">Cancel
+					<PhTrashSimple :size="18" weight="fill" />
+				</button>
+			</div>
+		</template>
+	</PopupOverlay>
 </template>
 
 <style>
