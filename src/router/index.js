@@ -20,11 +20,6 @@ const router = createRouter({
       component: SettingsView
     },
     {
-      path: '/settings/:id',
-      name: 'settings-option',
-      component: SettingsView
-    },
-    {
       path: '/polls',
       name: 'polls',
       component: PollsView

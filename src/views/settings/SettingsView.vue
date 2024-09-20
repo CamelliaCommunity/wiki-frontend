@@ -1,10 +1,34 @@
 <script setup>
-//packages
+// Packages
+import { ref } from 'vue';
 
-//icons
+// Icons / Components
 import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLinkSimple, PhLinkBreak } from '@phosphor-icons/vue';
-import blockquotenote from "@/components/BlockquoteNote.vue";
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
+
+
+
+let page = ref(0);
+
+function setvalue(num) {
+	page.value=num;
+}
+
+/*
+switch (id) {
+	case "github":
+		page.value=1;
+	break;
+	case "privacy":
+		page.value=2;
+	break;
+	default: 
+		page.value=0;
+	break;
+}
+*/
+
+
 /*
 gotta base on working this thing bcz it might require 3 sites due to options...
 (idk maybe 1 site is enough if I mess around)
@@ -14,6 +38,9 @@ one site is enough - john
 
 Looks like I gotta use v-if, v-else-if n ternary operator stuffs
 but I'll keep multiple routes for now as no alts to control the page exists ~ Hikari (t404)
+
+
+changed so you dont have to change page, removed routing for /settings/{...}, should try implementing hash
 */
 //Almost spaghetti html xDDD
 </script>
@@ -30,9 +57,10 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 			<div class="w-1/3">
 
-				<a href="/settings/general">
-					<div :class="[($route.params.id === 'general' || !$route.params.id) ?
-						'border-l-accent text-white' : 'border-l-background-2']" class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
+				<button @click="setvalue(0)">
+					<div :class="[( page === 0 ) ?
+						'border-l-accent text-white' : 'border-l-background-2']" 
+						class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
                 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 
 						<PhUserGear class="size-8"></PhUserGear>
@@ -42,11 +70,12 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 						</div>
 
 					</div>
-				</a>
+				</button>
 
-				<a href="/settings/github">
-					<div :class="[($route.params.id === 'github') ?
-						'border-l-accent text-white' : 'border-l-background-2']" class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
+				<button @click="setvalue(1)">
+					<div :class="[( page === 1 ) ?
+						'border-l-accent text-white' : 'border-l-background-2']" 
+						class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
         		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 
 						<PhGithubLogo class="size-8"></PhGithubLogo>
@@ -56,10 +85,11 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 						</div>
 
 					</div>
-				</a>
-				<a href="/settings/privacy">
-					<div :class="[($route.params.id === 'privacy') ?
-						'border-l-accent text-white' : 'border-l-background-2']" class="flex flex-row items-center cursor-pointer py-2 pl-4 pr-20 
+				</button>
+				<button @click="setvalue(2)">
+					<div :class="[( page === 2 ) ? 
+						'border-l-accent text-white' : 'border-l-background-2']" 
+						class=" transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
          		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 
 						<PhLockKey class="size-8"></PhLockKey>
@@ -69,12 +99,12 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 						</div>
 
 					</div>
-				</a>
+				</button>
 
 				<div class="gray-line opacity-40"></div>
 
 
-				<div @click="API.user" class="flex flex-row items-center cursor-pointer py-2 px-2 pl-4
+				<div @click="API.user" class="transition flex flex-row items-center cursor-pointer py-2 px-2 pl-4
          		border-l-2 border-l-background-2 text-red 
 				hover:border-l-accent-soft hover:text-accent-soft">
 
@@ -86,13 +116,12 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 
 				</div>
 			</div>
-
 			<div class="w-2/3">
-				<div v-if="$route.params.id === 'general' || !$route.params.id">
+				<div v-if="page===0">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
 				</div>
 
-				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="$route.params.id === 'github'">
+				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page===1">
 					<BlockquoteNote title="A tip for you" type="tip">
 						<p class="text-lg py-1">In order to contribute and create articles a GitHub
 							account must be linked. This is so we can receive changes on your behalf.</p>
@@ -110,7 +139,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 					</div>
 
 					<div class="py-4 flex flex-row-reverse" v-if="!github_acc">
-						<button class="flex items-center justify-center right
+						<button class="transition flex items-center justify-center right
 						bg-background-header-buttons hover:bg-background-3
 						p-2 rounded-xl text-lg cursor-pointer" @click="github_login">
 							<PhLinkSimple :size="18"></PhLinkSimple>
@@ -118,7 +147,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 						</button>
 					</div>
 					<div class="py-4 flex flex-row-reverse" v-else>
-						<button class="flex items-center justify-center right
+						<button class="transition flex items-center justify-center right
 						bg-background-header-buttons hover:bg-background-3
 						p-2 rounded-xl text-lg cursor-pointer" @click="github_logout">
 							<PhLinkBreak :size="18"></PhLinkBreak>
@@ -127,7 +156,7 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 					</div>
 				</div>
 
-				<div v-else-if="$route.params.id === 'privacy'">
+				<div v-else-if="page===2">
 
 					<p class="text-lg">Account Privacy</p>
 				</div>
