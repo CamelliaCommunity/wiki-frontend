@@ -19,16 +19,12 @@ const props = defineProps({
         <slot></slot>
     </button>
 
-    <button v-if="type === 'success'"
-        class="colorButtonSuccess flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
+    <!-- shortend it bcz you filtered out success and error, also you got scripted :class attribute in vue - t404 -->
+    <button v-else
+        :class="[ (type === 'success') ? 'colorButtonSuccess' : 'colorButtonError' ]"
+        class="flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
         <PhCheckFat :size="18" weight="fill" />
-    </button>
-
-    <button v-if="type === 'error'"
-        class="colorButtonError flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
-        <slot></slot>
-        <PhTrashSimple :size="18" weight="fill" />
     </button>
 </template>
 
