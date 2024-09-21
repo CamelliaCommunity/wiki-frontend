@@ -40,7 +40,7 @@ const commentSorter = (direction) => {
 	else if (direction == 2) // Old
 		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time - b.time);
 	else if (direction == 3) // Top
-		react.comments.fullCache = react.comments.fullCache.sort((a, b) => b.ups - a.ups);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => b.ups - a.ups); // this is broken kinda - john
 
 	sortedBy.value = direction;
 };
