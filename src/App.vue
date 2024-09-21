@@ -19,10 +19,6 @@ const handleKeyDown = (e) => {
 	};
 };
 
-import Events from '@/utils/Events'; // test code
-import PopupOverlay from './overlays/popup/PopupOverlay.vue'; // test code
-window.Events = Events; // test code
-
 onMounted(() => {
 	API.fetchUser();
 
@@ -71,7 +67,6 @@ kofiWidgetOverlay.draw('camelliacommunity', {
 
 	<ScrollToTop />
 	<ProfileOverlay />
-	<PopupOverlay event="popup-test"></PopupOverlay>
 </template>
 
 <style lang="scss">

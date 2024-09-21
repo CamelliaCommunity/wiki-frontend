@@ -20,7 +20,6 @@ const popupReact = reactive({
 });
 
 Events.Register(props.event, () => {
-	console.log(`event received for ${props.event}`);
 	popupReact.open = true;
 	document.body.classList.add("overflow-hidden");
 	ActiveComponents.open(props.event);
