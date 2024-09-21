@@ -42,7 +42,7 @@ const chngMoreActions = () => {
 };
 
 const commentAction = (action, options) => {
-	if (action == 0) { // Vote on comment
+	if (API.user.loggedIn && action == 0) { // Vote on comment
 		const { type } = options;
 
 		let oldVotes = {
@@ -77,7 +77,7 @@ const commentAction = (action, options) => {
 			};
 		});
 
-	} else if (action == 3) { // Delete
+	} else if (API.user.loggedIn && action == 3) { // Delete
 		comment.isLoading = true;
 		if (confirm(`Are you sure you want to delete the comment?\nID: ${comment.id}\nAuthor: ${comment.author?.name}\nContent: ${comment.content}`)) {
 			comment.isLoading = false;
@@ -108,7 +108,10 @@ const commentAction = (action, options) => {
 			.catch((err) => Toast.showToast("Error occurred copying to clipboard.", { type: "error" }));
 
 		chngMoreActions(); // Close dropdown
-	};
+	} else {
+		Toast.showToast("You need to be logged in to do that!", { type: "error" });
+		return;
+	}
 };
 
 const fixAvatar = (e) => e.target.src = Logo;
