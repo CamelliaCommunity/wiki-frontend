@@ -27,10 +27,11 @@ Events.Register(props.event, () => {
 });
 
 Events.Register(props.event + "-close", () => {
-	ClosePopup(null);
+	ClosePopup(true);
 });
 
-function ClosePopup() {
+function ClosePopup(fromEmitted) {
+	if (fromEmitted != true) return ActiveComponents.close();
 	popupReact.open = false;
 	document.body.classList.remove("overflow-hidden");
 }
