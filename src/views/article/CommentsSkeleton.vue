@@ -36,11 +36,11 @@ const commentSystem = ref(props.commentSystem);
 
 const commentSorter = (direction) => {
 	if (direction == 1) // New
-		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time < b.time);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => b.time - a.time);
 	else if (direction == 2) // Old
-		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time > b.time);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.time - b.time);
 	else if (direction == 3) // Top
-		react.comments.fullCache = react.comments.fullCache.sort((a, b) => a.ups < b.ups);
+		react.comments.fullCache = react.comments.fullCache.sort((a, b) => b.ups - a.ups);
 
 	sortedBy.value = direction;
 };
