@@ -9,7 +9,7 @@ import TitleBar from '../TitleBar.vue';
 import Toast from '@/utils/Toast';
 
 import PopupOverlay from '../popup/PopupOverlay.vue';
-import { PhCheckFat, PhTrashSimple } from '@phosphor-icons/vue';
+import Button from '@/components/Button.vue';
 
 const content = ref();
 
@@ -102,16 +102,8 @@ function logOut(ClosePopup) {
 		<template #content>Are you very sure you want to logout?</template>
 		<template #footer="{ ClosePopup }">
 			<div class="flex justify-center gap-2">
-				<button
-					class="colorButtonSuccess flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-					@click="logOut(ClosePopup)">Yes
-					<PhCheckFat :size="18" weight="fill" />
-				</button>
-				<button
-					class="colorButtonError flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-					@click="ClosePopup">Cancel
-					<PhTrashSimple :size="18" weight="fill" />
-				</button>
+				<Button type="success" @click="logOut(ClosePopup)">Yes</Button>
+				<Button type="error" @click="ClosePopup">Cancel</Button>
 			</div>
 		</template>
 	</PopupOverlay>
