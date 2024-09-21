@@ -31,7 +31,8 @@ const react = reactive({
 		loaded: false,
 		error: false,
 		cache: [],
-		sortedBy: 0
+		sortedBy: 0,
+		path: ""
 	}
 });
 
@@ -94,9 +95,12 @@ if (path === 'style-test') {
 			};
 
 			let commentData;
-			const commentRes = await getComments(`/posts/${path.split("/").pop()}/comments`);
+			let commentURL = `/posts/${path.split("/").pop()}/comments`;
+
+			const commentRes = await getComments(commentURL);
 			if (commentRes.error || commentRes.data.length < 1) {
-				const fallbackCommentRes = await getComments(`/posts/${Utils.makeSlug(meta.title.toLowerCase())}/comments`);
+				commentURL = `/posts/${Utils.makeSlug(meta.title.toLowerCase())}/comments`;
+				const fallbackCommentRes = await getComments(commentURL);
 				if (fallbackCommentRes.error) {
 					Toast.showToast("Failed to load comments!", { type: "error" });
 					react.commentSystem.error = true;
@@ -111,7 +115,8 @@ if (path === 'style-test') {
 			if (commentData) {
 				// TODO: This is where we get the default from localstorage or cookies or something
 				react.commentSystem.sortedBy = 1;
-				react.commentSystem.cache = commentData.sort((a, b) => a.time < b.time);
+				react.commentSystem.cache = commentData //.sort((a, b) => a.time - b.time);
+				react.commentSystem.path = commentURL;
 			};
 
 			nextTick(() => {

@@ -57,7 +57,7 @@ const updateData = () => {
 	react.error = commentSystem.value.error;
 
 	if (react.loaded && !react.error) {
-		react.comments.fullCache = commentSystem.value.cache;
+		react.comments.fullCache = commentSystem.value.cache || [];
 		if (react.comments.fullCache.length > 0) {
 			react.comments.replies = commentSystem.value.cache.filter(c => c.parent != null && c.parent != "");
 			react.comments.withoutReplies = commentSystem.value.cache.filter(c => c.parent == null || c.parent == "");

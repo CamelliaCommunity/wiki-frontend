@@ -14,19 +14,25 @@ export default class API {
         }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
-    static async post(endpoint, body) {
+    static async post(endpoint, body, options) {
+		if (!options) options = {};
+		if (options.noStringify == null) options.noStringify = false;
+
         return fetch(this.url + endpoint, {
             method: 'POST',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-            body: JSON.stringify(body),
+            body: options.noStringify ? body : JSON.stringify(body),
         }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
-    static async put(endpoint, body) {
+    static async put(endpoint, body, options) {
+		if (!options) options = {};
+		if (options.noStringify == null) options.noStringify = false;
+
         return fetch(this.url + endpoint, {
             method: 'PUT',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-            body: JSON.stringify(body),
+            body: options.noStringify ? body : JSON.stringify(body),
         }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
