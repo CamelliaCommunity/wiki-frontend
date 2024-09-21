@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, inject } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import Toast from '@/utils/Toast';
 import API from "@/utils/API";
