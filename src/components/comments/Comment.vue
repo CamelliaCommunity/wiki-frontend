@@ -93,7 +93,7 @@ const commentAction = (action, options) => {
 					});
 				};
 			});
-		};
+		} else comment.isLoading = false;
 
 	} else if (action == 4) { // Copy to clipboard
 		const url = `${route.fullPath.split("#")[0]}#comment-${comment.id}`;
