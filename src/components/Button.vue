@@ -5,7 +5,7 @@ const props = defineProps({
     type: {
         type: String,
         validator(value) {
-            return value == null || ['btnSuccess', 'btnError', 'btnDefault'].includes(value);
+            return value == null || ['success', 'error'].includes(value);
         }
     }
 });
@@ -14,32 +14,39 @@ const props = defineProps({
 
 <template>
     <!-- Buttons based on the type -->
-
-    <button v-if="type === 'btnDefault'"
-        class="colorButtonDefault flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">
+    <button v-if="type !== 'success' && type !== 'error'"
+        class="bg-background-4 hover:bg-background-3 flex row gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
     </button>
 
-    <button v-if="type === 'btnSuccess'"
-        class="colorButton1 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">
+    <button v-if="type === 'success'"
+        class="colorButtonSuccess flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
         <PhCheckFat :size="18" weight="fill" />
     </button>
 
-    <button v-if="type === 'btnError'"
-        class="colorButton2 flex gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer">
+    <button v-if="type === 'error'"
+        class="colorButtonError flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
         <PhTrashSimple :size="18" weight="fill" />
     </button>
-
 </template>
 
 <style>
-.colorButtonDefault {
-    background-color: var(--background-4);
+/* optimize? -john */
+.colorButtonSuccess {
+    background-color: rgba(0, 255, 0, 0.4);
 
     &:hover {
-        background-color: var(--background-3);
+        background-color: rgba(0, 255, 0, 0.6);
+    }
+}
+
+.colorButtonError {
+    background-color: rgba(221, 0, 0, 0.4);
+
+    &:hover {
+        background-color: rgba(221, 0, 0, 0.6);
     }
 }
 </style>
