@@ -1,3 +1,5 @@
+
+import Events from "@/utils/Events";
 export default class ActiveComponents {
 	static active = [];
 
