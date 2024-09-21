@@ -72,14 +72,31 @@ export default class MarkdownUtils {
                 var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
 
                 // find {: .tip } or {: .warning } or whatever
-                var match = content.match(/\{: \.(\w+) \}/);
+                var typeMatch = content.match(/\{: \.(\w+) \}/);
                 
-                if (match) {
-                    var type = match[1];
-                    return `<blockquote class="md-bq bq-${type}">${content.replace(match[0], '')}</blockquote>`;
+                // determine if it's a blockquote note
+                var headerMatch = content.match(/^<MarkdownHeader\s+?.*?:level="1".*?\/>/);
+                if (headerMatch) {
+                    // extract the header text
+                    var titleMatch = headerMatch[0].match(/^<MarkdownHeader\s+?.*?text="(.*?)".*?\/>$/);
+                    if (titleMatch) {
+                        var finalContent = content.replace(titleMatch[0], '');
+                        var title = titleMatch[1];
+                        if (typeMatch) {
+                            var type = typeMatch[1];
+                            return `<BlockquoteNote title="${title}" type="${type}">${finalContent.replace(typeMatch[0], '')}</BlockquoteNote>`;
+                        }
+
+                        return `<BlockquoteNote title="${title}">${finalContent}</BlockquoteNote>`;
+                    }
                 }
 
-                return `<blockquote>${quote}</blockquote>`;
+                if (typeMatch) {
+                    var type = typeMatch[1];
+                    return `<Blockquote type="${type}">${content.replace(typeMatch[0], '')}</Blockquote>`;
+                }
+
+                return `<Blockquote>${quote}</Blockquote>`;
             },
 			image: (href, title, text) => `<MarkdownImage url="${href}" alt="${text}" />`
         };

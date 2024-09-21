@@ -4,7 +4,7 @@
 ### [Alpha](https://alpha.camellia.wiki) | Live
 
 > [!NOTE]
-> Alpha will move to Beta (beta.camellia.wiki) and live to camellia.wiki once finished.
+> Alpha will move to Beta (beta.camellia.wiki) once core features are implemented. We will go live to camellia.wiki once beta testing passes quality assurance.
 > 
 > Regarding the current (soon legacy), it will remain available at legacy.camellia.wiki once the change has begun, subject to takedown at any given point.
 
