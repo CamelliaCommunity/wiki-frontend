@@ -33,7 +33,7 @@ const react = reactive({
 let articleUrl = `/articles?path=/${path}`;
 
 if (path === 'style-test') {
-	articleUrl = 'https://raw.githubusercontent.com/mxstbr/markdown-test-file/master/TEST.md';
+	articleUrl = 'http://localhost:5173/src/assets/tests/blockquote-test.md'; // can be replaced with md files in the tests folder
 
 	fetch(articleUrl)
 		.then((response) => response.text())

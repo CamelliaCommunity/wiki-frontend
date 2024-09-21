@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-	<Blockquote v-bind="$attrs">
+	<Blockquote class="blockquote-note" v-bind="$attrs">
 		<h3 class="text-center mb-2">{{ title }}</h3>
 		<div class="w-2/3 m-auto">
 			<GradientLine :overshoot="false" />
