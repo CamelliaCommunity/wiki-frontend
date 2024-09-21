@@ -24,7 +24,8 @@ const props = defineProps({
         :class="[ (type === 'success') ? 'colorButtonSuccess' : 'colorButtonError' ]"
         class="flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
-        <PhCheckFat :size="18" weight="fill" />
+        <PhCheckFat v-if="type === 'success'" :size="18" weight="fill" />
+        <PhTrashSimple v-else :size="18" weight="fill" />
     </button>
 </template>
 
