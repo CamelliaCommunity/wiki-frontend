@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, shallowRef, watch } from 'vue';
+import { nextTick, ref, shallowRef, toRef, watch } from 'vue';
 import { PhPaperPlaneTilt, PhXCircle, PhCheckCircle, PhArrowClockwise } from '@phosphor-icons/vue';
 
 import API from '@/utils/API';
@@ -26,6 +26,9 @@ const knownStates = {
 };
 
 const beDisabled = ref(false);
+beDisabled.value = !API.user.loggedIn;
+watch(API.user, () => { beDisabled.value = !API.user.loggedIn; });
+
 const submitIconClasses = ref("");
 const currentState = shallowRef(knownStates.NORMAL);
 const previousState = shallowRef(knownStates.NORMAL);
@@ -64,6 +67,8 @@ const updateState = (newState) => {
 };
 
 const submitComment = () => {
+	if (!API.user.loggedIn) return;
+
 	if (beDisabled.value) return;
 	if (currentState.value != knownStates.NORMAL) return;
 
@@ -71,32 +76,31 @@ const submitComment = () => {
 	beDisabled.value = true;
 	updateTextbox();
 
-	setTimeout(() => {
-		updateState(knownStates.ERROR);
-		beDisabled.value = false;
-		updateTextbox();
-		Toast.showToast("An internal error occurred while processing your request.", { type: "error" });
 
-		setTimeout(() => {
-			updateState(knownStates.SUBMITTING);
-			beDisabled.value = true;
-			updateTextbox();
-			setTimeout(() => {
-				updateState(knownStates.OK);
-				updateTextbox();
 
-				setTimeout(() => {
-					updateState(knownStates.NORMAL);
-					beDisabled.value = false;
-					updateTextbox();
-				}, 1000);
-			}, 2000);
-		}, 2000);
-	}, 2000);
+	// setTimeout(() => {
+	// 	updateState(knownStates.ERROR);
+	// 	beDisabled.value = false;
+	// 	updateTextbox();
+	// 	Toast.showToast("An internal error occurred while processing your request.", { type: "error" });
+
+	// 	setTimeout(() => {
+	// 		updateState(knownStates.SUBMITTING);
+	// 		beDisabled.value = true;
+	// 		updateTextbox();
+	// 		setTimeout(() => {
+	// 			updateState(knownStates.OK);
+	// 			updateTextbox();
+
+	// 			setTimeout(() => {
+	// 				updateState(knownStates.NORMAL);
+	// 				beDisabled.value = false;
+	// 				updateTextbox();
+	// 			}, 1000);
+	// 		}, 2000);
+	// 	}, 2000);
+	// }, 2000);
 };
-
-beDisabled.value = !API.user.loggedIn;
-watch(API.user.loggedIn, () => { beDisabled.value = !API.user.loggedIn; })
 
 </script>
 

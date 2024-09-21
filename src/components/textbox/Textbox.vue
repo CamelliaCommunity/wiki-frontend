@@ -41,7 +41,7 @@ const props = defineProps({
 	}
 });
 
-const { handleInput, handleKeydown, handleSubmit, placeholderText } = toRefs(props);
+const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled } = toRefs(props);
 </script>
 
 <template>
