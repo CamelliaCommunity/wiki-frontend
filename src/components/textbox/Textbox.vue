@@ -34,10 +34,14 @@ const props = defineProps({
 	handleSubmit: {
 		type: Function,
 		default: () => { }
+	},
+	placeholderText: {
+		type: String,
+		default: "Press enter to submit. Use shift+enter to make a new line."
 	}
 });
 
-const { handleInput, handleKeydown, handleSubmit } = toRefs(props);
+const { handleInput, handleKeydown, handleSubmit, placeholderText } = toRefs(props);
 </script>
 
 <template>
@@ -45,8 +49,7 @@ const { handleInput, handleKeydown, handleSubmit } = toRefs(props);
 		<div class="w-full flex gap-2">
 			<textarea
 				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-1 focus:ring-2"
-				placeholder="Press enter to post. Use shift+enter to make a new line." @input="handleInput"
-				@keydown="handleKeydown" :disabled="beDisabled" />
+				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled" />
 
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">

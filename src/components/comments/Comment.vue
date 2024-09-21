@@ -109,7 +109,7 @@ const commentAction = (action, options) => {
 
 		chngMoreActions(); // Close dropdown
 	} else {
-		Toast.showToast("You need to be logged in to do that!", { type: "error" });
+		Toast.showToast("You must be logged in to do that!", { type: "error" });
 		return;
 	}
 };

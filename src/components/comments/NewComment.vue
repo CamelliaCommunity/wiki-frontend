@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, shallowRef } from 'vue';
+import { nextTick, ref, shallowRef, watch } from 'vue';
 import { PhPaperPlaneTilt, PhXCircle, PhCheckCircle, PhArrowClockwise } from '@phosphor-icons/vue';
 
 import API from '@/utils/API';
@@ -25,7 +25,6 @@ const knownStates = {
 	ERROR: { icon: PhXCircle, spin: false },
 };
 
-// let beDisabled = ref(API.user.loggedIn ? props.beDisabled : true);
 const beDisabled = ref(false);
 const submitIconClasses = ref("");
 const currentState = shallowRef(knownStates.NORMAL);
@@ -96,6 +95,9 @@ const submitComment = () => {
 	}, 2000);
 };
 
+beDisabled.value = !API.user.loggedIn;
+watch(API.user.loggedIn, () => { beDisabled.value = !API.user.loggedIn; })
+
 </script>
 
 <template>
@@ -103,7 +105,8 @@ const submitComment = () => {
 		<div class="w-full rounded flex gap-3">
 			<img class="rounded-xl object-fill max-h-24 my-auto" :src="API.user.avatar" alt="avatar" />
 			<Textbox :be-disabled="beDisabled" :handleInput="handleInput" :handleKeydown="handleKeydown"
-				:handleSubmit="submitComment" :submitIcon="currentState.icon" :submitIconClasses="submitIconClasses">
+				:handleSubmit="submitComment" :submitIcon="currentState.icon" :submitIconClasses="submitIconClasses"
+				:placeholderText="API.user.loggedIn ? `Press enter to post. Use shift+enter to make a new line.` : `You must be logged in to comment!`">
 			</Textbox>
 		</div>
 	</div>
