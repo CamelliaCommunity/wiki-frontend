@@ -35,18 +35,18 @@ const props = defineProps({
 <style>
 /* optimize? -john */
 .colorButtonSuccess {
-    background-color: rgba(0, 255, 0, 0.4);
+    background-color: #00FF0066 /*equals rgba(0, 255, 0, 0.4)*/;
 
     &:hover {
-        background-color: rgba(0, 255, 0, 0.6);
+        background-color: #00FF0099 /*(99 (hex) in alpha is 0.6)*/;
     }
 }
 
 .colorButtonError {
-    background-color: rgba(221, 0, 0, 0.4);
+    background-color: #DD000066 /*rgba(221, 0, 0, 0.4)*/;
 
     &:hover {
-        background-color: rgba(221, 0, 0, 0.6);
+        background-color: #DD000099;
     }
 }
 </style>
