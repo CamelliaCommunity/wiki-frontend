@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 import OverlapGrid from '@/components/OverlapGrid.vue';
 import LoadingImage from '@/components/LoadingImage.vue';
 
-import DefaultImage from '@/assets/images/test-image-default.png';
+import DefaultImage from '@/assets/images/placeholder.png';
 
 const props = defineProps({
     post: {
@@ -34,7 +34,7 @@ const props = defineProps({
         background: rgba(0, 0, 0, 0.4) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
     }
 
-    &:hover > .sidebar-image-dim {
+    &:hover>.sidebar-image-dim {
         transition: background 50ms;
         background: rgba(0, 0, 0, 0.0) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
     }

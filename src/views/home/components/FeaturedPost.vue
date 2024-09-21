@@ -5,7 +5,7 @@ import OverlapGrid from '@/components/OverlapGrid.vue';
 import LoadingImage from '@/components/LoadingImage.vue';
 
 import EmptyImage from '@/assets/images/empty.png';
-import DefaultImage from '@/assets/images/test-image-default.png';
+import DefaultImage from '@/assets/images/placeholder.png';
 
 import Formatting from '@/utils/Formatting';
 
@@ -64,7 +64,7 @@ const props = defineProps({
         padding: 20px;
         justify-content: space-between;
 
-        > div {
+        >div {
             display: flex;
             flex-direction: column;
         }
