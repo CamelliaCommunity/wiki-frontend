@@ -10,6 +10,8 @@ import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
 import GradientLine from '@/components/GradientLine.vue';
+import LatestRelease from './components/LatestRelease.vue';
+import GrayLine from '@/components/GrayLine.vue';
 
 Utils.setTitle('Homepage');
 
@@ -132,15 +134,15 @@ function splitHomePosts(posts) {
 				<!-- row 2 -->
 				<!-- will replace with whats in design - john -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
-					<SimplePost :post="latestSongRelease" />
+					<LatestRelease :post="latestSongRelease" />
 				</div>
 				<!-- below the cards -->
 				<div>
 					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
-					<GradientLine />
+					<GradientLine :overshoot="false" />
 				</div>
-				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div class="w-full flex flex-col gap-4" v-for="side in react.posts">
+				<div class="w-full flex flex-col gap-2">
+					<div class="w-full flex flex-col gap-2" v-for="side in react.posts">
 						<SimplePost v-for="post in side" :post="post" />
 					</div>
 				</div>

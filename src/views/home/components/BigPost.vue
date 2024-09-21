@@ -32,7 +32,7 @@ const props = defineProps({
             <div class="radial-dim" v-else></div>
             <div class="card-content">
                 <div class="gap-4">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <h3 class="text-lg font-semibold">{{ postType }}</h3>
                         <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
                     </div>
