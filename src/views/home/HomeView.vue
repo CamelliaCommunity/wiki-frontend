@@ -9,6 +9,8 @@ import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
 
+import Button from '@/components/Button.vue';
+
 Utils.setTitle('Homepage');
 
 const react = reactive({
@@ -116,6 +118,7 @@ function splitHomePosts(posts) {
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
 				<FeaturedPost post-type="Featured Post" :post="react.featured" />
+				<Button type="btnDefault">Save and Cancel</Button>
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<HomeStats class="w-full md:w-64" :stats="react.stats" />
