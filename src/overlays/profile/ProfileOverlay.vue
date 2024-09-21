@@ -2,12 +2,11 @@
 import { reactive, ref } from 'vue';
 
 import Events from '@/utils/Events';
+import ActiveComponents from '@/utils/ActiveComponents';
 import API from '@/utils/API';
-
-import TitleBar from '../TitleBar.vue';
-
 import Toast from '@/utils/Toast';
 
+import TitleBar from '../TitleBar.vue';
 import PopupOverlay from '../popup/PopupOverlay.vue';
 import Button from '@/components/Button.vue';
 
@@ -41,14 +40,16 @@ Events.Register('profile-overlay', (userID) => {
 	};
 
 	react.open = true;
-})
+	ActiveComponents.open("profile-overlay");
+});
+
+Events.Register("profile-overlay-close", () => {
+	Close(null);
+});
 
 document.addEventListener("keydown", e => {
 	if (e.repeat)
 		return;
-
-	if (e.key == "Escape")
-		Close(null);
 
 	if (e.key == "p" && API.user.loggedIn) {
 		if (react.open) Close(null);

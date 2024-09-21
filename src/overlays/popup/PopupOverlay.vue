@@ -1,7 +1,9 @@
 <script setup>
 import { reactive, ref } from 'vue';
-import Events from '@/utils/Events';
 import { PhCheckFat } from '@phosphor-icons/vue';
+
+import Events from '@/utils/Events';
+import ActiveComponents from '@/utils/ActiveComponents';
 import Button from '@/components/Button.vue';
 
 const props = defineProps({
@@ -21,13 +23,11 @@ Events.Register(props.event, () => {
 	console.log(`event received for ${props.event}`);
 	popupReact.open = true;
 	document.body.classList.add("overflow-hidden");
+	ActiveComponents.open(props.event);
 });
 
-// need to rethink this cos it also closes profile-view and maybe other things
-// this needs to be given priority - john
-document.addEventListener("keydown", e => {
-	if (e.repeat) return;
-	if (e.key == "Escape") ClosePopup(null);
+Events.Register(props.event + "-close", () => {
+	ClosePopup(null);
 });
 
 function ClosePopup() {
