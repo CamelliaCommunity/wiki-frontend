@@ -11,7 +11,7 @@ import API from '@/utils/API';
 import { reactive } from 'vue';
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
-import GrayLine from '@/components/GrayLine.vue';
+import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
 
