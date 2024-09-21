@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 import Events from '@/utils/Events';
 import { PhCheckFat } from '@phosphor-icons/vue';
+import Button from '@/components/Button.vue';
 
 const props = defineProps({
     event: {
@@ -57,11 +58,9 @@ function ClosePopup() {
                 <!-- default values -->
                 <slot name="footer" :ClosePopup="ClosePopup">
                     <div class="flex justify-center gap-2">
-                        <button
-                            class="colorButtonDefault flex row gap-2 items-center justify-center p-2 rounded-xl text-lg cursor-pointer"
-                            @click="ClosePopup">Ok
+                        <Button @click="ClosePopup">Ok
                             <PhCheckFat :size="18" weight="fill" />
-                        </button>
+                        </Button>
                     </div>
                 </slot>
             </div>
@@ -90,30 +89,5 @@ function ClosePopup() {
 
 .theShadow {
     box-shadow: 0 32px 40px 0 rgba(0, 0, 0, 0.24), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* todo: make buttons into componenets and not do this -john */
-.colorButtonDefault {
-    background-color: var(--background-4);
-
-    &:hover {
-        background-color: var(--background-3);
-    }
-}
-
-.colorButtonSuccess {
-    background-color: rgba(0, 255, 0, 0.4);
-
-    &:hover {
-        background-color: rgba(0, 255, 0, 0.6);
-    }
-}
-
-.colorButtonError {
-    background-color: rgba(221, 0, 0, 0.4);
-
-    &:hover {
-        background-color: rgba(221, 0, 0, 0.6);
-    }
 }
 </style>
