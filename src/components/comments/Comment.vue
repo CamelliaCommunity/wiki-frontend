@@ -13,7 +13,6 @@ import MarkdownUtils from '@/utils/MarkdownUtils';
 import MarkdownView from '../md/MarkdownView.vue';
 
 const route = useRoute();
-const router = useRouter();
 
 const commentSystem = inject("commentSystem");
 
@@ -178,8 +177,9 @@ if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 				<MarkdownView :article="comment.renderedContent"
 					:class="`${!comment.showMore ? 'imFading max-h-16' : ''}`" />
 			</p>
-			<span v-if="!comment.showMore" class="text-accent text-base w-max hover:text-accent-soft cursor-pointer"
-				@click="comment.showMore = true">Read more</span>
+			<span v-if="comment.content.length > MAX_COMMENT_LENGTH"
+				class="text-accent text-base w-max hover:text-accent-soft cursor-pointer"
+				@click="comment.showMore = !comment.showMore">{{ comment.showMore ? "Show less" : "Read more" }}</span>
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp
