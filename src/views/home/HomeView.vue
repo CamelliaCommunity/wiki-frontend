@@ -124,7 +124,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
 					<GradientLine :overshoot="false" />
 				</div>
-				<div class="w-full flex flex-col gap-2">
+				<div class="w-full flex flex-col gap-2 md:max-h-72 overflow-y-auto max-h-full">
 					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
 						<SimplePost :post="post" />
 						<GrayLine v-if="index != (react.posts.length - 1)" />
