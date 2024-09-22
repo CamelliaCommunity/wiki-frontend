@@ -230,7 +230,7 @@ const submitComment = () => {
 				<Textbox :box-name="`${commentAction}comment`" :be-disabled="beDisabled" :handleInput="handleInput"
 					:handleKeydown="handleKeydown" :handleSubmit="submitComment" :handleCancel="handleCancel"
 					:submitIcon="currentState.icon" :submitIconClasses="submitIconClasses"
-					:placeholderText="API.user.loggedIn ? `Press enter to ${commentAction}. Use shift+enter to make a new line` : `You must be logged in to comment!`"
+					:placeholderText="API.user.loggedIn ? `Press enter to ${commentAction}. Use shift+enter to make a new line.` : `Please login to comment.`"
 					:value="commentContent" :isReply="commentParent != null">
 				</Textbox>
 			</div>
