@@ -10,78 +10,81 @@ import DefaultImage from '@/assets/images/placeholder.png';
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
-    postType: {
-        type: String
-    },
-    linearBackground: {
-        type: Boolean,
-        default: false
-    },
-    post: {
-        type: Object,
-        required: true
-    }
+	postType: {
+		type: String
+	},
+	linearBackground: {
+		type: Boolean,
+		default: false
+	},
+	post: {
+		type: Object,
+		required: true
+	}
 });
 </script>
 
 <template>
-    <RouterLink :to="post.url || '/not-found'" class="w-fit">
-        <OverlapGrid class="featured-post w-full h-40 rounded-lg" v-if="post.meta">
-            <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
-            <div class="dim" v-if="linearBackground"></div>
-            <div class="radial-dim" v-else></div>
-            <div class="card-content">
-                <div>
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg font-semibold">{{ postType }}</h3>
-                        <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
-                    </div>
-                    <h2 class="text-2xl font-medium leading-5">{{ post.meta.title }}</h2>
-                </div>
-                <div>
-                    <p class="post-description w-full leading-5">{{ post.meta.description }}</p>
-                </div>
-            </div>
-        </OverlapGrid>
-    </RouterLink>
+	<RouterLink :to="post.url || '/not-found'" class="w-fit">
+		<OverlapGrid class="featured-post w-full h-40 rounded-lg overlap-grid" v-if="post.meta">
+			<LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
+			<div class="dim" v-if="linearBackground"></div>
+			<div class="radial-dim" v-else></div>
+			<div class="card-content">
+				<div>
+					<div class="flex justify-between items-center">
+						<h3 class="text-lg font-semibold">{{ postType }}</h3>
+						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
+					</div>
+					<h2 class="text-2xl font-medium leading-5">{{ post.meta.title }}</h2>
+				</div>
+				<div>
+					<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
+				</div>
+			</div>
+		</OverlapGrid>
+	</RouterLink>
 </template>
 
 <style lang="scss">
 .featured-post {
-    .dim {
-        background: rgba(0, 0, 0, 0.4) linear-gradient(180deg, transparent 0%, var(--background-1) 80%);
-    }
 
-    .radial-dim {
-        background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 70%);
-    }
+	.dim {
+		transition: background 400ms;
+		background: rgba(0, 0, 0, 0.4) linear-gradient(-120deg, transparent 0%, var(--background-1) 70%);
+	}
 
-    &:hover>.dim {
-        background: rgba(0, 0, 0, 0.3) linear-gradient(180deg, transparent 0%, var(--background-4) 100%);
-    }
+	.radial-dim {
+		background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 70%);
+	}
 
-    .card-content {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        justify-content: space-between;
+	&:hover>.dim {
+		transition: background 200ms;
+		background: rgba(0, 0, 0, 0.0) linear-gradient(-120deg, transparent 0%, var(--background-1) 70%);
+	}
 
-        >div {
-            display: flex;
-            flex-direction: column;
-        }
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		padding: 20px;
+		justify-content: space-between;
 
-        .post-description {
-            // fuck shit description too long and it breaks - john
-            font-size: 18px;
-            max-height: 3em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            //margin-bottom: 5px;
-        }
-    }
+		>div {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.post-description {
+			// fuck shit description too long and it breaks - john
+			font-size: 18px;
+			max-height: 3em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			//margin-bottom: 5px;
+		}
+	}
 }
 </style>
