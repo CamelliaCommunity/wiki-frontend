@@ -6,6 +6,7 @@ import LoadingImage from '../LoadingImage.vue';
 import MarkdownHeader from './MarkdownHeader.vue';
 import MarkdownImage from './MarkdownImage.vue';
 import Blockquote from '@/components/Blockquote.vue';
+import BlockquoteNote from '@/components/BlockquoteNote.vue';
 
 import { PhLinkSimple } from '@phosphor-icons/vue';
 
@@ -26,6 +27,7 @@ const renderMd = (htmlContent) => {
 			MarkdownHeader,
 			MarkdownImage,
 			Blockquote,
+			BlockquoteNote,
 			PhLinkSimple
 		}
 	});
@@ -84,7 +86,7 @@ onMounted(() => renderMd(props.article));
 		font-weight: 600;
 	}
 
-	h3 {
+	h3:not(blockquote.blockquote-note h3) {
 		font-size: 28px;
 		font-weight: 500;
 	}

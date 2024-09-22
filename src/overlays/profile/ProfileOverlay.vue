@@ -2,11 +2,13 @@
 import { reactive, ref } from 'vue';
 
 import Events from '@/utils/Events';
+import ActiveComponents from '@/utils/ActiveComponents';
 import API from '@/utils/API';
+import Toast from '@/utils/Toast';
 
 import TitleBar from '../TitleBar.vue';
-
-import Toast from '@/utils/Toast';
+import PopupOverlay from '../popup/PopupOverlay.vue';
+import Button from '@/components/Button.vue';
 
 const content = ref();
 
@@ -38,20 +40,12 @@ Events.Register('profile-overlay', (userID) => {
 	};
 
 	react.open = true;
-})
+	ActiveComponents.open("profile-overlay");
+});
 
-document.addEventListener("keydown", e => {
-	if (e.repeat)
-		return;
-
-	if (e.key == "Escape")
-		Close(null);
-
-	if (e.key == "p" && API.user.loggedIn) {
-		if (react.open) Close(null);
-		else react.open = true;
-	};
-})
+Events.Register("profile-overlay-close", () => {
+	Close(null);
+});
 
 function Close(e) {
 	if (e && content?.value?.contains(e.target))
@@ -61,13 +55,17 @@ function Close(e) {
 	react.user = {};
 }
 
-// temporary functions - john
+// temporary function - john
 function wipToast() {
 	Toast.showToast("That feature is not implemented yet but will be soon!", { type: "error" })
 }
 
-function logOut() {
-	if (API.user.loggedIn) API.performLogout()
+// logs out then closes the popup - john
+function logOut(ClosePopup) {
+	if (API.user.loggedIn) {
+		API.performLogout();
+		ClosePopup();
+	}
 }
 </script>
 
@@ -82,13 +80,24 @@ function logOut() {
 					<div class="w-full flex mb-2.5"></div>
 				</div>
 				<!-- the log out button is temporary - john -->
-				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="logOut">
+				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer"
+					@click="Events.Emit('popup-logout')">
 					Log Out</p>
 				<p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">Report
 					Profile</p>
 			</div>
 		</div>
 	</Transition>
+
+	<PopupOverlay event="popup-logout">
+		<template #content>Are you very sure you want to logout?</template>
+		<template #footer="{ ClosePopup }">
+			<div class="flex justify-center gap-2">
+				<Button type="success" @click="logOut(ClosePopup)">Yes</Button>
+				<Button type="error" @click="ClosePopup">Cancel</Button>
+			</div>
+		</template>
+	</PopupOverlay>
 </template>
 
 <style>
