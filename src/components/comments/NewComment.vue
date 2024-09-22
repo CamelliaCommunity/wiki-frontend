@@ -6,6 +6,8 @@ import API from '@/utils/API';
 import Toast from '@/utils/Toast';
 import Textbox from '../textbox/Textbox.vue';
 
+import GradientLine from '../GradientLine.vue';
+
 const props = defineProps({
 	error: {
 		type: Boolean,
@@ -89,6 +91,14 @@ let commentAction = "post";
 if (commentParent.value != null) commentAction = "reply";
 else if (commentId.value != null) commentAction = "edit";
 
+const handleCancel = () => {
+	if (!API.user.loggedIn) return;
+
+	if (beDisabled.value) return;
+
+	props.extraSubmit({ isReplying: false });
+};
+
 const submitComment = () => {
 	if (!API.user.loggedIn) return;
 
@@ -170,10 +180,16 @@ const submitComment = () => {
 		};
 		commentSystem.value.cache.unshift(newComment); // Add comment to the cache
 
-		API.post(commentAction == "reply" ? `comments/${commentParent}/reply` : commentSystem.value.path, newComment.content, { noStringify: true }).then(res => {
+		if (commentAction == "reply")
+			props.extraSubmit({ isReplying: false });
+
+		API.post(commentAction == "reply" ? `/comments/${commentParent.value}/reply` : commentSystem.value.path, newComment.content, { noStringify: true }).then(res => {
 			if (res.message != "OK" || res.status != 200) {
 				// Restore original data
 				commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
+
+				if (commentAction == "reply")
+					props.extraSubmit({ isReplying: true });
 
 				finishUp("error", "Please try again.");
 			} else {
@@ -193,16 +209,22 @@ const submitComment = () => {
 </script>
 
 <template>
-	<div class="new-comment">
-		<div class="w-full rounded flex gap-3">
-			<img v-if="commentParent == null && commentId == null" class="rounded-xl object-fill max-h-24 my-auto"
-				:src="API.user.avatar" alt="avatar" />
-			<Textbox :box-name="`${commentAction}comment`" :be-disabled="beDisabled" :handleInput="handleInput"
-				:handleKeydown="handleKeydown" :handleSubmit="submitComment" :submitIcon="currentState.icon"
-				:submitIconClasses="submitIconClasses"
-				:placeholderText="API.user.loggedIn ? `Press enter to ${commentAction}. Use shift+enter to make a new line` : `You must be logged in to comment!`"
-				:value="commentContent">
-			</Textbox>
+	<div
+		:class="`${commentParent != null ? 'w-full max-w-screen-lg min-h-24 gap-3 py-0 m-auto pl-5 flex relative mt-3' : ''}`">
+		<div v-if="commentParent != null">
+			<GradientLine lineStyle="vert" :overshoot="false" class="!h-14" />
+		</div>
+		<div class="new-comment w-full">
+			<div class="w-full rounded flex gap-3">
+				<img v-if="commentParent == null && commentId == null" class="rounded-xl object-fill max-h-24 my-auto"
+					:src="API.user.avatar" alt="avatar" />
+				<Textbox :box-name="`${commentAction}comment`" :be-disabled="beDisabled" :handleInput="handleInput"
+					:handleKeydown="handleKeydown" :handleSubmit="submitComment" :handleCancel="handleCancel"
+					:submitIcon="currentState.icon" :submitIconClasses="submitIconClasses"
+					:placeholderText="API.user.loggedIn ? `Press enter to ${commentAction}. Use shift+enter to make a new line` : `You must be logged in to comment!`"
+					:value="commentContent" :isReply="commentParent != null">
+				</Textbox>
+			</div>
 		</div>
 	</div>
 </template>

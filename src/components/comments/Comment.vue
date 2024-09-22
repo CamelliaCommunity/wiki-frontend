@@ -91,6 +91,12 @@ const commentAction = (action, options) => {
 			};
 		});
 
+	} else if (API.user.loggedIn && action == 1) { // Reply
+		if (options) {
+			comment.isReplying = options.isReplying;
+		} else {
+			comment.isReplying = !comment.isReplying;
+		};
 	} else if (API.user.loggedIn && action == 2) { // Edit
 		if (options) {
 			comment.isLoading = options.isLoading;
@@ -208,9 +214,9 @@ if (comment && comment.content?.length > 0) {
 				</div>
 			</div>
 
-			<div v-if="(!comment.isReplying && !comment.isEditing) && comment.isDeleted"
-				class="flex text-lg w-5/6 italic">Comment was deleted</div>
-			<p v-else-if="(!comment.isReplying && !comment.isEditing) && !comment.isDeleted"
+			<div v-if="(!comment.isEditing) && comment.isDeleted" class="flex text-lg w-5/6 italic">Comment was deleted
+			</div>
+			<p v-else-if="(!comment.isEditing) && !comment.isDeleted"
 				class="flex flex-col text-lg w-5/6 overflow-hidden text-ellipsis relative">
 				<MarkdownView :article="comment.renderedContent"
 					:class="`${!comment.showMore ? 'imFading max-h-16' : ''}`" />
@@ -238,7 +244,8 @@ if (comment && comment.content?.length > 0) {
 						@click="() => comment.isDeleted ? false : commentAction(0, { type: comment.vote == -1 ? 0 : -1 })" />
 				</div>
 				<div class="flex" v-if="comment.hovered">
-					<span v-if="!comment.isEditing && !comment.isReply" @click="commentAction(1)"
+					<span v-if="(!comment.isReplying) && !comment.isEditing && !comment.isReply"
+						@click="commentAction(1)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhArrowBendUpLeft /> Reply
 					</span>
@@ -271,7 +278,13 @@ if (comment && comment.content?.length > 0) {
 		</template>
 	</PopupOverlay>
 
-	<slot></slot>
+	<slot name="replyBox" v-if="comment.isReplying">
+		<NewComment :commentParent="comment.id" :loaded="!comment.isLoading"
+			:extraSubmit="data => commentAction(1, data)" />
+	</slot>
+	<slot name="replies">
+	</slot>
+
 </template>
 
 <style lang="scss">

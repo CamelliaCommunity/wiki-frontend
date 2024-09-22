@@ -1,12 +1,16 @@
 <script setup>
 import { toRefs } from 'vue';
 
-import { PhTextBolder, PhTextItalic, PhTextH, PhTextUnderline, PhTextStrikethrough, PhListBullets, PhListNumbers, PhListChecks, PhQuotes, PhCodeSimple, PhHighlighter, PhSelection, PhGridFour, PhLinkSimple, PhImage, PhPaperPlaneRight } from '@phosphor-icons/vue';
+import { PhTextBolder, PhTextItalic, PhTextH, PhTextUnderline, PhTextStrikethrough, PhListBullets, PhListNumbers, PhListChecks, PhQuotes, PhCodeSimple, PhHighlighter, PhSelection, PhGridFour, PhLinkSimple, PhImage, PhPaperPlaneRight, PhX } from '@phosphor-icons/vue';
 
 import TextboxIcon from './TextboxIcon.vue';
 
 const props = defineProps({
 	isEditor: {
+		type: Boolean,
+		default: false
+	},
+	isReply: {
 		type: Boolean,
 		default: false
 	},
@@ -32,6 +36,10 @@ const props = defineProps({
 		default: () => { }
 	},
 	handleSubmit: {
+		type: Function,
+		default: () => { }
+	},
+	handleCancel: {
 		type: Function,
 		default: () => { }
 	},
@@ -62,6 +70,11 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">
 				<Component :is="submitIcon" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
+			</div>
+			<div v-if="isReply"
+				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
+				id="submit" @click="handleCancel" :disabled="beDisabled">
+				<Component :is="PhX" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
 			</div>
 		</div>
 		<div class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
