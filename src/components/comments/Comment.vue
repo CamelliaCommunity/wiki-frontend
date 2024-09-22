@@ -1,16 +1,21 @@
 <script setup>
 import { ref, reactive, inject } from 'vue';
 import { useRoute } from 'vue-router';
+import { PhArrowClockwise, PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 
 import Toast from '@/utils/Toast';
 import API from "@/utils/API";
 import Formatting from '@/utils/Formatting';
 
 import Logo from "@/assets/images/avatar.png";
-import { PhArrowClockwise, PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 import GradientLine from '../GradientLine.vue';
+
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import MarkdownView from '../md/MarkdownView.vue';
+
+import Button from '../Button.vue';
+import PopupOverlay from '@/overlays/popup/PopupOverlay.vue';
+import Events from '@/utils/Events';
 
 const route = useRoute();
 
@@ -23,6 +28,18 @@ const props = defineProps({
 		required: true
 	}
 });
+
+// Popup
+const popup = reactive({
+	content: "",
+	clickYes: () => { },
+	clickNo: () => { }
+});
+const btnAction = (ClosePopup, callback) => {
+	if (callback) callback();
+	ClosePopup();
+};
+
 
 const MAX_COMMENT_LENGTH = 300;
 
@@ -78,8 +95,9 @@ const commentAction = (action, options) => {
 
 	} else if (API.user.loggedIn && action == 3) { // Delete
 		comment.isLoading = true;
-		if (confirm(`Are you sure you want to delete the comment?\nID: ${comment.id}\nAuthor: ${comment.author?.name}\nContent: ${comment.content}`)) {
-			comment.isLoading = false;
+		popup.content = `Are you sure you want to delete the comment?\nID: ${comment.id}\nAuthor: ${comment.author?.name}\nContent: ${comment.content}`;
+		popup.clickNo = () => { comment.isLoading = false; };
+		popup.clickYes = () => {
 			API.delete(`/comments/${comment.id}`).then(res => {
 				comment.isLoading = false;
 				if (res.message != "OK" || res.status != 200) {
@@ -92,8 +110,8 @@ const commentAction = (action, options) => {
 					});
 				};
 			});
-		} else comment.isLoading = false;
-
+		};
+		Events.Emit(`popup-comment-${comment.id}-confirmation`);
 	} else if (action == 4) { // Copy to clipboard
 		const url = `${route.fullPath.split("#")[0]}#comment-${comment.id}`;
 
@@ -126,6 +144,7 @@ const updateComment = (content) => {
 };
 updateComment(comment.content);
 if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
+
 </script>
 
 <template class="flex flex-col">
@@ -212,6 +231,16 @@ if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 			</div>
 		</div>
 	</div>
+
+	<PopupOverlay :event="`popup-comment-${comment.id}-confirmation`">
+		<template #content>{{ popup.content }}</template>
+		<template #footer="{ ClosePopup }">
+			<div class="flex justify-center gap-2">
+				<Button type="success" @click="btnAction(ClosePopup, popup.clickYes)">Yes</Button>
+				<Button type="error" @click="btnAction(ClosePopup, popup.clickNo)">No</Button>
+			</div>
+		</template>
+	</PopupOverlay>
 
 	<slot></slot>
 </template>
