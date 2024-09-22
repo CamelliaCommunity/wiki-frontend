@@ -48,7 +48,10 @@ const knownStates = {
 
 const beDisabled = ref(error.value || !loaded.value);
 beDisabled.value = !API.user.loggedIn;
-watch(API.user, () => { beDisabled.value = !API.user.loggedIn; });
+beDisabled.value = error.value;
+watch(API.user, () => {
+	beDisabled.value = !error.value || !API.user.loggedIn;
+});
 
 const submitIconClasses = ref("");
 const currentState = shallowRef(knownStates.NORMAL);
