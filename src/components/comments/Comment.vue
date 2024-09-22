@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, inject } from 'vue';
+import { reactive, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { PhArrowClockwise, PhArrowFatUp, PhArrowFatDown, PhArrowBendUpLeft, PhDotsThree, PhPencil, PhTrash, PhLink, PhFlag } from '@phosphor-icons/vue';
 
@@ -97,6 +97,10 @@ const commentAction = (action, options) => {
 		} else {
 			comment.isReplying = !comment.isReplying;
 		};
+		if (!comment.isReplying) {
+			comment.hovered = false;
+			comment.moreActions = false;
+		};
 	} else if (API.user.loggedIn && action == 2) { // Edit
 		if (options) {
 			comment.isLoading = options.isLoading;
@@ -110,6 +114,11 @@ const commentAction = (action, options) => {
 			};
 		} else {
 			comment.isEditing = !comment.isEditing;
+		};
+
+		if (!comment.isEditing) {
+			comment.hovered = false;
+			comment.moreActions = false;
 		};
 
 	} else if (API.user.loggedIn && action == 3) { // Delete
@@ -176,8 +185,8 @@ if (comment && comment.content?.length > 0) {
 		</div>
 	</div>
 
-	<div class="hover:bg-background-3 p-2 flex gap-3 w-full rounded-xl" @mouseover="changeHover(true)"
-		@mouseleave="changeHover(false)" id="comment">
+	<div :class="`${(comment.isReplying || comment.isEditing) ? 'bg-background-3' : ''} hover:bg-background-3 p-2 flex gap-3 w-full rounded-xl`"
+		@mouseover="changeHover(true)" @mouseleave="changeHover(false)" :id="`comment-${comment.id}`">
 		<div v-if="comment.isReply">
 			<GradientLine lineStyle="vert" :overshoot="false" class="!h-14" />
 		</div>
@@ -249,12 +258,13 @@ if (comment && comment.content?.length > 0) {
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhArrowBendUpLeft /> Reply
 					</span>
-					<span v-if="!comment.isEditing && comment.author.id == API.user.id" @click="commentAction(2)"
+					<span v-if="(!comment.isEditing && !comment.isReplying) && comment.author.id == API.user.id"
+						@click="commentAction(2)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhPencil /> Edit
 					</span>
 					<span
-						v-if="!comment.isEditing && (!comment.isDeleted ? (comment.author.id == API.user.id || API.user.staff) : false)"
+						v-if="(!comment.isEditing && !comment.isReplying) && (!comment.isDeleted ? (comment.author.id == API.user.id || API.user.staff) : false)"
 						@click="commentAction(3)"
 						class="flex text-red cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhTrash /> Delete
