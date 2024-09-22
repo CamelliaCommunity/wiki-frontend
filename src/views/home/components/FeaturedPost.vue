@@ -36,7 +36,7 @@ const props = defineProps({
 						<h3 class="text-lg font-semibold">{{ postType }}</h3>
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
 					</div>
-					<h2 class="text-2xl font-medium leading-5">{{ post.meta.title }}</h2>
+					<h2 class="text-2xl font-medium leading-5 text-shadow">{{ post.meta.title }}</h2>
 				</div>
 				<div>
 					<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
