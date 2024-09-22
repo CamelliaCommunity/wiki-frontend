@@ -111,16 +111,17 @@ if (path === 'style-test') {
 				commentData = commentRes.data;
 			};
 
+			if (commentData && commentData.length > 0) {
+				for (let i = 0; i < commentData.length; i++) {
+					commentData[i] = {
+						...commentData[i],
+						moreActions: ref(false),
+						hovered: ref(false),
+						showMore: ref(true),
 
-			for (let i = 0; i < commentData.length; i++) {
-				commentData[i] = {
-					...commentData[i],
-					moreActions: ref(false),
-					hovered: ref(false),
-					showMore: ref(true),
-
-					isEditing: ref(false),
-					isReplying: ref(false)
+						isEditing: ref(false),
+						isReplying: ref(false)
+					};
 				};
 			};
 
