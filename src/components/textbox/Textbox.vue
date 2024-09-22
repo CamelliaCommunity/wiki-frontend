@@ -74,7 +74,7 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 			</button>
 			<button v-if="isReply"
 				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
-				id="submit" @click="handleCancel" :disabled="beDisabled">
+				id="cancel" @click="handleCancel" :disabled="beDisabled">
 				<Component :is="PhX" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
 			</button>
 		</div>
