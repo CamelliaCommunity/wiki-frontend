@@ -52,7 +52,7 @@ export default class MarkdownUtils {
         return data;
     }
 
-    static render(content) {
+    static render(content, wrapP = true) {
 		const headerStorage = {};
         const renderer = {
             heading: (text, level) => {
@@ -66,7 +66,7 @@ export default class MarkdownUtils {
 				if (headerStorage[headerId] > 0) headerId = `${headerId}-${headerStorage[headerId]}`;
 				return `<MarkdownHeader text="${text}" :level="${level}" headerId="${headerId}" />`
 			},
-            paragraph: (text) => `<p>${text}</p>`,
+            paragraph: (text) => wrapP ? `<p>${text}</p>` : text,
             blockquote: (quote) => {
                 // remove <p> tags
                 var content = quote.replace(/<p>/g, '').replace(/<\/p>/g, '');
