@@ -91,8 +91,8 @@ else if (commentId.value != null) commentAction = "edit";
 
 let commentBox;
 onMounted(() => {
+	commentBox = document.getElementById(`${commentAction}comment-textbox`);
 	if (commentAction != "post") {
-		commentBox = document.getElementById(`${commentAction}comment-textbox`);
 		commentBox.focus();
 	};
 
