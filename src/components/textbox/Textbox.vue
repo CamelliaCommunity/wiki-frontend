@@ -41,10 +41,14 @@ const props = defineProps({
 	},
 	boxName: {
 		type: String
+	},
+	value: {
+		type: String,
+		default: null
 	}
 });
 
-const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, boxName } = toRefs(props);
+const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, boxName, value } = toRefs(props);
 </script>
 
 <template>
@@ -53,7 +57,7 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 			<textarea
 				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-1 focus:ring-2"
 				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled"
-				:id="`${boxName}-textbox`" />
+				:id="`${boxName}-textbox`" :value="value" />
 
 			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">

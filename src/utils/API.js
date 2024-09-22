@@ -36,6 +36,17 @@ export default class API {
         }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
     }
 
+    static async patch(endpoint, body, options) {
+		if (!options) options = {};
+		if (options.noStringify == null) options.noStringify = false;
+
+        return fetch(this.url + endpoint, {
+            method: 'PATCH',
+            headers: createHeaders($cookies.get(this.cookie_name_token)),
+            body: options.noStringify ? body : JSON.stringify(body),
+        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+    }
+
     static async delete(endpoint) {
         return fetch(this.url + endpoint, {
             method: 'DELETE',

@@ -13,6 +13,7 @@ import GradientLine from '../GradientLine.vue';
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import MarkdownView from '../md/MarkdownView.vue';
 
+import NewComment from './NewComment.vue';
 import Button from '../Button.vue';
 import PopupOverlay from '@/overlays/popup/PopupOverlay.vue';
 import Events from '@/utils/Events';
@@ -40,13 +41,10 @@ const btnAction = (ClosePopup, callback) => {
 	ClosePopup();
 };
 
-
 const MAX_COMMENT_LENGTH = 300;
 
+// const comment = reactive(props.comment);
 const comment = reactive(props.comment);
-comment.moreActions = ref(false);
-comment.hovered = ref(false);
-comment.showMore = ref(true);
 
 const changeHover = (isOpen) => {
 	comment.hovered = isOpen;
@@ -93,6 +91,21 @@ const commentAction = (action, options) => {
 			};
 		});
 
+	} else if (API.user.loggedIn && action == 2) { // Edit
+		if (options) {
+			comment.isLoading = options.isLoading;
+			comment.isEditing = options.isEditing;
+			comment.edited = options.edited;
+
+			if (comment.content != options.content) {
+				comment.content = options.content;
+				updateComment(comment.content);
+				if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
+			};
+		} else {
+			comment.isEditing = !comment.isEditing;
+		};
+
 	} else if (API.user.loggedIn && action == 3) { // Delete
 		comment.isLoading = true;
 		popup.content = `Are you sure you want to delete the comment?\nID: ${comment.id}\nAuthor: ${comment.author?.name}\nContent: ${comment.content}`;
@@ -105,9 +118,10 @@ const commentAction = (action, options) => {
 				} else {
 					comment.isDeleted = true;
 					comment.author = { id: 0, name: "[deleted]", color: "" };
-					commentSystem.value.cache = commentSystem.value.cache.forEach((c) => {
-						if (c.id === comment.id) { c.author = undefined; c.content = undefined; };
-					});
+
+					let commentIndex = commentSystem.value.cache.findIndex(c => c.id === comment.id);
+					if (commentIndex == null || commentIndex == undefined) return;
+					commentSystem.value.cache[commentIndex] = { ...commentSystem.value.cache[commentIndex], author: undefined, content: undefined };
 				};
 			});
 		};
@@ -142,9 +156,11 @@ const updateComment = (content) => {
 	var md = MarkdownUtils.parse({ meta: {}, content });
 	comment.renderedContent = MarkdownUtils.render(md.content, false);
 };
-updateComment(comment.content);
-if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 
+if (comment && comment.content?.length > 0) {
+	updateComment(comment.content);
+	if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
+};
 </script>
 
 <template class="flex flex-col">
@@ -171,8 +187,8 @@ if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 						&nbsp;&#8226;&nbsp;
 						{{ Formatting.formatDate(comment.time) }}
 						-
-						{{ commentTime + ""
-							+ (commentTime != "just now" ? " ago" : "") }}
+						{{ commentTime + "" + (commentTime != "just now" ? " ago" : "") }}
+						{{ comment.edited ? " (edited)" : "" }}
 					</span>
 				</div>
 				<div class="bg-background-1 rounded-md hover:bg-background-2 cursor-pointer w-fit"
@@ -191,41 +207,54 @@ if (comment.content.length > MAX_COMMENT_LENGTH) comment.showMore = false;
 					</div>
 				</div>
 			</div>
-			<div v-if="comment.isDeleted" class="flex text-lg w-5/6 italic">Comment was deleted</div>
-			<p v-else class="flex flex-col text-lg w-5/6 overflow-hidden text-ellipsis relative">
+
+			<div v-if="(!comment.isReplying && !comment.isEditing) && comment.isDeleted"
+				class="flex text-lg w-5/6 italic">Comment was deleted</div>
+			<p v-else-if="(!comment.isReplying && !comment.isEditing) && !comment.isDeleted"
+				class="flex flex-col text-lg w-5/6 overflow-hidden text-ellipsis relative">
 				<MarkdownView :article="comment.renderedContent"
 					:class="`${!comment.showMore ? 'imFading max-h-16' : ''}`" />
 			</p>
+			<NewComment v-if="!comment.isReplying && comment.isEditing && !comment.isDeleted && API.user.loggedIn"
+				:loaded="!comment.isLoading" :commentId="comment.id" :extraSubmit="data => commentAction(2, data)"
+				:commentContent="comment.content" />
 			<span v-if="comment.content.length > MAX_COMMENT_LENGTH"
 				class="text-accent text-base w-max hover:text-accent-soft cursor-pointer"
-				@click="comment.showMore = !comment.showMore">{{ comment.showMore ? "Show less" : "Read more" }}</span>
+				@click="comment.showMore = !comment.showMore">
+				{{ comment.showMore ? "Show less" : "Read more" }}
+			</span>
 			<div class="flex text-xl mt-2 justify-between gap-1 items-center align-middle">
 				<div class="flex text-light-gray align-middle items-center gap-1 text-lg select-none">
 					<PhArrowFatUp
 						:class="!comment.isDeleted ? `cursor-pointer hover:text-white ${comment.vote == 1 ? 'text-accent' : ''}` : ''"
 						:size="24"
 						@click="() => comment.isDeleted ? false : commentAction(0, { type: comment.vote == 1 ? 0 : 1 })" />
-					<span>{{ Math.floor(comment.ups -
-						comment.downs)
-						}}</span>
+					<span>{{
+						Math.floor(comment.ups - comment.downs)
+					}}</span>
 					<PhArrowFatDown
 						:class="!comment.isDeleted ? `cursor-pointer hover:text-white ${comment.vote == -1 ? 'text-accent' : ''}` : ''"
 						:size="24"
 						@click="() => comment.isDeleted ? false : commentAction(0, { type: comment.vote == -1 ? 0 : -1 })" />
 				</div>
 				<div class="flex" v-if="comment.hovered">
-					<span v-if="!comment.isReply" @click="commentAction(1)"
+					<span v-if="!comment.isEditing && !comment.isReply" @click="commentAction(1)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhArrowBendUpLeft /> Reply
 					</span>
-					<span v-if="comment.author.id == API.user.id" @click="commentAction(2)"
+					<span v-if="!comment.isEditing && comment.author.id == API.user.id" @click="commentAction(2)"
 						class="flex text-light-gray cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhPencil /> Edit
 					</span>
-					<span v-if="!comment.isDeleted ? (comment.author.id == API.user.id || API.user.staff) : false"
+					<span
+						v-if="!comment.isEditing && (!comment.isDeleted ? (comment.author.id == API.user.id || API.user.staff) : false)"
 						@click="commentAction(3)"
 						class="flex text-red cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
 						<PhTrash /> Delete
+					</span>
+					<span v-if="comment.isEditing" @click="commentAction(2)"
+						class="flex text-red cursor-pointer align-middle items-center gap-1 text-lg rounded-sm px-2 hover:text-white">
+						<PhTrash /> Cancel
 					</span>
 				</div>
 			</div>

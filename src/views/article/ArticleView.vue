@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { reactive, nextTick } from 'vue';
+import { reactive, nextTick, ref } from 'vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 
@@ -109,6 +109,19 @@ if (path === 'style-test') {
 				};
 			} else {
 				commentData = commentRes.data;
+			};
+
+
+			for (let i = 0; i < commentData.length; i++) {
+				commentData[i] = {
+					...commentData[i],
+					moreActions: ref(false),
+					hovered: ref(false),
+					showMore: ref(true),
+
+					isEditing: ref(false),
+					isReplying: ref(false)
+				};
 			};
 
 			react.commentSystem.loaded = true;

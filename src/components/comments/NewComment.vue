@@ -6,8 +6,6 @@ import API from '@/utils/API';
 import Toast from '@/utils/Toast';
 import Textbox from '../textbox/Textbox.vue';
 
-const commentSystem = inject("commentSystem");
-
 const props = defineProps({
 	error: {
 		type: Boolean,
@@ -17,13 +15,27 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
-	parent: {
+	commentId: {
 		type: String,
 		default: null
+	},
+	commentParent: {
+		type: String,
+		default: null
+	},
+	commentContent: {
+		type: String,
+		default: null
+	},
+	extraSubmit: {
+		type: Function,
+		default: () => { },
+		required: false
 	}
 });
 
-const { error, loaded, parent } = toRefs(props);
+const { error, loaded, commentParent, commentId, commentContent } = toRefs(props);
+const commentSystem = inject("commentSystem");
 
 const knownStates = {
 	NORMAL: { icon: PhPaperPlaneTilt, spin: false },
@@ -73,6 +85,10 @@ const updateState = (newState) => {
 	currentState.value = newState;
 };
 
+let commentAction = "post";
+if (commentParent.value != null) commentAction = "reply";
+else if (commentId.value != null) commentAction = "edit";
+
 const submitComment = () => {
 	if (!API.user.loggedIn) return;
 
@@ -84,8 +100,12 @@ const submitComment = () => {
 	updateTextbox();
 
 	const finishUp = (type, msg) => {
+		let errStart = "Failed to post your comment!";
+		if (commentAction == "reply") errStart = "Failed to post your reply!";
+		else if (commentAction == "edit") errStart = "Failed to edit your comment!";
+
 		if (type == "error" || (type != "error" && msg))
-			Toast.showToast(type == "error" ? `Failed to post your comment! ${msg}` : msg, { type: type == "error" ? "error" : "success" });
+			Toast.showToast(type == "error" ? `${errStart} ${msg}` : msg, { type: type == "error" ? "error" : "success" });
 
 		updateState(knownStates[type == "error" ? "ERROR" : "OK"]);
 		beDisabled.value = true;
@@ -98,47 +118,74 @@ const submitComment = () => {
 		}, 1000);
 	};
 
-	let commentBox = document.getElementById("newcomment-textbox");
+	let commentBox = document.getElementById(`${commentAction}comment-textbox`);
 
 	let commentBoxText = commentBox.value;
 	commentBoxText = commentBoxText?.trim();
 	if (!commentBoxText) return finishUp("error", "Please enter some text and try again...");
 
 	let currentTime = (Date.now() / 1000);
-	let newComment = {
-		id: currentTime,
-		time: currentTime,
-		author: {
-			id: API.user.id,
-			name: API.user.username,
-			nick: API.user.nickname,
-			avatar: API.user.avatar,
-			color: API.user.color,
-			staff: API.user.staff
-		},
-		content: commentBoxText,
-		ups: 0,
-		downs: 0,
-		isLoading: true,
-		parent
+	let newComment = { content: commentBoxText };
+	if (commentAction == "edit") {
+		let commentIndex = commentSystem.value.cache.findIndex(c => c.id === commentId.value);
+		if (commentIndex == null || commentIndex == undefined) return;
+
+		let ogContent = commentContent.value;
+		let ogEdited = commentSystem.value.cache[commentIndex].edited;
+
+		props.extraSubmit({ content: newComment.content, isEditing: false, isLoading: true, edited: true });
+
+		API.patch(`/comments/${commentId.value}`, newComment.content, { noStringify: true }).then(res => {
+			if (res.message != "OK" || res.status != 200) {
+				// Restore original data
+				props.extraSubmit({ content: ogContent, isEditing: true, isLoading: false, edited: ogEdited });
+
+				finishUp("error", "Please try again.");
+			} else {
+				props.extraSubmit({ content: newComment.content, isEditing: false, isLoading: false, edited: true });
+				commentBox.value = "";
+
+				finishUp("success");
+			}
+		});
+	} else {
+		newComment = {
+			...newComment,
+			id: currentTime,
+			time: currentTime,
+			author: {
+				id: API.user.id,
+				name: API.user.username,
+				nick: API.user.nickname,
+				avatar: API.user.avatar,
+				color: API.user.color,
+				staff: API.user.staff
+			},
+			ups: 0,
+			downs: 0,
+			isLoading: true,
+			showMore: true,
+
+			parent: commentParent
+		};
+		commentSystem.value.cache.unshift(newComment); // Add comment to the cache
+
+		API.post(commentAction == "reply" ? `comments/${commentParent}/reply` : commentSystem.value.path, newComment.content, { noStringify: true }).then(res => {
+			if (res.message != "OK" || res.status != 200) {
+				// Restore original data
+				commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
+
+				finishUp("error", "Please try again.");
+			} else {
+				newComment = { ...newComment, ...res.data, isLoading: false, vote: 1 };
+				commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
+				commentSystem.value.cache.unshift(newComment);
+				commentBox.value = "";
+
+				finishUp("success");
+			}
+		});
 	};
-	commentSystem.value.cache.unshift(newComment); // Add comment to the cache
-
-	API.post(commentSystem.value.path, newComment.content, { noStringify: true }).then(res => {
-		if (res.message != "OK" || res.status != 200) {
-			// Restore original data
-			commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
-
-			finishUp("error", "Please try again.");
-		} else {
-			newComment = { ...newComment, ...res.data, isLoading: false, vote: 1 };
-			commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
-			commentSystem.value.cache.unshift(newComment);
-			commentBox.value = "";
-
-			finishUp("success");
-		}
-	});
 
 	return;
 };
@@ -148,11 +195,13 @@ const submitComment = () => {
 <template>
 	<div class="new-comment">
 		<div class="w-full rounded flex gap-3">
-			<img class="rounded-xl object-fill max-h-24 my-auto" :src="API.user.avatar" alt="avatar" />
-			<Textbox box-name="newcomment" :be-disabled="beDisabled" :handleInput="handleInput"
+			<img v-if="commentParent == null && commentId == null" class="rounded-xl object-fill max-h-24 my-auto"
+				:src="API.user.avatar" alt="avatar" />
+			<Textbox :box-name="`${commentAction}comment`" :be-disabled="beDisabled" :handleInput="handleInput"
 				:handleKeydown="handleKeydown" :handleSubmit="submitComment" :submitIcon="currentState.icon"
 				:submitIconClasses="submitIconClasses"
-				:placeholderText="API.user.loggedIn ? `Press enter to post. Use shift+enter to make a new line.` : `You must be logged in to comment!`">
+				:placeholderText="API.user.loggedIn ? `Press enter to ${commentAction}. Use shift+enter to make a new line` : `You must be logged in to comment!`"
+				:value="commentContent">
 			</Textbox>
 		</div>
 	</div>
