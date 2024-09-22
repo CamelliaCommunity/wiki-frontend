@@ -67,15 +67,16 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled"
 				:id="`${boxName}-textbox`" :value="value" />
 
-			<div :class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
+			<button
+				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">
 				<Component :is="submitIcon" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
-			</div>
-			<div v-if="isReply"
+			</button>
+			<button v-if="isReply"
 				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleCancel" :disabled="beDisabled">
 				<Component :is="PhX" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
-			</div>
+			</button>
 		</div>
 		<div class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
 			<div id="formatting" class="w-auto flex gap-3">
