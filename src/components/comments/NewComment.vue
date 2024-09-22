@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, shallowRef, watch, inject, toRefs } from 'vue';
+import { nextTick, ref, shallowRef, watch, inject, toRefs, onMounted } from 'vue';
 import { PhPaperPlaneTilt, PhXCircle, PhCheckCircle, PhArrowClockwise } from '@phosphor-icons/vue';
 
 import API from '@/utils/API';
@@ -91,6 +91,14 @@ let commentAction = "post";
 if (commentParent.value != null) commentAction = "reply";
 else if (commentId.value != null) commentAction = "edit";
 
+let commentBox;
+onMounted(() => {
+	if (commentAction != "post") {
+		commentBox = document.getElementById(`${commentAction}comment-textbox`);
+		commentBox.focus();
+	};
+});
+
 const handleCancel = () => {
 	if (!API.user.loggedIn) return;
 
@@ -127,8 +135,6 @@ const submitComment = () => {
 			updateTextbox();
 		}, 1000);
 	};
-
-	let commentBox = document.getElementById(`${commentAction}comment-textbox`);
 
 	let commentBoxText = commentBox.value;
 	commentBoxText = commentBoxText?.trim();
