@@ -46,12 +46,7 @@ const knownStates = {
 	ERROR: { icon: PhXCircle, spin: false },
 };
 
-const beDisabled = ref(error.value || !loaded.value);
-beDisabled.value = !API.user.loggedIn;
-beDisabled.value = error.value;
-watch(API.user, () => {
-	beDisabled.value = !error.value || !API.user.loggedIn;
-});
+const beDisabled = ref(false);
 
 const submitIconClasses = ref("");
 const currentState = shallowRef(knownStates.NORMAL);
@@ -100,6 +95,15 @@ onMounted(() => {
 		commentBox = document.getElementById(`${commentAction}comment-textbox`);
 		commentBox.focus();
 	};
+
+	const watchThing = () => {
+		if (error.value) beDisabled.value = true;
+		else if (!API.user.loggedIn) beDisabled.value = true;
+	};
+	watchThing();
+
+	watch(API.user, watchThing);
+	watch(error, watchThing);
 });
 
 const handleCancel = () => {
