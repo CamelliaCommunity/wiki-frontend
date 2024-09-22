@@ -79,7 +79,7 @@ API.get("/stats").then((res) => {
 react.posts = [];
 API.get("/home").then((res) => {
 	let data = res.data;
-	react.posts = splitHomePosts(data);
+	react.posts = data;
 });
 
 // News
@@ -95,23 +95,6 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 	let data = res.data;
 	react.community = data;
 });
-
-function splitHomePosts(posts) {
-	var curIsLeft = true;
-	var left = [];
-	var right = [];
-
-	posts.forEach(post => {
-		if (curIsLeft)
-			left.push(post);
-		else
-			right.push(post);
-
-		curIsLeft = !curIsLeft;
-	});
-
-	return [left, right];
-}
 </script>
 
 <template>
@@ -142,8 +125,9 @@ function splitHomePosts(posts) {
 					<GradientLine :overshoot="false" />
 				</div>
 				<div class="w-full flex flex-col gap-2">
-					<div class="w-full flex flex-col gap-2" v-for="side in react.posts">
-						<SimplePost v-for="post in side" :post="post" />
+					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
+						<SimplePost :post="post" />
+						<GrayLine v-if="index != (react.posts.length - 1)" />
 					</div>
 				</div>
 			</div>
