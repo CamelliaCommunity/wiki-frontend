@@ -134,6 +134,7 @@ const submitComment = () => {
 			newComment = { ...newComment, ...res.data, isLoading: false, vote: 1 };
 			commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
 			commentSystem.value.cache.unshift(newComment);
+			commentBox.value = "";
 
 			finishUp("success");
 		}
