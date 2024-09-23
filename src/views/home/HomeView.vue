@@ -101,7 +101,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 	<div class="w-full flex flex-col items-center justify-center gap-5">
 		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
-			<div class="flex w-full flex-col gap-4">
+			<div class="flex w-full flex-col justify-between gap-4">
 				<!-- row 1 -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
@@ -124,7 +124,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
 					<GradientLine :overshoot="false" />
 				</div>
-				<div class="w-full flex flex-col gap-2 md:max-h-72 overflow-y-auto max-h-full">
+				<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-80 overflow-y-auto max-h-full">
 					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
 						<SimplePost :post="post" />
 						<GrayLine v-if="index != (react.posts.length - 1)" />
