@@ -7,6 +7,7 @@ import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLinkSimple
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import Button from '@/components/Button.vue';
 import API from '@/utils/API';
+import ProfileCard from '@/components/ProfileCard.vue';
 
 
 let page = ref(0);
@@ -112,14 +113,8 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<div class="w-2/3">
 				<div v-if="page === 0">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
-					<div class="flex gap-2 content-center rounded-lg bg-background-1 p-3 h-20">
-						<img :class="`rounded-lg border-2`" :src="API.user.avatar"
-							:style="`border-color: ${API.user.color}`" alt="avatar" />
-						<div class="flex flex-col content-center justify-center">
-							<p class="text-2xl font-semibold leading-7">{{ API.user.nickname || API.user.username }}</p>
-							<p class="text-base font-semibold leading-4 text-light-gray">@{{ API.user.username }}</p>
-						</div>
-					</div>
+					<ProfileCard :user="API.user" />
+
 					<div v-if="about_me">
 						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
 						<input class="flex w-full rounded-lg bg-background-1 py-2 px-4">
