@@ -5,13 +5,14 @@ import { ref } from 'vue';
 // Icons / Components
 import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLinkSimple, PhLinkBreak } from '@phosphor-icons/vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
-
+import Button from '@/components/Button.vue';
+import API from '@/utils/API';
 
 
 let page = ref(0);
 
 function setvalue(num) {
-	page.value=num;
+	page.value = num;
 }
 
 /*
@@ -22,7 +23,7 @@ switch (id) {
 	case "privacy":
 		page.value=2;
 	break;
-	default: 
+	default:
 		page.value=0;
 	break;
 }
@@ -58,9 +59,8 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<div class="w-1/3">
 
 				<button @click="setvalue(0)">
-					<div :class="[( page === 0 ) ?
-						'border-l-accent text-white' : 'border-l-background-2']" 
-						class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
+					<div :class="[(page === 0) ?
+						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
                 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 
 						<PhUserGear class="size-8"></PhUserGear>
@@ -71,11 +71,9 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 
 					</div>
 				</button>
-
 				<button @click="setvalue(1)">
-					<div :class="[( page === 1 ) ?
-						'border-l-accent text-white' : 'border-l-background-2']" 
-						class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
+					<div :class="[(page === 1) ?
+						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
         		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 
 						<PhGithubLogo class="size-8"></PhGithubLogo>
@@ -87,23 +85,17 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					</div>
 				</button>
 				<button @click="setvalue(2)">
-					<div :class="[( page === 2 ) ? 
-						'border-l-accent text-white' : 'border-l-background-2']" 
-						class=" transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
+					<div :class="[(page === 2) ?
+						'border-l-accent text-white' : 'border-l-background-2']" class=" transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
          		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-
 						<PhLockKey class="size-8"></PhLockKey>
 						<div class="px-2">
 							<p class="text-xl font-medium leading-6">Privacy</p>
 							<p class="text-lg leading-6">Edit Account Privacy</p>
 						</div>
-
 					</div>
 				</button>
-
 				<div class="gray-line opacity-40"></div>
-
-
 				<div @click="API.user" class="transition flex flex-row items-center cursor-pointer py-2 px-2 pl-4
          		border-l-2 border-l-background-2 text-red 
 				hover:border-l-accent-soft hover:text-accent-soft">
@@ -116,18 +108,18 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 
 				</div>
 			</div>
+			<!-- the actual page content -->
 			<div class="w-2/3">
-				<div v-if="page===0">
+				<div v-if="page === 0">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
-					<div class="flex rounded-lg bg-background-1 py-2 px-4">
-						<img class="rounded-lg h-12" :src="[avatar ?
-							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
-
-						<h1 class="text-2xl font-semibold px-2 py-2">{{ username ?
-							github_username : "Please login for more access." }}</h1>
-					
+					<div class="flex gap-2 content-center rounded-lg bg-background-1 p-3 h-20">
+						<img :class="`rounded-lg border-2`" :src="API.user.avatar"
+							:style="`border-color: ${API.user.color}`" alt="avatar" />
+						<div class="flex flex-col content-center justify-center">
+							<p class="text-2xl font-semibold leading-7">{{ API.user.nickname || API.user.username }}</p>
+							<p class="text-base font-semibold leading-4 text-light-gray">@{{ API.user.username }}</p>
+						</div>
 					</div>
-
 					<div v-if="about_me">
 						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
 						<input class="flex w-full rounded-lg bg-background-1 py-2 px-4">
@@ -137,18 +129,20 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Site Language</h1>
 							<div class="flex rounded-lg bg-background-4 py-2 px-4 text-lg">
-							idk
+								idk
 							</div>
 						</div>
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Date Format</h1>
-							<select name="date_format" class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
+							<select name="date_format"
+								class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
 								<option value=1></option>
 							</select>
 						</div>
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Editor Font Style</h1>
-							<select name="font_style" class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
+							<select name="font_style"
+								class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
 								<option value="default">Default (Author)</option>
 								<option value="monospace">Monospace</option>
 								<option value="sans-serif">Sans Serif</option>
@@ -158,9 +152,9 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					</div>
 				</div>
 
-				
 
-				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page===1">
+
+				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page === 1">
 					<BlockquoteNote title="A tip for you" type="tip">
 						<p class="text-lg py-1">In order to contribute and create articles a GitHub
 							account must be linked. This is so we can receive changes on your behalf.</p>
@@ -195,7 +189,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					</div>
 				</div>
 
-				<div v-else-if="page===2">
+				<div v-else-if="page === 2">
 
 					<p class="text-lg">Account Privacy</p>
 				</div>
