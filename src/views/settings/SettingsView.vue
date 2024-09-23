@@ -6,7 +6,9 @@ import { ref } from 'vue';
 import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLinkSimple, PhLinkBreak } from '@phosphor-icons/vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import Button from '@/components/Button.vue';
+import PopupOverlay from '@/overlays/popup/PopupOverlay.vue';
 import API from '@/utils/API';
+import Events from '@/utils/Events';
 import ProfileCard from '@/components/ProfileCard.vue';
 import GrayLine from '@/components/GrayLine.vue';
 
@@ -31,6 +33,13 @@ switch (id) {
 }
 */
 
+// logs out then closes the popup - john
+function logOut(ClosePopup) {
+	if (API.user.loggedIn) {
+		API.performLogout();
+		ClosePopup();
+	}
+}
 
 /*
 gotta base on working this thing bcz it might require 3 sites due to options...
@@ -46,8 +55,23 @@ but I'll keep multiple routes for now as no alts to control the page exists ~ Hi
 changed so you dont have to change page, removed routing for /settings/{...}, should try implementing hash
 */
 //Almost spaghetti html xDDD
+// it is - john
 </script>
 <template>
+	<!-- TODO: REPLACE PADDING LAYOUTS WITH FLEXBOXES
+	FIX POPUPS
+	ADD GITHUB SUPPORT? -->
+
+	<!-- popups seriously need to be rethought - john -->
+	<PopupOverlay event="popup-logout">
+		<template #content>Are you very sure you want to logout?</template>
+		<template #footer="{ ClosePopup }">
+			<div class="flex justify-center gap-2">
+				<Button type="success" @click="logOut(ClosePopup)">Yes</Button>
+				<Button type="error" @click="ClosePopup">Cancel</Button>
+			</div>
+		</template>
+	</PopupOverlay>
 	<div class="w-full xl:w-content-width max-h-full mx-auto py-8">
 		<div class="flex items-center px-5 py-2">
 			<PhGearSix class="size-9" />
@@ -57,11 +81,11 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 		<div class="gray-line opacity-40"></div>
 		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
 			<div class="w-1/3">
-				<button @click="setvalue(0)">
+				<!-- there should not be divs inside buttons like this -john -->
+				<button @click="setvalue(0)" class="w-full">
 					<div :class="[(page === 0) ?
-						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
-                border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-
+						'border-l-accent text-white' : 'border-l-background-2']"
+						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 						<PhUserGear class="size-8"></PhUserGear>
 						<div class="px-2">
 							<p class="text-xl font-medium leading-6">General</p>
@@ -69,10 +93,10 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</div>
 					</div>
 				</button>
-				<button @click="setvalue(1)">
+				<button @click="setvalue(1)" class="w-full">
 					<div :class="[(page === 1) ?
-						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
-        		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
+						'border-l-accent text-white' : 'border-l-background-2']"
+						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 						<PhGithubLogo class="size-8"></PhGithubLogo>
 						<div class="px-2">
 							<p class="text-xl font-medium leading-6">Github</p>
@@ -80,10 +104,10 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</div>
 					</div>
 				</button>
-				<button @click="setvalue(2)">
+				<button @click="setvalue(2)" class="w-full">
 					<div :class="[(page === 2) ?
-						'border-l-accent text-white' : 'border-l-background-2']" class=" transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
-         		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
+						'border-l-accent text-white' : 'border-l-background-2']"
+						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
 						<PhLockKey class="size-8"></PhLockKey>
 						<div class="px-2">
 							<p class="text-xl font-medium leading-6">Privacy</p>
@@ -92,16 +116,15 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					</div>
 				</button>
 				<GrayLine />
-				<div @click="API.user" class="transition flex flex-row items-center cursor-pointer py-2 px-2 pl-4
-         		border-l-2 border-l-background-2 text-red 
-				hover:border-l-accent-soft hover:text-accent-soft">
+				<button
+					class="transition w-full flex flex-row items-center text-left cursor-pointer p-3 border-l-2 border-l-background-2 text-red hover:border-l-accent-soft hover:text-accent-soft"
+					@click="Events.Emit('popup-logout')">
 					<PhSignOut class="size-8"></PhSignOut>
 					<div class="px-2">
 						<p class="text-xl font-medium leading-6">Logout</p>
 						<p class="text-lg leading-6">Log out of your Account</p>
 					</div>
-
-				</div>
+				</button>
 			</div>
 			<!-- the actual page content -->
 			<div class="w-2/3">
@@ -141,23 +164,24 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 				</div>
 				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page === 1">
 					<BlockquoteNote title="A tip for you" type="tip">
-						<p class="text-lg py-1">In order to contribute and create articles a GitHub
-							account must be linked. This is so we can receive changes on your behalf.</p>
+						In order to contribute and create articles a GitHub
+						account must be linked. This is so we can receive changes on your behalf.
 					</BlockquoteNote>
-					<p class="text-lg py-4">Github Account</p>
-					<div class="flex rounded-lg bg-background-1 py-2 px-4">
+					<p class="text-lg">Github Account</p>
+					<!-- <div class="flex rounded-lg bg-background-1 py-2 px-4">
 						<img class="rounded-lg h-12" :src="[github_avatar ?
 							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
 						<h1 class="text-2xl font-semibold px-2 py-2">{{ github_username ?
 							github_username : "No Github account found." }}</h1>
-					</div>
+					</div> -->
+
+					<!-- replace this shit with a github version - john -->
+					<ProfileCard :user="API.user" />
 					<div class="py-4 flex flex-row-reverse" v-if="!github_acc">
-						<button class="transition flex items-center justify-center right
-						bg-background-header-buttons hover:bg-background-3
-						p-2 rounded-xl text-lg cursor-pointer" @click="github_login">
+						<Button @click="github_login">
+							<p class="font-medium">Link GitHub Account</p>
 							<PhLinkSimple :size="18"></PhLinkSimple>
-							<h3 class="pl-1 font-medium">Link GitHub Account</h3>
-						</button>
+						</Button>
 					</div>
 					<div class="py-4 flex flex-row-reverse" v-else>
 						<button class="transition flex items-center justify-center right
