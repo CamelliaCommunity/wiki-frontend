@@ -8,6 +8,7 @@ import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import Button from '@/components/Button.vue';
 import API from '@/utils/API';
 import ProfileCard from '@/components/ProfileCard.vue';
+import GrayLine from '@/components/GrayLine.vue';
 
 
 let page = ref(0);
@@ -52,13 +53,10 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<PhGearSix class="size-9" />
 			<h1 class="text-2xl font-semibold text-center px-2 py-2">Settings</h1>
 		</div>
-
+		<GrayLine />
 		<div class="gray-line opacity-40"></div>
-
 		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
-
 			<div class="w-1/3">
-
 				<button @click="setvalue(0)">
 					<div :class="[(page === 0) ?
 						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
@@ -69,20 +67,17 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 							<p class="text-xl font-medium leading-6">General</p>
 							<p class="text-lg leading-6">Edit General Settings</p>
 						</div>
-
 					</div>
 				</button>
 				<button @click="setvalue(1)">
 					<div :class="[(page === 1) ?
 						'border-l-accent text-white' : 'border-l-background-2']" class="transition flex flex-row items-center text-left cursor-pointer py-2 pl-4 pr-20 
         		border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-
 						<PhGithubLogo class="size-8"></PhGithubLogo>
 						<div class="px-2">
 							<p class="text-xl font-medium leading-6">Github</p>
 							<p class="text-lg leading-6">Link your GitHub Account</p>
 						</div>
-
 					</div>
 				</button>
 				<button @click="setvalue(2)">
@@ -96,11 +91,10 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</div>
 					</div>
 				</button>
-				<div class="gray-line opacity-40"></div>
+				<GrayLine />
 				<div @click="API.user" class="transition flex flex-row items-center cursor-pointer py-2 px-2 pl-4
          		border-l-2 border-l-background-2 text-red 
 				hover:border-l-accent-soft hover:text-accent-soft">
-
 					<PhSignOut class="size-8"></PhSignOut>
 					<div class="px-2">
 						<p class="text-xl font-medium leading-6">Logout</p>
@@ -114,7 +108,6 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 				<div v-if="page === 0">
 					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
 					<ProfileCard :user="API.user" />
-
 					<div v-if="about_me">
 						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
 						<input class="flex w-full rounded-lg bg-background-1 py-2 px-4">
@@ -146,26 +139,18 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</div>
 					</div>
 				</div>
-
-
-
 				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page === 1">
 					<BlockquoteNote title="A tip for you" type="tip">
 						<p class="text-lg py-1">In order to contribute and create articles a GitHub
 							account must be linked. This is so we can receive changes on your behalf.</p>
 					</BlockquoteNote>
-
 					<p class="text-lg py-4">Github Account</p>
-
 					<div class="flex rounded-lg bg-background-1 py-2 px-4">
 						<img class="rounded-lg h-12" :src="[github_avatar ?
 							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
-
 						<h1 class="text-2xl font-semibold px-2 py-2">{{ github_username ?
 							github_username : "No Github account found." }}</h1>
-
 					</div>
-
 					<div class="py-4 flex flex-row-reverse" v-if="!github_acc">
 						<button class="transition flex items-center justify-center right
 						bg-background-header-buttons hover:bg-background-3
@@ -183,14 +168,10 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</button>
 					</div>
 				</div>
-
 				<div v-else-if="page === 2">
-
 					<p class="text-lg">Account Privacy</p>
 				</div>
-
 			</div>
-
 		</div>
 	</div>
 </template>
