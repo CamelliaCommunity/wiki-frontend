@@ -132,37 +132,41 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<!-- the actual page content -->
 			<div class="w-2/3">
 				<div v-if="page === 0">
-					<p class="text-lg">You may only edit profile pictures and banners in Discord!</p>
+					<p class="text-lg pb-2">You may only edit profile pictures and banners in Discord!</p>
+					<!-- i cant be fucked to fix profilecard from getting the flex treatment - john -->
 					<ProfileCard :user="API.user" />
-					<div v-if="about_me">
-						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
-						<!-- <input class="flex w-full rounded-lg bg-background-1 py-2">
+					<div class="flex flex-col gap-4 pt-4">
+						<div v-if="about_me">
+							<h1 class="text-2xl font-medium pb-1">About Me</h1>
+							<!-- <input class="flex w-full rounded-lg bg-background-1 py-2">
 						</input> -->
-						<Textbox placeholder-text="Insert some text here." box-name="aboutme" :simple="true" />
-						<!-- When bio's exist, fetch the data and place with :value="" to autofill the bio in. -->
-
-					</div>
-					<div class="grid grid-cols-2 gap-x-2 pt-6">
-						<div>
-							<h1 class="text-2xl font-medium pb-2 pt-6">Site Language</h1>
-							<div class="flex rounded-xl bg-background-3 p-3 text-lg">
-								idk
+							<Textbox placeholder-text="Insert some text here." box-name="aboutme" :simple="true" />
+							<!-- When bio's exist, fetch the data and place with :value="" to autofill the bio in. -->
+						</div>
+						<div class="grid grid-cols-2 gap-x-2 gap-y-4">
+							<div>
+								<h1 class="text-2xl font-medium pb-1">Site Language</h1>
+								<div class="flex rounded-xl bg-background-3 p-3 text-lg h-12">
+									idk
+								</div>
 							</div>
-						</div>
-						<div>
-							<h1 class="text-2xl font-medium pb-2 pt-6">Date Format</h1>
-							<select name="date_format" class="flex w-full rounded-xl bg-background-3 p-3 text-lg">
-								<option value=1></option>
-							</select>
-						</div>
-						<div>
-							<h1 class="text-2xl font-medium pb-2 pt-6">Editor Font Style</h1>
-							<select name="font_style" class="flex w-full rounded-xl bg-background-3 p-3 text-lg">
-								<option value="default">Default (Author)</option>
-								<option value="monospace">Monospace</option>
-								<option value="sans-serif">Sans Serif</option>
-								<option value="serif">Serif</option>
-							</select>
+							<div>
+								<h1 class="text-2xl font-medium pb-1">Date Format</h1>
+								<select name="date_format"
+									class="flex w-full rounded-xl bg-background-3 p-3 text-lg h-12">
+									<option value=1></option>
+								</select>
+							</div>
+							<div>
+								<h1 class="text-2xl font-medium pb-1">Editor Font Style</h1>
+								<select name="font_style"
+									class="flex w-full rounded-xl bg-background-3 p-3 text-lg h-12">
+									<option value="default">Default (Author)</option>
+									<option value="monospace">Monospace</option>
+									<option value="sans-serif">Sans Serif</option>
+									<option value="serif">Serif</option>
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
