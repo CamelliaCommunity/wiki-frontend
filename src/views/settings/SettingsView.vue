@@ -62,11 +62,6 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 // it is - john
 </script>
 <template>
-	<!-- TODO: REPLACE PADDING LAYOUTS WITH FLEXBOXES
-	FIX POPUPS
-	ADD GITHUB SUPPORT? -->
-
-	<!-- popups seriously need to be rethought - john -->
 	<PopupOverlay event="popup-logout">
 		<template #content>Are you very sure you want to logout?</template>
 		<template #footer="{ ClosePopup }">
@@ -76,14 +71,15 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			</div>
 		</template>
 	</PopupOverlay>
+
 	<div class="w-full xl:w-content-width max-h-full mx-auto py-8">
 		<div class="flex items-center px-5 py-2">
 			<PhGearSix class="size-9" />
 			<h1 class="text-2xl font-semibold text-center p-2">Settings</h1>
 		</div>
 		<GrayLine />
-		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
-			<div class="w-1/3">
+		<div class="flex flex-col md:flex-row max-h-full mx-auto py-3 gap-4">
+			<div class="max-w-72 max-md:flex max-md:flex-col max-md:min-w-full">
 				<!-- there should not be divs inside buttons like this -john -->
 				<button @click="setvalue(0)" class="w-full">
 					<div :class="[(page === 0) ?
@@ -130,7 +126,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 				</button>
 			</div>
 			<!-- the actual page content -->
-			<div class="w-2/3">
+			<div class="w-full">
 				<div v-if="page === 0">
 					<p class="text-lg pb-2">You may only edit profile pictures and banners in Discord!</p>
 					<!-- i cant be fucked to fix profilecard from getting the flex treatment - john -->
@@ -143,7 +139,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 							<Textbox placeholder-text="Insert some text here." box-name="aboutme" :simple="true" />
 							<!-- When bio's exist, fetch the data and place with :value="" to autofill the bio in. -->
 						</div>
-						<div class="grid grid-cols-2 gap-x-2 gap-y-4">
+						<div class="grid md:grid-cols-2 gap-x-2 gap-y-4">
 							<div>
 								<h1 class="text-2xl font-medium pb-1">Site Language</h1>
 								<div class="flex rounded-xl bg-background-3 p-3 text-lg h-12">
@@ -175,7 +171,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						In order to contribute and create articles a GitHub
 						account must be linked. This is so we can receive changes on your behalf.
 					</BlockquoteNote>
-					<p class="text-lg">Github Account</p>
+					<p class="text-lg pt-4">Github Account</p>
 					<!-- <div class="flex rounded-lg bg-background-1 py-2 px-4">
 						<img class="rounded-lg h-12" :src="[github_avatar ?
 							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
@@ -185,7 +181,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 
 					<!-- replace this shit with a github version - john -->
 					<ProfileCard :user="API.user" />
-					<div class="flex flex-col items-end" v-if="!github_acc">
+					<div class="flex flex-col items-end pt-4" v-if="!github_acc">
 						<Button @click="github_login">
 							<p class="font-medium">Link GitHub Account</p>
 							<PhLinkSimple :size="18"></PhLinkSimple>
