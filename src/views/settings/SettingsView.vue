@@ -75,7 +75,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 	<div class="w-full xl:w-content-width max-h-full mx-auto py-8">
 		<div class="flex items-center px-5 py-2">
 			<PhGearSix class="size-9" />
-			<h1 class="text-2xl font-semibold text-center px-2 py-2">Settings</h1>
+			<h1 class="text-2xl font-semibold text-center p-2">Settings</h1>
 		</div>
 		<GrayLine />
 		<div class="gray-line opacity-40"></div>
