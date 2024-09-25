@@ -145,21 +145,19 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					<div class="grid grid-cols-2 gap-x-2 pt-6">
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Site Language</h1>
-							<div class="flex rounded-lg bg-background-4 py-2 px-4 text-lg">
+							<div class="flex rounded-xl bg-background-3 p-3 text-lg">
 								idk
 							</div>
 						</div>
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Date Format</h1>
-							<select name="date_format"
-								class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
+							<select name="date_format" class="flex w-full rounded-xl bg-background-3 p-3 text-lg">
 								<option value=1></option>
 							</select>
 						</div>
 						<div>
 							<h1 class="text-2xl font-medium pb-2 pt-6">Editor Font Style</h1>
-							<select name="font_style"
-								class="flex w-full rounded-lg bg-background-4 py-2 px-4 text-lg h-11">
+							<select name="font_style" class="flex w-full rounded-xl bg-background-3 p-3 text-lg">
 								<option value="default">Default (Author)</option>
 								<option value="monospace">Monospace</option>
 								<option value="sans-serif">Sans Serif</option>
