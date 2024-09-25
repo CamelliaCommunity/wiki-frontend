@@ -12,6 +12,7 @@ import API from '@/utils/API';
 import Events from '@/utils/Events';
 import ProfileCard from '@/components/ProfileCard.vue';
 import GrayLine from '@/components/GrayLine.vue';
+import SideButton from '@/components/buttons/SideButton.vue';
 
 
 let page = ref(0);
@@ -79,51 +80,19 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 		</div>
 		<GrayLine />
 		<div class="flex flex-col md:flex-row max-h-full mx-auto py-3 gap-4">
-			<div class="max-w-72 max-md:flex max-md:flex-col max-md:min-w-full">
-				<!-- there should not be divs inside buttons like this -john -->
-				<button @click="setvalue(0)" class="w-full">
-					<div :class="[(page === 0) ?
-						'border-l-accent text-white' : 'border-l-background-2']"
-						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-						<PhUserGear class="size-8"></PhUserGear>
-						<div class="px-2">
-							<p class="text-xl font-medium leading-6">General</p>
-							<p class="text-lg leading-6">Edit General Settings</p>
-						</div>
-					</div>
-				</button>
-				<button @click="setvalue(1)" class="w-full">
-					<div :class="[(page === 1) ?
-						'border-l-accent text-white' : 'border-l-background-2']"
-						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-						<PhGithubLogo class="size-8"></PhGithubLogo>
-						<div class="px-2">
-							<p class="text-xl font-medium leading-6">Github</p>
-							<p class="text-lg leading-6">Link your GitHub Account</p>
-						</div>
-					</div>
-				</button>
-				<button @click="setvalue(2)" class="w-full">
-					<div :class="[(page === 2) ?
-						'border-l-accent text-white' : 'border-l-background-2']"
-						class="transition flex flex-row items-center text-left cursor-pointer p-3 border-l-2 text-light-gray hover:border-l-accent hover:text-white">
-						<PhLockKey class="size-8"></PhLockKey>
-						<div class="px-2">
-							<p class="text-xl font-medium leading-6">Privacy</p>
-							<p class="text-lg leading-6">Edit Account Privacy</p>
-						</div>
-					</div>
-				</button>
+			<div class="max-w-72 max-md:flex max-md:flex-col max-md:min-w-full w-1/2">
+				<SideButton @click="setvalue(0)"
+					:class="`${page === 0 ? 'border-l-accent text-white' : 'border-l-background-2'} w-full`"
+					:icon="PhUserGear" title="General" subtitle="Edit General Settings" />
+				<SideButton @click="setvalue(1)"
+					:class="`${page === 1 ? 'border-l-accent text-white' : 'border-l-background-2'} w-full`"
+					:icon="PhGithubLogo" title="Github" subtitle="Link your GitHub Account" />
+				<SideButton @click="setvalue(2)"
+					:class="`${page === 2 ? 'border-l-accent text-white' : 'border-l-background-2'} w-full`"
+					:icon="PhLockKey" title="Privacy" subtitle="Edit Account Privacy" />
 				<GrayLine />
-				<button
-					class="transition w-full flex flex-row items-center text-left cursor-pointer p-3 border-l-2 border-l-background-2 text-red hover:border-l-accent-soft hover:text-accent-soft"
-					@click="Events.Emit('popup-logout')">
-					<PhSignOut class="size-8"></PhSignOut>
-					<div class="px-2">
-						<p class="text-xl font-medium leading-6">Logout</p>
-						<p class="text-lg leading-6">Log out of your Account</p>
-					</div>
-				</button>
+				<SideButton @click="Events.Emit('popup-logout')" class="border-l-background-2 w-full"
+					:buttonStyle="danger" :icon="PhSignOut" title="Logout" subtitle="Log out of your Account" />
 			</div>
 			<!-- the actual page content -->
 			<div class="w-full">
