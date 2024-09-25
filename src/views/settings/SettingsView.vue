@@ -138,7 +138,9 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
 						<!-- <input class="flex w-full rounded-lg bg-background-1 py-2">
 						</input> -->
-						<Textbox></Textbox>
+						<Textbox placeholder-text="Insert some text here." box-name="aboutme" :simple="true" />
+						<!-- When bio's exist, fetch the data and place with :value="" to autofill the bio in. -->
+
 					</div>
 					<div class="grid grid-cols-2 gap-x-2 pt-6">
 						<div>
