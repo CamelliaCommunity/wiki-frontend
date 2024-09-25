@@ -170,7 +170,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						</div>
 					</div>
 				</div>
-				<div class="max-h-full mx-auto py-2 gap-4" v-else-if="page === 1">
+				<div v-else-if="page === 1">
 					<BlockquoteNote title="A tip for you" type="tip">
 						In order to contribute and create articles a GitHub
 						account must be linked. This is so we can receive changes on your behalf.
@@ -185,19 +185,17 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 
 					<!-- replace this shit with a github version - john -->
 					<ProfileCard :user="API.user" />
-					<div class="py-4 flex flex-row-reverse" v-if="!github_acc">
+					<div class="flex flex-col items-end" v-if="!github_acc">
 						<Button @click="github_login">
 							<p class="font-medium">Link GitHub Account</p>
 							<PhLinkSimple :size="18"></PhLinkSimple>
 						</Button>
 					</div>
-					<div class="py-4 flex flex-row-reverse" v-else>
-						<button class="transition flex items-center justify-center right
-						bg-background-header-buttons hover:bg-background-3
-						p-2 rounded-xl text-lg cursor-pointer" @click="github_logout">
+					<div class="flex-col items-end" v-else>
+						<Button @click="github_logout">
+							<p class="font-medium">Unlink GitHub Account</p>
 							<PhLinkBreak :size="18"></PhLinkBreak>
-							<h3 class="pl-1 font-medium">Unlink GitHub Account</h3>
-						</button>
+						</Button>
 					</div>
 				</div>
 				<div v-else-if="page === 2">
