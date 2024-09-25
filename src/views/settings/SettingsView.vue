@@ -7,6 +7,7 @@ import { PhGearSix, PhUserGear, PhGithubLogo, PhLockKey, PhSignOut, PhLinkSimple
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import Button from '@/components/Button.vue';
 import PopupOverlay from '@/overlays/popup/PopupOverlay.vue';
+import Textbox from '@/components/textbox/Textbox.vue';
 import API from '@/utils/API';
 import Events from '@/utils/Events';
 import ProfileCard from '@/components/ProfileCard.vue';
@@ -40,6 +41,9 @@ function logOut(ClosePopup) {
 		ClosePopup();
 	}
 }
+
+// test
+let about_me = 1;
 
 /*
 gotta base on working this thing bcz it might require 3 sites due to options...
@@ -78,7 +82,6 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 			<h1 class="text-2xl font-semibold text-center p-2">Settings</h1>
 		</div>
 		<GrayLine />
-		<div class="gray-line opacity-40"></div>
 		<div class="flex flex-row w-full xl:w-content-width max-h-full mx-auto py-3 gap-4">
 			<div class="w-1/3">
 				<!-- there should not be divs inside buttons like this -john -->
@@ -133,8 +136,9 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					<ProfileCard :user="API.user" />
 					<div v-if="about_me">
 						<h1 class="text-2xl font-medium pb-2 pt-6">About Me</h1>
-						<input class="flex w-full rounded-lg bg-background-1 py-2 px-4">
-						</input>
+						<!-- <input class="flex w-full rounded-lg bg-background-1 py-2">
+						</input> -->
+						<Textbox></Textbox>
 					</div>
 					<div class="grid grid-cols-2 gap-x-2 pt-6">
 						<div>
