@@ -140,7 +140,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 						In order to contribute and create articles a GitHub
 						account must be linked. This is so we can receive changes on your behalf.
 					</BlockquoteNote>
-					<p class="text-lg pt-4">Github Account</p>
+					<p class="text-lg pt-4 pb-1">Github Account</p>
 					<!-- <div class="flex rounded-lg bg-background-1 py-2 px-4">
 						<img class="rounded-lg h-12" :src="[github_avatar ?
 							github_avatar : '/src/assets/images/avatar.png']" alt="avatar">
