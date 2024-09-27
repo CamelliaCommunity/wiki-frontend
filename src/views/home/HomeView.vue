@@ -15,25 +15,29 @@ import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
 
+const loadingContentMeta = {
+	title: 'loading...',
+	description: 'we are still fetching this for you...',
+	date: -1,
+};
+
 const react = reactive({
 	// Featured
 	featured: {
-		meta: {
-			title: 'loading...',
-			description: 'we are still fetching this for you...',
-			date: -1,
-		},
+		meta: loadingContentMeta,
 		url: "/featured"
 	},
 
 	// Popular
 	popular: {
-		meta: {
-			title: 'loading...',
-			description: 'we are still fetching this for you...',
-			date: -1,
-		},
+		meta: loadingContentMeta,
 		url: "/popular"
+	},
+
+	// Random
+	random: {
+		meta: loadingContentMeta,
+		url: "/random"
 	},
 
 	// Statistics
@@ -65,6 +69,11 @@ API.get("/featured").then((data) => {
 API.get("/popular").then((data) => {
 	if (!data.data.url) return;
 	react.popular = data.data;
+});
+
+API.get("/articles?path=/random").then((data) => {
+	if (!data.data.url) return;
+	react.random = data.data;
 });
 
 // Statistics
@@ -109,7 +118,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
 							other-image />
 						<!-- this will be a random post - john -->
-						<FeaturedPost class="w-full" post-type="Random Post" :post="react.popular" linearBackground
+						<FeaturedPost class="w-full" post-type="Random Post" :post="react.random" linearBackground
 							other-image />
 						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
