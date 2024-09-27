@@ -53,10 +53,14 @@ const props = defineProps({
 	value: {
 		type: String,
 		default: null
+	},
+	simple: {
+		type: Boolean,
+		default: false
 	}
 });
 
-const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, boxName, value } = toRefs(props);
+const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, boxName, value, simple } = toRefs(props);
 </script>
 
 <template>
@@ -67,18 +71,18 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled"
 				:id="`${boxName}-textbox`" :value="value" />
 
-			<button
+			<button v-if="!simple"
 				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">
 				<Component :is="submitIcon" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
 			</button>
-			<button v-if="isReply"
+			<button v-if="isReply && !simple"
 				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="cancel" @click="handleCancel" :disabled="beDisabled">
 				<Component :is="PhX" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
 			</button>
 		</div>
-		<div class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
+		<div v-if="!simple" class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
 			<div id="formatting" class="w-auto flex gap-3">
 				<TextboxIcon :icon="PhTextBolder" :disabled="beDisabled" />
 				<TextboxIcon :icon="PhTextItalic" :disabled="beDisabled" />

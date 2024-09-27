@@ -36,10 +36,9 @@ function ClosePopup(fromEmitted) {
 }
 </script>
 
-<!-- we need to disable scrolling -->
 <template>
 	<Transition name="overlay">
-		<div class="z-50 flex fixed inset-0 justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
+		<div class="z-50 flex fixed inset-0 justify-center items-center min-w-screen min-h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
 			v-if="popupReact.open">
 			<div class="z-0 max-w-4xl bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
 				ref="popupContent">
