@@ -109,7 +109,7 @@ API.get(sourceRandom.url).then(async (res) => {
 					</div>
 				</div>
 				<LoadingImage :src="react.output.image || DefaultImage || EmptyImage"
-					class="object-scale-down w-40 self-center rounded-lg" />
+					class="object-scale-down w-[154px] self-center rounded-lg" />
 			</div>
 		</OverlapGrid>
 	</a>
