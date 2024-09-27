@@ -23,11 +23,13 @@ const props = defineProps({
 </script>
 
 <template>
-	<div class="max-xl:w-full rounded-lg bg-background-1 w-64">
-		<div class="flex flex-col bg-background-3 p-2 rounded-lg gap-2">
+	<div class="flex flex-col flex-auto max-xl:w-full rounded-lg bg-background-1 w-64">
+		<div class="flex flex-col flex-auto justify-between bg-background-3 p-2 rounded-lg gap-2">
 			<h3 class="text-2xl font-medium pl-2">{{ title }}</h3>
-			<SidebarImagePost v-if="useImages" v-for="post in posts" :post="post" />
-			<SidebarTextPost v-else v-for="post in posts" :post="post" />
+			<div class="flex flex-col flex-auto justify-between gap-2">
+				<SidebarImagePost v-if="useImages" v-for="post in posts" :post="post" />
+				<SidebarTextPost v-else v-for="post in posts" :post="post" />
+			</div>
 			<h4 v-if="posts.length < 1" class="pl-2">No {{ title }} to display!</h4>
 		</div>
 		<div v-if="posts.length >= 1" class="rounded-xl flex justify-center text-center p-2">

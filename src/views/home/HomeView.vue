@@ -2,52 +2,51 @@
 import HomeHeader from './components/HomeHeader.vue';
 import FeaturedPost from './components/FeaturedPost.vue';
 import SimplePost from './components/SimplePost.vue';
+import BigPost from './components/BigPost.vue';
 import HomeStats from './components/HomeStats.vue';
 import SidebarPosts from './components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
+import GradientLine from '@/components/GradientLine.vue';
+import LatestRelease from './components/LatestRelease.vue';
+import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
+
+const loadingContentMeta = {
+	title: 'loading...',
+	description: 'we are still fetching this for you...',
+	date: -1,
+};
 
 const react = reactive({
 	// Featured
 	featured: {
-		meta: {
-			title: 'loading...',
-			description: 'we are still fetching this for you...',
-			date: -1,
-		},
+		meta: loadingContentMeta,
 		url: "/featured"
 	},
 
 	// Popular
 	popular: {
-		meta: {
-			title: 'loading...',
-			description: 'we are still fetching this for you...',
-			date: -1,
-		},
+		meta: loadingContentMeta,
 		url: "/popular"
+	},
+
+	// Random
+	random: {
+		meta: loadingContentMeta,
+		url: "/random"
 	},
 
 	// Statistics
 	stats: {
-		"articles": 0,
-		"comments": 0,
-		"visits": 0
+		articles: 0,
+		comments: 0,
+		visits: 0
 	}
 });
-
-const latestSongRelease = {
-	meta: {
-		title: "Latest Song Release",
-		// for now we are lorem
-		// in the figma, theres a video attached to the side. maybe we could add a read more that leads to discography? - john
-		description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	}
-};
 
 // API calls
 
@@ -63,6 +62,11 @@ API.get("/popular").then((data) => {
 	react.popular = data.data;
 });
 
+API.get("/articles?path=/random").then((data) => {
+	if (!data.data.url) return;
+	react.random = data.data;
+});
+
 // Statistics
 API.get("/stats").then((res) => {
 	let data = res.data;
@@ -75,7 +79,7 @@ API.get("/stats").then((res) => {
 react.posts = [];
 API.get("/home").then((res) => {
 	let data = res.data;
-	react.posts = splitHomePosts(data);
+	react.posts = data;
 });
 
 // News
@@ -91,39 +95,37 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 	let data = res.data;
 	react.community = data;
 });
-
-function splitHomePosts(posts) {
-	var curIsLeft = true;
-	var left = [];
-	var right = [];
-
-	posts.forEach(post => {
-		if (curIsLeft)
-			left.push(post);
-		else
-			right.push(post);
-
-		curIsLeft = !curIsLeft;
-	});
-
-	return [left, right];
-}
 </script>
 
 <template>
 	<div class="w-full flex flex-col items-center justify-center gap-5">
 		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
+			<!-- i removed the justify-between as temporary fix, sorry emma :( - john -->
 			<div class="flex w-full flex-col gap-4">
-				<FeaturedPost post-type="Featured Post" :post="react.featured" />
 				<div class="w-full flex flex-col md:flex-row gap-4">
-					<FeaturedPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
-					<HomeStats class="w-full md:w-64" :stats="react.stats" />
+					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
+					<div class="flex w-full flex-col gap-4">
+						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
+							other-image />
+						<FeaturedPost class="w-full" post-type="Random Post" :post="react.random" linearBackground
+							other-image />
+						<HomeStats class="w-full" :stats="react.stats" />
+					</div>
 				</div>
-				<SimplePost :post="latestSongRelease" />
-				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div class="w-full flex flex-col gap-4" v-for="side in react.posts">
-						<SimplePost v-for="post in side" :post="post" />
+
+				<div class="w-full flex flex-col md:flex-row gap-4">
+					<LatestRelease linearBackground />
+				</div>
+
+				<div>
+					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
+					<GradientLine :overshoot="false" />
+				</div>
+				<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-80 overflow-y-auto max-h-full">
+					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
+						<SimplePost :post="post" />
+						<GrayLine v-if="index != (react.posts.length - 1)" />
 					</div>
 				</div>
 			</div>
