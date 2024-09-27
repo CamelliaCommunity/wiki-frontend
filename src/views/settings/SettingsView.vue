@@ -123,7 +123,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 								</select>
 							</div>
 							<div>
-								<h1 class="text-2xl font-medium pb-1">Editor Font Style</h1>
+								<h1 class="text-2xl font-medium pb-1">Site Font Style</h1>
 								<select name="font_style"
 									class="flex w-full rounded-xl bg-background-3 p-3 text-lg h-12">
 									<option value="default">Default (Author)</option>
@@ -132,6 +132,11 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 									<option value="serif">Serif</option>
 								</select>
 							</div>
+						</div>
+						<div class="flex flex-col items-end">
+							<Button type="success" @click="save_changes">
+								Save Changes
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -152,13 +157,13 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					<ProfileCard :user="API.user" />
 					<div class="flex flex-col items-end pt-4" v-if="!github_acc">
 						<Button @click="github_login">
-							<p class="font-medium">Link GitHub Account</p>
+							Link GitHub Account
 							<PhLinkSimple :size="18"></PhLinkSimple>
 						</Button>
 					</div>
 					<div class="flex-col items-end" v-else>
 						<Button @click="github_logout">
-							<p class="font-medium">Unlink GitHub Account</p>
+							Unlink GitHub Account
 							<PhLinkBreak :size="18"></PhLinkBreak>
 						</Button>
 					</div>
