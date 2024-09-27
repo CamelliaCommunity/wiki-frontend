@@ -36,7 +36,8 @@ const props = defineProps({
 						<h3 class="text-lg font-semibold">{{ postType }}</h3>
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
 					</div>
-					<h2 class="text-2xl font-medium leading-5 text-shadow">{{ post.meta.title }}</h2>
+					<!-- this messes up jp text. sucks - john -->
+					<h2 class="post-title text-2xl font-medium leading-5 text-shadow">{{ post.meta.title }}</h2>
 				</div>
 				<div>
 					<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
@@ -78,12 +79,24 @@ const props = defineProps({
 			// fuck shit description too long and it breaks - john
 			font-size: 18px;
 			max-height: 3em;
+			max-width: 22em;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
 			-webkit-box-orient: vertical;
 			//margin-bottom: 5px;
+		}
+
+		.post-title {
+			max-height: 4em;
+			max-width: 12em;
+			word-break: break-all;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
 		}
 	}
 }
