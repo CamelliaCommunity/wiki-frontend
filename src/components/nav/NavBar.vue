@@ -1,14 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-import { PhList, PhX, PhDiscordLogo, PhGithubLogo } from "@phosphor-icons/vue";
+import { PhList, PhX, PhGlobe, PhBell, PhMagnifyingGlass } from "@phosphor-icons/vue";
 
 import API from "@/utils/API";
 
 import WikiLogo from "@/components/WikiLogo.vue";
 import NavBarButton from "./NavBarButton.vue";
 import NavBarAccount from "./NavBarAccount.vue";
-import NavSearch from "./NavBarSearch.vue";
 
 const isOpen = ref(false);
 
@@ -84,14 +83,16 @@ window.addEventListener("keydown", (e) => {
 					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer" />
 				</div>
 				<div class="hidden md:flex items-center text-center gap-4">
-					<NavSearch />
+					<!-- TODO: add functionality to all of these cool buttons - john -->
+					<PhMagnifyingGlass :size="28" class="hover:text-accent transition-colors cursor-pointer" />
+					<div class="w-[2px] h-9 bg-gray"></div>
 					<div class="flex gap-1">
-						<NavBarButton url="https://github.com/CamelliaCommunity/wiki-frontend" first>
-							<PhGithubLogo :size="28" />
+						<NavBarButton first>
+							<PhGlobe :size="28" />
 						</NavBarButton>
 						<!--if there ever gets anything added here, give it the 'middle' attribute-->
-						<NavBarButton url="https://discord.gg/camellia" last>
-							<PhDiscordLogo :size="28" />
+						<NavBarButton last>
+							<PhBell :size="28" />
 						</NavBarButton>
 					</div>
 				</div>
