@@ -82,7 +82,7 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 				<Component :is="PhX" :size="20" :disabled="beDisabled" :class="submitIconClasses"></Component>
 			</button>
 		</div>
-		<div v-if="!simple" class="max-w-fit h-10 flex px-2 gap-2 bg-background-2 rounded-lg py-2">
+		<div v-if="!simple" class="max-w-fit flex flex-wrap px-2 gap-2 bg-background-2 rounded-lg py-2">
 			<div id="formatting" class="w-auto flex gap-3">
 				<TextboxIcon :icon="PhTextBolder" :disabled="beDisabled" />
 				<TextboxIcon :icon="PhTextItalic" :disabled="beDisabled" />
