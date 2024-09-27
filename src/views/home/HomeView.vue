@@ -42,9 +42,9 @@ const react = reactive({
 
 	// Statistics
 	stats: {
-		"articles": 0,
-		"comments": 0,
-		"visits": 0
+		articles: 0,
+		comments: 0,
+		visits: 0
 	}
 });
 
@@ -103,24 +103,21 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<!-- i removed the justify-between as temporary fix, sorry emma :( - john -->
 			<div class="flex w-full flex-col gap-4">
-				<!-- row 1 -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<div class="flex w-full flex-col gap-4">
 						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
 							other-image />
-						<!-- this will be a random post - john -->
 						<FeaturedPost class="w-full" post-type="Random Post" :post="react.random" linearBackground
 							other-image />
 						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
 				</div>
-				<!-- row 2 -->
-				<!-- will replace with whats in design - john -->
+
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<LatestRelease linearBackground />
 				</div>
-				<!-- below the cards -->
+
 				<div>
 					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
 					<GradientLine :overshoot="false" />
