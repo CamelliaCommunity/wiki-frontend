@@ -48,15 +48,6 @@ const react = reactive({
 	}
 });
 
-const latestSongRelease = {
-	meta: {
-		title: "Latest Song Release",
-		// for now we are lorem
-		// in the figma, theres a video attached to the side. maybe we could add a read more that leads to discography? - john
-		description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-	}
-};
-
 // API calls
 
 // Featured
@@ -126,7 +117,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 				<!-- row 2 -->
 				<!-- will replace with whats in design - john -->
 				<div class="w-full flex flex-col md:flex-row gap-4">
-					<LatestRelease :post="latestSongRelease" />
+					<LatestRelease linearBackground />
 				</div>
 				<!-- below the cards -->
 				<div>

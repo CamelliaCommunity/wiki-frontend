@@ -1,27 +1,147 @@
 <script setup>
+import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import GradientLine from '@/components/GradientLine.vue';
+import OverlapGrid from '@/components/OverlapGrid.vue';
+import LoadingImage from '@/components/LoadingImage.vue';
+
+import EmptyImage from '@/assets/images/empty.png';
+import DefaultImage from '@/assets/images/placeholder.png';
+
+import API from '@/utils/API';
+import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
-    post: {
-        type: Object,
-        required: true
-    }
+	linearBackground: {
+		type: Boolean,
+		default: false
+	}
 });
+
+const react = reactive({
+	output: {
+		type: 'loading...',
+		title: 'we are still fetching this for you...',
+		date: -1
+	}
+});
+
+const replacePlaceHolders = (source, inputData) => {
+	const result = {};
+
+	for (const key in source) {
+		const template = source[key];
+		const replacedValue = template.replace(/%([^%]+)%/g, (_, placeholder) => {
+			// Handle nested properties
+			const keys = placeholder.split('.');
+			return keys.reduce((acc, k) => {
+				// Handle array indexing like images[0]
+				const arrayMatch = k.match(/(\w+)\[(\d+)\]/);
+				if (arrayMatch) {
+					const arrayKey = arrayMatch[1];
+					const index = Number(arrayMatch[2]);
+					return acc && acc[arrayKey] ? acc[arrayKey][index] : '';
+				}
+				return acc && acc[k] !== undefined ? acc[k] : '';
+			}, inputData) || '';
+		});
+		result[key] = replacedValue;
+	}
+
+	return result;
+};
+
+const sources = [
+	{
+		type: "YouTube",
+		url: "/latestreleases/youtube",
+		output: {
+			type: "YouTube",
+			title: "%title%",
+			image: "%image%",
+			date: "%pubDate%",
+			url: "https://youtu.be/%video_id%"
+		}
+	},
+	{
+		type: "Spotify",
+		url: "/latestreleases/spotify",
+		output: {
+			type: "Spotify",
+			title: "%release.name%",
+			image: "%image%",
+			date: "%release_date%",
+			url: "https://open.spotify.com/album/%id%"
+		}
+	}
+];
+const sourceRandom = sources[Math.floor(Math.random() * sources.length)];
+
+
+API.get(sourceRandom.url).then(async (res) => {
+
+	let output = await replacePlaceHolders(sourceRandom.output, res);
+	console.log(output)
+	react.output = output;
+});
+
 </script>
 
-<!-- work in progress -->
 <template>
-    <div class="flex min-h-9 w-full flex-col rounded-lg bg-background-3">
-        <h1 class="text-3xl font-semibold px-6 py-4">{{ post.meta.title || "post title" }}</h1>
-        <GradientLine :overshoot="false" />
-        <div class="w-full flex flex-col px-6 py-4 gap-3">
-            <p class="text-lg w-full leading-tight break-words whitespace-pre-wrap">
-                {{ post.meta.description || "post description" }}</p>
-            <RouterLink v-if="post.url" :to="post.url || '/not-found'" class="relative text-lg w-fit ml-auto">
-                <p class="text-base text-accent cursor-pointer readMoreHover">Read More</p>
-            </RouterLink>
-        </div>
-    </div>
+	<a :href="react.output.url || '/not-found'" :target="react.output.url ? '_blank' : ''" class="w-full">
+		<OverlapGrid class="latest-release w-full h-48 rounded-lg overlap-grid" v-if="react.output">
+			<LoadingImage :src="react.output.image || DefaultImage || EmptyImage" class="object-cover" />
+			<div class="dim" v-if="linearBackground"></div>
+			<div class="radial-dim" v-else></div>
+			<div class="card-content !flex-row">
+				<div class="flex justify-between">
+					<div class="flex flex-col gap-1">
+						<div class="flex justify-between items-center">
+							<h3 class="text-lg">
+								Latest
+								{{ react.output.type == "YouTube" ? "YouTube Upload" : "Spotify Release" }}
+							</h3>
+						</div>
+						<h2 class="text-2xl font-bold leading-5 text-shadow">{{ react.output.title }}</h2>
+					</div>
+					<div>
+						<p class="text-base">{{ Formatting.formatDate(react.output.date) }}</p>
+					</div>
+				</div>
+				<LoadingImage :src="react.output.image || DefaultImage || EmptyImage"
+					class="object-scale-down w-40 self-center rounded-lg" />
+			</div>
+		</OverlapGrid>
+	</a>
 </template>
+
+<style lang="scss">
+.latest-release {
+
+	.dim {
+		transition: background 400ms;
+		background: rgba(0, 0, 0, 0.4) linear-gradient(-120deg, transparent 0%, var(--background-1) 70%);
+	}
+
+	.radial-dim {
+		background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 70%);
+	}
+
+	&:hover>.dim {
+		transition: background 200ms;
+		background: rgba(0, 0, 0, 0.0) linear-gradient(-120deg, transparent 0%, var(--background-1) 70%);
+	}
+
+	.card-content {
+		display: flex;
+		flex-direction: column;
+		padding: 20px;
+		justify-content: space-between;
+
+		>div {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
+</style>
