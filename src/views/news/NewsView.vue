@@ -1,15 +1,19 @@
 <script setup>
+import { reactive } from 'vue';
+
+import Utils from '@/utils/Utils';
+import API from '@/utils/API';
+
 import FeaturedPost from '../home/components/FeaturedPost.vue';
 import SimplePost from '../home/components/SimplePost.vue';
 import BigPost from '../home/components/BigPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
+import GradientLine from '@/components/GradientLine.vue';
 // import SidebarPosts from '../home/components/SidebarPosts.vue';
 
-import Utils from '@/utils/Utils';
-import API from '@/utils/API';
-import { reactive } from 'vue';
-import GradientLine from '@/components/GradientLine.vue';
-import GrayLine from '@/components/GrayLine.vue';
+import { PhCaretRight } from '@phosphor-icons/vue';
+import WikiLogo from "@/assets/images/icon.png";
+import Kofi from "@/assets/images/kofi.png";
 
 Utils.setTitle('News');
 
@@ -82,38 +86,54 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 
 <template>
 	<div class="w-full flex flex-col items-center justify-center gap-5">
-		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
-			<!-- i removed the justify-between as temporary fix, sorry emma :( - john -->
 			<div class="flex w-full flex-col gap-4">
+				<div class="flex justify-between w-full px-5 mb-0">
+					<p class="flex gap-0.5 items-center">
+						<RouterLink to="/" class="text-light-gray readMoreHover">Homepage</RouterLink>
+						<span class="flex items-center gap-1">
+							<PhCaretRight :size="16" class="text-light-gray" />
+							<RouterLink to="/news" class="text-light-gray readMoreHover">News</RouterLink>
+						</span>
+					</p>
+				</div>
+				<div
+					class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
+					<h3 class="text-2xl font-semibold">The Wiki Times</h3>
+					<p class="font-extralight">The only Real News Source</p>
+					<img :src="WikiLogo" alt="Camellia Wiki Icon" class="w-8" />
+				</div>
+
+
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					<div class="flex w-full flex-col gap-4">
 						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
 							other-image />
-						<FeaturedPost class="w-full" post-type="Random Post" :post="react.random" linearBackground
+						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
 							other-image />
 					</div>
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg" title="Send us money or the wiki hoster is getting it.">
 					<p>On a serious note, we need money.</p>
-					<img src="@/assets/images/kofi.png" width="300">
+					<img :src="Kofi" class="w-80 m-auto">
 				</BlockquoteNote>
 				<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
 					<p class='text-2xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
 						<br>
-						<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">Visit
-							Spinny's
-							Twitter</a>
+						<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">
+							Visit Spinny's Twitter
+						</a>
 					</p>
 				</BlockquoteNote>
 				<div>
 					<h2 class="text-4xl font-semibold">Read More</h2>
 					<GradientLine :overshoot="false" />
 				</div>
-				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+				<div class="w-full md:grid-cols-2 gap-4 px-4">
 					<div v-for="(post) in react.news" class="w-full flex flex-col gap-4">
 						<SimplePost :post="post" />
+
 					</div>
 				</div>
 			</div>
