@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/home/HomeView.vue'
+import NewsView from '@/views/news/NewsView.vue'
 import ArticleView from '../views/article/ArticleView.vue'
 import oauthComplete from '../views/oauthComplete.vue'
 
@@ -11,12 +12,17 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-	{
+    {
+      path: '/news',
+      name: 'news',
+      component: NewsView
+    },
+	  {
       path: '/oauthComplete',
       name: 'oauthComplete',
       component: oauthComplete
-	},
-	{ // redirect everything else to article
+	  },
+	  { // redirect everything else to article
       path: '/:pathMatch(.*)*',
       component: ArticleView
     }
