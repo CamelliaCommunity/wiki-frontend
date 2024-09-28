@@ -20,7 +20,7 @@ const props = defineProps({
 				{{ props.user.nickname || props.user.nick || props.user.username || props.user.props.name }}
 			</p>
 			<p class="text-base font-semibold leading-4 text-light-gray">
-				@{{ props.user.username || props.user.name }}</p>
+				{{ (props.user.loggedIn ? "@" : "") + (props.user.username || props.user.name) }}</p>
 		</div>
 	</div>
 </template>

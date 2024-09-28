@@ -92,7 +92,7 @@ changed so you dont have to change page, removed routing for /settings/{...}, sh
 					:icon="PhLockKey" title="Privacy" subtitle="Edit Account Privacy" />
 				<GrayLine />
 				<SideButton @click="Events.Emit('popup-logout')" class="border-l-background-2 w-full"
-					:buttonStyle="danger" :icon="PhSignOut" title="Logout" subtitle="Log out of your Account" />
+					buttonStyle="danger" :icon="PhSignOut" title="Logout" subtitle="Log out of your Account" />
 			</div>
 			<!-- the actual page content -->
 			<div class="w-full">
