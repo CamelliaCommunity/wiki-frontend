@@ -2,6 +2,7 @@
 import FeaturedPost from '../home/components/FeaturedPost.vue';
 import SimplePost from '../home/components/SimplePost.vue';
 import BigPost from '../home/components/BigPost.vue';
+import BlockquoteNote from '@/components/BlockquoteNote.vue';
 // import SidebarPosts from '../home/components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
@@ -9,6 +10,8 @@ import API from '@/utils/API';
 import { reactive } from 'vue';
 import GradientLine from '@/components/GradientLine.vue';
 import GrayLine from '@/components/GrayLine.vue';
+
+import kofi from '@/assets/images/kofi.png';
 
 Utils.setTitle('News');
 
@@ -95,6 +98,22 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
 				</div>
+				<BlockquoteNote class="border-x-0 rounded-lg" title="Send us money or the wiki hoster is getting it.">
+					<p>On a serious note, we need money.
+						<br>
+						<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">Visit
+							Spinny's
+							Twitter</a>
+					</p>
+				</BlockquoteNote>
+				<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
+					<p class='text-2xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
+						<br>
+						<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">Visit
+							Spinny's
+							Twitter</a>
+					</p>
+				</BlockquoteNote>
 				<div>
 					<h2 class="text-4xl font-semibold">Read More</h2>
 					<GradientLine :overshoot="false" />
