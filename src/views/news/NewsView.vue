@@ -2,16 +2,15 @@
 import FeaturedPost from '../home/components/FeaturedPost.vue';
 import SimplePost from '../home/components/SimplePost.vue';
 import BigPost from '../home/components/BigPost.vue';
-import HomeStats from '../home/components/HomeStats.vue';
-import SidebarPosts from '../home/components/SidebarPosts.vue';
+// import SidebarPosts from '../home/components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
 import GradientLine from '@/components/GradientLine.vue';
-import LatestRelease from '../home/components/LatestRelease.vue';
+import GrayLine from '@/components/GrayLine.vue';
 
-Utils.setTitle('Homepage');
+Utils.setTitle('News');
 
 const loadingContentMeta = {
 	title: 'loading...',
@@ -36,13 +35,6 @@ const react = reactive({
 	random: {
 		meta: loadingContentMeta,
 		url: "/random"
-	},
-
-	// Statistics
-	stats: {
-		articles: 0,
-		comments: 0,
-		visits: 0
 	}
 });
 
@@ -65,14 +57,6 @@ API.get("/articles?path=/random").then((data) => {
 	react.random = data.data;
 });
 
-// Statistics
-API.get("/stats").then((res) => {
-	let data = res.data;
-	react.stats.articles = data.articles || "N/A";
-	react.stats.comments = data.comments || "N/A";
-	react.stats.visits = data.visitors || "N/A";
-});
-
 // home posts
 react.posts = [];
 API.get("/home").then((res) => {
@@ -82,7 +66,7 @@ API.get("/home").then((res) => {
 
 // News
 react.news = [];
-API.get("/articles/recent?type=news&count=3").then((res) => {
+API.get("/articles/recent?type=news&count=9999").then((res) => {
 	let data = res.data;
 	react.news = data;
 });
@@ -111,31 +95,15 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
 				</div>
-
-				<div class="w-full flex flex-col md:flex-row gap-4">
-					<LatestRelease linearBackground />
-				</div>
-
 				<div>
-					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
+					<h2 class="text-4xl font-semibold">Read More</h2>
 					<GradientLine :overshoot="false" />
 				</div>
-				<!-- <div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-80 overflow-y-auto max-h-full">
-					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
-						<SimplePost :post="post" />
-						<GrayLine v-if="index != (react.posts.length - 1)" />
-					</div>
-				</div> -->
-
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div v-for="(post) in react.posts" class="w-full flex flex-col gap-4">
+					<div v-for="(post) in react.news" class="w-full flex flex-col gap-4">
 						<SimplePost :post="post" />
 					</div>
 				</div>
-			</div>
-			<div class="w-full flex flex-col lg:w-64 gap-4">
-				<SidebarPosts title="News" :posts="react.news" url="/news" use-images />
-				<SidebarPosts title="Community Posts" :posts="react.community" url="/community/blog" />
 			</div>
 		</div>
 	</div>
