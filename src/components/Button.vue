@@ -15,14 +15,14 @@ const props = defineProps({
 <template>
     <!-- Buttons based on the type -->
     <button v-if="type !== 'success' && type !== 'error'"
-        class="bg-background-4 hover:bg-background-3 flex row gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
+        class="transition bg-background-4 hover:bg-background-3 flex row gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
     </button>
 
     <!-- shortend it bcz you filtered out success and error, also you got scripted :class attribute in vue - t404 -->
     <button v-else
         :class="[ (type === 'success') ? 'colorButtonSuccess' : 'colorButtonError' ]"
-        class="flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
+        class="transition flex gap-2 items-center justify-center p-3 rounded-xl text-lg cursor-pointer leading-5">
         <slot></slot>
         <PhCheckFat v-if="type === 'success'" :size="18" weight="fill" />
         <PhTrashSimple v-else :size="18" weight="fill" />
