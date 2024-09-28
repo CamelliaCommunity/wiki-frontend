@@ -115,13 +115,16 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 							other-image />
 					</div>
 				</div>
-				<BlockquoteNote class="border-x-0 rounded-lg" title="Send us money or the wiki hoster is getting it.">
-					<p>On a serious note, we need money.</p>
-					<img :src="Kofi" class="w-80 m-auto">
+				<BlockquoteNote class="border-x-0 rounded-lg font-semibold text-3xl"
+					title="Send us money or the wiki hoster is getting it.">
+					<p>On a serious note, the wiki hoster needs money.</p>
+					<a href="https://ko-fi.com/camelliacommunity" target="_blank">
+						<img :src="Kofi" class="w-80 m-auto">
+					</a>
 				</BlockquoteNote>
 				<div class="flex w-full flex-col gap-4 px-8">
 					<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
-						<p class='text-2xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
+						<p class='text-3xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
 							<br>
 							<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">
 								Visit Spinny's Twitter
@@ -130,7 +133,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					</BlockquoteNote>
 					<div>
 						<h2 class="text-4xl font-semibold">Read More</h2>
-						<GradientLine :overshoot="false" />
+						<GradientLine />
 					</div>
 					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-96 overflow-y-auto max-h-full">
 						<div v-for="(post, index) in react.news" class="flex flex-col w-full gap-2">
