@@ -11,8 +11,6 @@ import { reactive } from 'vue';
 import GradientLine from '@/components/GradientLine.vue';
 import GrayLine from '@/components/GrayLine.vue';
 
-import Kofi from "@/assets/images/kofi.png";
-
 Utils.setTitle('News');
 
 const loadingContentMeta = {
@@ -69,7 +67,7 @@ API.get("/home").then((res) => {
 
 // News
 react.news = [];
-API.get("/articles/recent?type=news&count=9999").then((res) => {
+API.get("/articles/recent?type=news&count=999").then((res) => {
 	let data = res.data;
 	react.news = data;
 });
@@ -98,10 +96,8 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					</div>
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg" title="Send us money or the wiki hoster is getting it.">
-					<p>On a serious note, we need money.
-						<br>
-						<Kofi></Kofi>
-					</p>
+					<p>On a serious note, we need money.</p>
+					<img src="@/assets/images/kofi.png" width="300">
 				</BlockquoteNote>
 				<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
 					<p class='text-2xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
