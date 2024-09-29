@@ -49,21 +49,22 @@ const react = reactive({
 
 // News
 react.news = [];
-API.get("/articles/recent?type=news&count=999").then((res) => {
+API.get("/articles?type=news&count=999").then((res) => {
 	let data = res.data;
 	react.news = data;
 });
 
+
 // News but 4
 react.newsSmall = [];
-API.get("/articles/recent?type=news&count=4").then((res) => {
+API.get("/articles?type=news&count=4").then((res) => {
 	let data = res.data;
 	react.newsSmall = data;
 });
 
 // ONE
 react.newsOne = [];
-API.get("/articles/recent?type=news").then((res) => {
+API.get("/articles?type=news").then((res) => {
 	let data = res.data[0];
 	react.newsOne = data;
 });
