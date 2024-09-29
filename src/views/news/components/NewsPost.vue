@@ -52,16 +52,16 @@ const props = defineProps({
 
 	.dim {
 		transition: background 400ms;
-		background: linear-gradient(90deg, rgba(40,24,36,1) 0%, rgba(40,24,36,1) 40%, rgba(40,24,36,0.88) 60%, rgba(0,0,0,0.4) 100%);
+		background: rgba(0, 0, 0, 0.4) linear-gradient(-120deg, transparent 0%, var(--background-1) 58%);
 	}
 
 	.radial-dim {
-		background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 70%);
+		background: radial-gradient(circle at 100% 0%, transparent, var(--background-1) 58%);
 	}
 
 	&:hover>.dim {
 		transition: background 200ms;
-		background: linear-gradient(90deg, rgba(40,24,36,1) 0%, rgba(40,24,36,1) 40%, rgba(40,24,36,0.78) 60%, rgba(0,0,0,0) 100%);
+		background: rgba(0, 0, 0, 0.0) linear-gradient(-120deg, transparent 0%, var(--background-1) 58%);
 	}
 
 	.card-content {
