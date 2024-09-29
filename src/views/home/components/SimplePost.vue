@@ -13,7 +13,6 @@ const props = defineProps({
 
 <template>
     <RouterLink v-if="post.url" :to="post.url || '/not-found'">
-        <!-- unsure if colors are good - john -->
         <div
             class="flex min-h-9 w-full flex-col rounded-lg bg-background-3 p-5 gap-5 hover:bg-background-4 transition-colors duration-200 hover:duration-50">
             <div class="flex justify-between items-center">
