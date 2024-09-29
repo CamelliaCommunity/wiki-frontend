@@ -100,14 +100,14 @@ API.get("/articles/home").then((res) => {
 
 // News
 react.news = [];
-API.get("/articles/recent?type=news&count=3").then((res) => {
+API.get("/articles?type=news&count=3").then((res) => {
 	if (res.status == 200) react.news = res.data;
 });
 
 
 // Community Posts
 react.community = [];
-API.get("/articles/recent?type=community&count=5").then((res) => {
+API.get("/articles?type=community&count=5").then((res) => {
 	if (res.status == 200) react.community = res.data;
 });
 

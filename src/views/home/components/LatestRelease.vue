@@ -79,7 +79,7 @@ const sourceRandom = sources[Math.floor(Math.random() * sources.length)];
 
 API.get(sourceRandom.url).then((res) => {
 	if (res.status == 200) {
-		let output = replacePlaceHolders(sourceRandom.output, res);
+		let output = replacePlaceHolders(sourceRandom.output, res.data);
 		react.output = { ...output, type: output.type == "YouTube" ? "YouTube Upload" : "Spotify Release" };
 	} else if (res.status == 204) {
 		react.output = { ...react.output, title: "No current release data was found." };
