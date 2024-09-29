@@ -4,9 +4,9 @@ import { reactive } from 'vue';
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 
-import FeaturedPost from '../home/components/FeaturedPost.vue';
-import SimplePost from '../home/components/SimplePost.vue';
-import BigPost from '../home/components/BigPost.vue';
+import FeaturedPost from '@/views/home/components/FeaturedPost.vue';
+import NewsPost from '@/views/news/components/NewsPost.vue';
+import BigPost from '@/views/home/components/BigPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import GradientLine from '@/components/GradientLine.vue';
 // import SidebarPosts from '../home/components/SidebarPosts.vue';
@@ -120,7 +120,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					<div class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
 						<template v-for="(post, index) in react.newsSmall">
 							<div class="flex flex-col w-full gap-2">
-								<SimplePost :post="post" />
+								<NewsPost :post="post" linearBackground />
 							</div>
 							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
 						</template>
@@ -143,12 +143,12 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 						</p>
 					</BlockquoteNote>
 					<div>
-						<h2 class="text-4xl font-semibold">Read More</h2>
+						<h2 class="text-4xl font-semibold mb-1">Read More</h2>
 						<GradientLine />
 					</div>
 					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-96 overflow-y-auto max-h-full">
 						<div v-for="(post, index) in react.news" class="flex flex-col w-full gap-2">
-							<SimplePost :post="post" />
+							<NewsPost :post="post" linearBackground />
 							<GrayLine v-if="index != (react.news.length - 1)" />
 						</div>
 					</div>
