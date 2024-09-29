@@ -77,6 +77,13 @@ API.get("/articles/recent?type=news&count=999").then((res) => {
 	react.news = data;
 });
 
+// News but 4
+react.newsSmall = [];
+API.get("/articles/recent?type=news&count=4").then((res) => {
+	let data = res.data;
+	react.newsSmall = data;
+});
+
 // Community Posts
 react.community = [];
 API.get("/articles/recent?type=community&count=5").then((res) => {
@@ -107,12 +114,15 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
-					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
-					<div class="flex w-full flex-col gap-4">
-						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
-							other-image />
-						<FeaturedPost class="w-full" post-type="Featured Post" :post="react.featured" linearBackground
-							other-image />
+					<div class="w-full">
+						<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
+					</div>
+					<!-- fucked up BRO -john  -->
+					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
+						<div v-for="(post, index) in react.newsSmall" class="flex flex-col w-full gap-2">
+							<SimplePost :post="post" />
+							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
+						</div>
 					</div>
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg font-semibold text-3xl"
