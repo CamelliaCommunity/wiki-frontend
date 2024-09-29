@@ -117,12 +117,13 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					<div class="w-full">
 						<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
 					</div>
-					<!-- fucked up BRO -john  -->
-					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
-						<div v-for="(post, index) in react.newsSmall" class="flex flex-col w-full gap-2">
-							<SimplePost :post="post" />
+					<div class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
+						<template v-for="(post, index) in react.newsSmall">
+							<div class="flex flex-col w-full gap-2">
+								<SimplePost :post="post" />
+							</div>
 							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
-						</div>
+						</template>
 					</div>
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg font-semibold text-3xl"
