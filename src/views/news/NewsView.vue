@@ -46,30 +46,6 @@ const react = reactive({
 
 // API calls
 
-// Featured
-API.get("/featured").then((data) => {
-	if (!data.data.url) return;
-	react.featured = data.data;
-});
-
-// Popular
-API.get("/popular").then((data) => {
-	if (!data.data.url) return;
-	react.popular = data.data;
-});
-
-API.get("/articles?path=/random").then((data) => {
-	if (!data.data.url) return;
-	react.random = data.data;
-});
-
-// home posts
-react.posts = [];
-API.get("/home").then((res) => {
-	let data = res.data;
-	react.posts = data;
-});
-
 // News
 react.news = [];
 API.get("/articles/recent?type=news&count=999").then((res) => {
@@ -84,11 +60,11 @@ API.get("/articles/recent?type=news&count=4").then((res) => {
 	react.newsSmall = data;
 });
 
-// Community Posts
-react.community = [];
-API.get("/articles/recent?type=community&count=5").then((res) => {
-	let data = res.data;
-	react.community = data;
+// ONE
+react.newsOne = [];
+API.get("/articles/recent?type=news").then((res) => {
+	let data = res.data[0];
+	react.newsOne = data;
 });
 </script>
 
@@ -115,9 +91,10 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<div class="w-full">
-						<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />
+						<BigPost post-type="Recent Post" :post="react.newsOne" linearBackground other-image />
 					</div>
-					<div class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
+					<div
+						class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
 						<template v-for="(post, index) in react.newsSmall">
 							<NewsPost class="flex flex-col w-full" :post="post" linearBackground />
 							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
@@ -126,9 +103,9 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg font-semibold text-3xl"
 					title="Send us money or the wiki hoster is getting it.">
-					<p>On a serious note, the wiki hoster needs money.</p>
+					<div class="mb-2">On a serious note, the wiki hoster needs money.</div>
 					<a href="https://ko-fi.com/camelliacommunity" target="_blank">
-						<img :src="Kofi" class="w-80 m-auto">
+						<img :src="Kofi" class="w-60 m-auto">
 					</a>
 				</BlockquoteNote>
 				<div class="flex w-full flex-col gap-4 px-8">
@@ -144,7 +121,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 						<h2 class="text-4xl font-semibold mb-1">Read More</h2>
 						<GradientLine />
 					</div>
-					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-96 overflow-y-auto max-h-full">
+					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full">
 						<div v-for="(post, index) in react.news" class="flex flex-col w-full gap-2">
 							<NewsPost :post="post" linearBackground />
 							<GrayLine v-if="index != (react.news.length - 1)" />
