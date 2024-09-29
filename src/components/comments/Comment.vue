@@ -131,11 +131,14 @@ const commentAction = (action, options) => {
 					Toast.showToast("Failed to delete the comment! Please try again.", { type: "error" });
 				} else {
 					comment.isDeleted = true;
+
+					if (comment.author.id === API.user.id) API.user.comments--;
 					comment.author = { id: 0, name: "[deleted]", color: "" };
 
 					let commentIndex = commentSystem.value.cache.findIndex(c => c.id === comment.id);
 					if (commentIndex == null || commentIndex == undefined) return;
 					commentSystem.value.cache[commentIndex] = { ...commentSystem.value.cache[commentIndex], author: undefined, content: undefined };
+
 				};
 			});
 		};

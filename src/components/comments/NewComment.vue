@@ -211,6 +211,7 @@ const submitComment = () => {
 				commentSystem.value.cache.unshift(newComment);
 				commentBox.value = "";
 
+				API.user.comments++;
 				finishUp("success");
 			}
 		});
