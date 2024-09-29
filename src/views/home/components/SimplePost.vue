@@ -30,7 +30,7 @@ const props = defineProps({
 <style lang="scss">
 .simple-post-title {
     max-height: 2em;
-    max-width: 7em;
+    max-width: auto;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
