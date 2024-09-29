@@ -43,7 +43,6 @@ const btnAction = (ClosePopup, callback) => {
 
 const MAX_COMMENT_LENGTH = 300;
 
-// const comment = reactive(props.comment);
 const comment = reactive(props.comment);
 
 const changeHover = (isOpen) => {
@@ -80,8 +79,8 @@ const commentAction = (action, options) => {
 		};
 
 		comment.vote = type;
-		API.post(`/comments/${comment.id}/vote`, type).then(res => {
-			if (res.message != "OK" || res.status != 200) {
+		API.post(`/comments/${comment.id}/votes`, { vote: type }).then(res => {
+			if (res.status != 204) {
 				Toast.showToast("Failed to cast your vote! Please try again.", { type: "error" });
 				// Restore original data
 				comment.vote = oldVotes.vote;
@@ -128,15 +127,18 @@ const commentAction = (action, options) => {
 		popup.clickYes = () => {
 			API.delete(`/comments/${comment.id}`).then(res => {
 				comment.isLoading = false;
-				if (res.message != "OK" || res.status != 200) {
+				if (res.status != 200) {
 					Toast.showToast("Failed to delete the comment! Please try again.", { type: "error" });
 				} else {
 					comment.isDeleted = true;
+
+					if (comment.author.id === API.user.id) API.user.comments--;
 					comment.author = { id: 0, name: "[deleted]", color: "" };
 
 					let commentIndex = commentSystem.value.cache.findIndex(c => c.id === comment.id);
 					if (commentIndex == null || commentIndex == undefined) return;
 					commentSystem.value.cache[commentIndex] = { ...commentSystem.value.cache[commentIndex], author: undefined, content: undefined };
+
 				};
 			});
 		};

@@ -6,12 +6,17 @@ import Toast from './Toast';
 export default class API {
     static url = 'https://backend.camellia.wiki';
     // static url = 'http://localhost:1984';
-    
+
     static async get(endpoint) {
         return fetch(this.url + endpoint, {
             method: 'GET',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+        }).then(async response => {
+			let responseData;
+			try { if (responseData == null) responseData = (typeof response.json == "function") ? await response.json() : null; } catch { };
+			try { if (responseData == null) responseData = (typeof response.text == "function") ? await response.text() : null; } catch { };
+			return { status: response.status, data: responseData || {} };
+		}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
     }
 
     static async post(endpoint, body, options) {
@@ -22,7 +27,12 @@ export default class API {
             method: 'POST',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
             body: options.noStringify ? body : JSON.stringify(body),
-        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+        }).then(async response => {
+			let responseData;
+			try { if (responseData == null) responseData = (typeof response.json == "function") ? await response.json() : null; } catch { };
+			try { if (responseData == null) responseData = (typeof response.text == "function") ? await response.text() : null; } catch { };
+			return { status: response.status, data: responseData || {} };
+		}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
     }
 
     static async put(endpoint, body, options) {
@@ -33,7 +43,12 @@ export default class API {
             method: 'PUT',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
             body: options.noStringify ? body : JSON.stringify(body),
-        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+        }).then(async response => {
+			let responseData;
+			try { if (responseData == null) responseData = (typeof response.json == "function") ? await response.json() : null; } catch { };
+			try { if (responseData == null) responseData = (typeof response.text == "function") ? await response.text() : null; } catch { };
+			return { status: response.status, data: responseData || {} };
+		}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
     }
 
     static async patch(endpoint, body, options) {
@@ -44,14 +59,24 @@ export default class API {
             method: 'PATCH',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
             body: options.noStringify ? body : JSON.stringify(body),
-        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+        }).then(async response => {
+			let responseData;
+			try { if (responseData == null) responseData = (typeof response.json == "function") ? await response.json() : null; } catch { };
+			try { if (responseData == null) responseData = (typeof response.text == "function") ? await response.text() : null; } catch { };
+			return { status: response.status, data: responseData || {} };
+		}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
     }
 
     static async delete(endpoint) {
         return fetch(this.url + endpoint, {
             method: 'DELETE',
             headers: createHeaders($cookies.get(this.cookie_name_token)),
-        }).then(response => response.json()).catch(response => (typeof response.text == "function" ? response.text() : response));
+        }).then(async response => {
+			let responseData;
+			try { if (responseData == null) responseData = (typeof response.json == "function") ? await response.json() : null; } catch { };
+			try { if (responseData == null) responseData = (typeof response.text == "function") ? await response.text() : null; } catch { };
+			return { status: response.status, data: responseData || {} };
+		}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
     }
 
 	static user = reactive({
@@ -97,14 +122,14 @@ export default class API {
 			const data = await this.get("/account");
 			this.user.attemptToken++;
 
-			if (data == null || data.status != 200 || data.message != "OK") {
-				if (data.message != "OK" ? (data.message.includes("User not found")) : (data.status != 200)) {
+			if (data == null || data.status != 200) {
+				if (data.status == 404) {
 					this.user.attemptToken = 0; // reset to 0.
 
 					Toast.showToast("Failed to login as you are not in the server!\nClick this toast to open the Discord server invite (in a new tab)!", { type: "error", onClick: () => { window.open("https://discord.gg/camellia", "_blank") } })
 					this.performLogout(true);
 				} else {
-					let isDueToBadToken = (data.message != "OK" ? (data.message.includes("Invalid token")) : (data.status == 401));
+					let isDueToBadToken = (data.status == 401);
 					if (this.user.attemptToken >= this.maxTokenAttempts) {
 						if (isDueToBadToken) {
 							Toast.showToast("Your session has expired.\nPlease login again.", { type: "error" });

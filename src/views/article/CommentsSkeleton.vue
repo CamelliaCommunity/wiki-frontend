@@ -70,7 +70,11 @@ const updateData = () => {
 	};
 };
 updateData();
-watch(commentSystem.value, updateData);
+watch(commentSystem.value, () => {
+	const diffComments = react.comments.fullCache.filter(c => !commentSystem.value.cache.includes(c));
+	diffComments.forEach(c => { let commentElement = document.getElementById(`comment-${c.id}`); if (commentElement) commentElement.remove(); });
+	updateData();
+});
 
 // Provide commentSystem (react) to other things :)
 provide("commentSystem", commentSystem);

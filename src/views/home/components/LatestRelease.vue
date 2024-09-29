@@ -20,7 +20,7 @@ const props = defineProps({
 
 const react = reactive({
 	output: {
-		type: 'loading...',
+		type: 'Release',
 		title: 'we are still fetching this for you...',
 		date: -1
 	}
@@ -77,18 +77,21 @@ const sources = [
 ];
 const sourceRandom = sources[Math.floor(Math.random() * sources.length)];
 
-
-API.get(sourceRandom.url).then(async (res) => {
-
-	let output = await replacePlaceHolders(sourceRandom.output, res);
-	console.log(output)
-	react.output = output;
+API.get(sourceRandom.url).then((res) => {
+	if (res.status == 200) {
+		let output = replacePlaceHolders(sourceRandom.output, res.data);
+		react.output = { ...output, type: output.type == "YouTube" ? "YouTube Upload" : "Spotify Release" };
+	} else if (res.status == 204) {
+		react.output = { ...react.output, title: "No current release data was found." };
+	} else if (res.status >= 400) {
+		react.output = { ...react.output, title: "Oh no! Something went wrong while fetching this!" };
+	};
 });
 
 </script>
 
 <template>
-	<a :href="react.output.url || '/not-found'" :target="react.output.url ? '_blank' : ''" class="w-full">
+	<a :href="react.output.url" :target="react.output.url ? '_blank' : ''" class="w-full">
 		<OverlapGrid class="latest-release w-full h-48 rounded-lg overlap-grid" v-if="react.output">
 			<LoadingImage :src="react.output.image || DefaultImage || EmptyImage" class="object-cover" />
 			<div class="dim" v-if="linearBackground"></div>
@@ -97,10 +100,7 @@ API.get(sourceRandom.url).then(async (res) => {
 				<div class="flex justify-between">
 					<div class="flex flex-col gap-1">
 						<div class="flex justify-between items-center">
-							<h3 class="text-lg">
-								Latest
-								{{ react.output.type == "YouTube" ? "YouTube Upload" : "Spotify Release" }}
-							</h3>
+							<h3 class="text-lg">Latest {{ react.output.type }}</h3>
 						</div>
 						<h2 class="text-2xl font-bold leading-5 text-shadow">{{ react.output.title }}</h2>
 					</div>

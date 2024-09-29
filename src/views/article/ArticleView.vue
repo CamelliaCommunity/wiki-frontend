@@ -37,7 +37,7 @@ const react = reactive({
 });
 
 // get article data from backend
-let articleUrl = `/articles?path=/${path}`;
+let articleUrl = `/articles/${path}`;
 let routeHash = route.hash?.split("#").filter(e => e.length > 0);
 
 if (path === 'style-test') {
@@ -59,8 +59,8 @@ if (path === 'style-test') {
 	// uncomment the setTimeout to simulate long loading
 	// setTimeout(() => {
 	API.get(articleUrl).then((res) => {
-		if (res.message != "OK" || res.status != 200) {
-			react.error = true;
+		if (res.status != 200) {
+			react.error = res.status;
 			react.loaded = true;
 			Utils.setTitle("Error");
 			return;
@@ -90,18 +90,17 @@ if (path === 'style-test') {
 
 			const getComments = async (url) => {
 				const res = await API.get(url);
-				if (res.message != "OK" || res.status != 200) return { error: true };
-				else return { data: res.data };
+				return { status: res.status, data: res.data || [] };
 			};
 
 			let commentData;
-			let commentURL = `/posts/${path.split("/").pop()}/comments`;
+			let commentURL = `/articles/${path.split("/").pop()}/comments`;
 
 			const commentRes = await getComments(commentURL);
-			if (commentRes.error || commentRes.data.length < 1) {
-				commentURL = `/posts/${Utils.makeSlug(meta.title.toLowerCase())}/comments`;
+			if (commentRes.status != 200 || commentRes.data.length < 1) {
+				commentURL = `/articles/${Utils.makeSlug(meta.title.toLowerCase())}/comments`;
 				const fallbackCommentRes = await getComments(commentURL);
-				if (fallbackCommentRes.error) {
+				if (fallbackCommentRes.status != 200) {
 					Toast.showToast("Failed to load comments!", { type: "error" });
 					react.commentSystem.error = true;
 				} else {
@@ -129,7 +128,7 @@ if (path === 'style-test') {
 			if (commentData) {
 				// TODO: This is where we get the default from localstorage or cookies or something
 				react.commentSystem.sortedBy = 1;
-				react.commentSystem.cache = commentData //.sort((a, b) => a.time - b.time);
+				react.commentSystem.cache = commentData;
 				react.commentSystem.path = commentURL;
 			};
 

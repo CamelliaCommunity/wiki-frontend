@@ -15,28 +15,40 @@ import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
 
-const loadingContentMeta = {
-	title: 'loading...',
-	description: 'we are still fetching this for you...',
-	date: -1,
+const articlePlaceholders = {
+	loading: {
+		title: 'loading...',
+		description: 'we are still fetching this for you...',
+		date: -1,
+	},
+	none: {
+		title: 'No content.',
+		description: '',
+		date: -1
+	},
+	error: {
+		title: 'Oh no!',
+		description: 'Something went wrong while loading this... :(',
+		date: -1
+	}
 };
 
 const react = reactive({
 	// Featured
 	featured: {
-		meta: loadingContentMeta,
+		meta: articlePlaceholders.loading,
 		url: "/featured"
 	},
 
 	// Popular
 	popular: {
-		meta: loadingContentMeta,
+		meta: articlePlaceholders.loading,
 		url: "/popular"
 	},
 
 	// Random
 	random: {
-		meta: loadingContentMeta,
+		meta: articlePlaceholders.loading,
 		url: "/random"
 	},
 
@@ -51,50 +63,54 @@ const react = reactive({
 // API calls
 
 // Featured
-API.get("/featured").then((data) => {
-	if (!data.data.url) return;
-	react.featured = data.data;
+API.get("/articles/featured").then((res) => {
+	if (res.status == 200) react.featured = res.data;
+	else if (res.status == 204) react.featured.meta = articlePlaceholders.none;
+	else if (res.status >= 400) react.featured.meta = articlePlaceholders.error;
 });
 
 // Popular
-API.get("/popular").then((data) => {
-	if (!data.data.url) return;
-	react.popular = data.data;
+API.get("/articles/popular").then((res) => {
+	if (res.status == 200) react.popular = res.data;
+	else if (res.status == 204) react.popular.meta = articlePlaceholders.none;
+	else if (res.status >= 400) react.popular.meta = articlePlaceholders.error;
 });
 
-API.get("/articles?path=/random").then((data) => {
-	if (!data.data.url) return;
-	react.random = data.data;
+API.get("/articles/random").then((res) => {
+	if (res.status == 200) react.random = res.data;
+	else if (res.status == 204) react.random.meta = articlePlaceholders.none;
+	else if (res.status >= 400) react.random.meta = articlePlaceholders.error;
 });
 
 // Statistics
 API.get("/stats").then((res) => {
-	let data = res.data;
-	react.stats.articles = data.articles || "N/A";
-	react.stats.comments = data.comments || "N/A";
-	react.stats.visits = data.visitors || "N/A";
+	let tmpData = {
+		articles: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.articles,
+		comments: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.comments,
+		visits: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.visitors,
+	};
+	react.stats = tmpData;
 });
 
 // home posts
 react.posts = [];
-API.get("/home").then((res) => {
-	let data = res.data;
-	react.posts = data;
+API.get("/articles/home").then((res) => {
+	if (res.status == 200) react.posts = res.data;
 });
 
 // News
 react.news = [];
-API.get("/articles/recent?type=news&count=3").then((res) => {
-	let data = res.data;
-	react.news = data;
+API.get("/articles?type=news&count=3").then((res) => {
+	if (res.status == 200) react.news = res.data;
 });
+
 
 // Community Posts
 react.community = [];
-API.get("/articles/recent?type=community&count=5").then((res) => {
-	let data = res.data;
-	react.community = data;
+API.get("/articles?type=community&count=5").then((res) => {
+	if (res.status == 200) react.community = res.data;
 });
+
 </script>
 
 <template>
