@@ -119,9 +119,7 @@ API.get("/articles/recent?type=community&count=5").then((res) => {
 					</div>
 					<div class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
 						<template v-for="(post, index) in react.newsSmall">
-							<div class="flex flex-col w-full gap-2">
-								<NewsPost :post="post" linearBackground />
-							</div>
+							<NewsPost class="flex flex-col w-full" :post="post" linearBackground />
 							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
 						</template>
 					</div>
