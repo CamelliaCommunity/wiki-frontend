@@ -147,7 +147,7 @@ const submitComment = () => {
 	commentBoxText = commentBoxText?.trim();
 	if (!commentBoxText) return finishUp("error", "Please enter some text and try again...");
 
-	let currentTime = (Date.now() / 1000);
+	let currentTime = Math.floor(Date.now() / 1000);
 	let newComment = { content: commentBoxText };
 	if (commentAction == "edit") {
 		let commentIndex = commentSystem.value.cache.findIndex(c => c.id === commentId.value);
@@ -158,8 +158,8 @@ const submitComment = () => {
 
 		props.extraSubmit({ content: newComment.content, isEditing: false, isLoading: true, edited: true });
 
-		API.patch(`/comments/${commentId.value}`, newComment.content, { noStringify: true }).then(res => {
-			if (res.message != "OK" || res.status != 200) {
+		API.patch(`/comments/${commentId.value}`, { content: newComment.content }).then(res => {
+			if (res.status != 200 && res.status != 201) {
 				// Restore original data
 				props.extraSubmit({ content: ogContent, isEditing: true, isLoading: false, edited: ogEdited });
 
@@ -196,8 +196,8 @@ const submitComment = () => {
 		if (commentAction == "reply")
 			props.extraSubmit({ isReplying: false });
 
-		API.post(commentAction == "reply" ? `/comments/${commentParent.value}/reply` : commentSystem.value.path, newComment.content, { noStringify: true }).then(res => {
-			if (res.message != "OK" || res.status != 200) {
+		API.post(commentSystem.value.path, { content: newComment.content, replyingto: commentParent.value }).then(res => {
+			if (res.status != 200 && res.status != 201) {
 				// Restore original data
 				commentSystem.value.cache = commentSystem.value.cache.filter(c => { return c.id !== currentTime });
 
