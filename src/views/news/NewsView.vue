@@ -24,6 +24,7 @@ const loadingContentMeta = {
 	date: -1,
 };
 
+// clean this shit up please - john
 const react = reactive({
 	// Featured
 	featured: {
