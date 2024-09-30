@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue';
+import { useHead } from '@unhead/vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
@@ -9,7 +10,6 @@ import NewsPost from '@/views/news/components/NewsPost.vue';
 import BigPost from '@/views/home/components/BigPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import GradientLine from '@/components/GradientLine.vue';
-// import SidebarPosts from '../home/components/SidebarPosts.vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 import WikiLogo from "@/assets/images/icon.png";
@@ -67,6 +67,31 @@ react.newsOne = [];
 API.get("/articles?type=news").then((res) => {
 	let data = res.data[0];
 	react.newsOne = data;
+});
+
+useHead({
+	meta: [
+		{
+			name: 'og:title',
+			content: 'News | Camellia Wiki'
+		},
+		{
+			name: 'description',
+			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
+		},
+		{
+			name: 'og:description',
+			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
+		},
+		{
+			name: 'keywords',
+			content: 'camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community'
+		},
+		{
+			name: 'author',
+			content: 'Theaceae Collective'
+		}
+	]
 });
 </script>
 
