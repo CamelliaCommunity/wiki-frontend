@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { reactive, nextTick, ref } from 'vue';
+import { useHead } from '@unhead/vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 
@@ -78,6 +79,39 @@ if (path === 'style-test') {
 		react.article = MarkdownUtils.render(md.content);
 		react.sections = md.sections;
 		react.loaded = true; // nuke loading since we got something now!
+
+		// stupid thing to make the desc shorter - john
+		function truncateMdText() {
+			const textOnly = md.content.replace(/[#*`>\[\]]/g, '').replace(/\n+/g, ' ').trim();
+			const truncated = textOnly.slice(0, 400);
+			const lastSpaceIndex = truncated.lastIndexOf(' ');
+			return truncated.slice(0, lastSpaceIndex) + '...';
+		}
+
+		useHead({
+			meta: [
+				{
+					name: 'og:title',
+					content: `${react.meta.title} | Camellia Wiki`
+				},
+				{
+					name: 'description',
+					content: truncateMdText() || "taco" // i wanted to make it default to the markdown's desc but the backend applies descs automatically? - john
+				},
+				{
+					name: 'og:description',
+					content: truncateMdText() || "taco"
+				},
+				{
+					name: 'keywords',
+					content: `${react.meta.title + ', ' + react.meta.author}, camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community`
+				},
+				{
+					name: 'author',
+					content: react.meta.author
+				}
+			]
+		});
 
 		nextTick(async () => {
 			setupObserver();
@@ -195,11 +229,15 @@ if (path === 'style-test') {
 					page!</a>
 			</div>
 			<div
-				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
-				<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
+				class="w-full bg-background-1 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+				<div>
+					<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
+					<p class="font-extralight w-auto">{{ react.meta.description }}</p>
+				</div>
 				<!-- want to remove author and have last updated instead eventually -john -->
-				<p class="font-extralight">Created {{
+				<p class="font-extralight text-nowrap">Created {{
 					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
+
 			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
