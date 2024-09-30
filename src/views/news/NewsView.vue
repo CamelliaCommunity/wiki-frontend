@@ -1,6 +1,5 @@
 <script setup>
 import { reactive } from 'vue';
-import { useHead } from '@unhead/vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
@@ -67,31 +66,6 @@ react.newsOne = [];
 API.get("/articles?type=news").then((res) => {
 	let data = res.data[0];
 	react.newsOne = data;
-});
-
-useHead({
-	meta: [
-		{
-			name: 'og:title',
-			content: 'News | Camellia Wiki'
-		},
-		{
-			name: 'description',
-			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
-		},
-		{
-			name: 'og:description',
-			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
-		},
-		{
-			name: 'keywords',
-			content: 'camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community'
-		},
-		{
-			name: 'author',
-			content: 'Theaceae Collective'
-		}
-	]
 });
 </script>
 
