@@ -196,13 +196,13 @@ if (path === 'style-test') {
 					page!</a>
 			</div>
 			<div
-				class="w-full bg-background-1 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center mb-4">
+				class="w-full bg-background-1 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
 				<div>
 					<h3 class="text-2xl font-semibold">{{ react.meta.title }}</h3>
-					<p class="font-extralight">{{ react.meta.description }}</p>
+					<p class="font-extralight w-auto">{{ react.meta.description }}</p>
 				</div>
 				<!-- want to remove author and have last updated instead eventually -john -->
-				<p class="font-extralight">Created {{
+				<p class="font-extralight text-nowrap">Created {{
 					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
 
 			</div>
