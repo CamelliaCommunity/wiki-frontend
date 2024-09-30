@@ -1,5 +1,5 @@
 <script setup>
-import NewArticle from "./NewArticle.vue";
+import NewArticleView from "./NewArticleView.vue";
 
 const props = defineProps({
 	loading: Boolean,
@@ -45,7 +45,7 @@ const skeleData = {
 		</div>
 	</div>
 	<template v-else-if="error">
-		<NewArticle></NewArticle>
+		<NewArticleView></NewArticleView>
 	</template>
 	<slot v-else></slot>
 </template>

@@ -9,11 +9,8 @@ import BlockquoteNote from '@/components/BlockquoteNote.vue';
 const react = reactive({
     meta: {
         title: '',
-        author: '',
     },
     breadcrumbs: [],
-    loaded: true,
-    error: false,
 });
 
 const route = useRoute();
@@ -35,7 +32,6 @@ Utils.setTitle(react.meta.title);
 
 <template>
     <div class="article-page w-full xl:w-content-width">
-
         <div class="flex justify-between w-full mb-2 px-5">
             <p class="flex gap-0.5">
                 <RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
