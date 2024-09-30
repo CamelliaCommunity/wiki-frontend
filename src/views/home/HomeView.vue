@@ -115,6 +115,10 @@ API.get("/articles?type=community&count=5").then((res) => {
 useHead({
 	meta: [
 		{
+			name: 'og:title',
+			content: 'Homepage | Camellia Wiki'
+		},
+		{
 			name: 'description',
 			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
 		},
