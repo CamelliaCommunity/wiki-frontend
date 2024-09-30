@@ -9,11 +9,12 @@ import SidebarPosts from './components/SidebarPosts.vue';
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 import { reactive } from 'vue';
+import { useHead } from '@unhead/vue'
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
 import GrayLine from '@/components/GrayLine.vue'; // soon
 
-Utils.setTitle('Homepage');
+// Utils.setTitle('Homepage');
 
 const articlePlaceholders = {
 	loading: {
@@ -111,6 +112,19 @@ API.get("/articles?type=community&count=5").then((res) => {
 	if (res.status == 200) react.community = res.data;
 });
 
+useHead({
+	title: 'Homepage | Camellia Wiki',
+	meta: [
+		{
+			name: 'description',
+			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
+		},
+		{
+			name: 'og:description',
+			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
+		}
+	]
+});
 </script>
 
 <template>
