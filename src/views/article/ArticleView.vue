@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { reactive, nextTick, ref } from 'vue';
+import { useHead } from '@unhead/vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 
@@ -78,6 +79,43 @@ if (path === 'style-test') {
 		react.article = MarkdownUtils.render(md.content);
 		react.sections = md.sections;
 		react.loaded = true; // nuke loading since we got something now!
+
+		// stupid thing to make the desc shorter - john
+		function truncateMdText() {
+			const textOnly = md.content.replace(/[#*`>\[\]]/g, '').replace(/\n+/g, ' ').trim();
+			if (textOnly.length <= 400) {
+				return textOnly;
+			}
+
+			const truncated = textOnly.slice(0, 400);
+			const lastSpaceIndex = truncated.lastIndexOf(' ');
+			return truncated.slice(0, lastSpaceIndex) + '...';
+		}
+
+		useHead({
+			meta: [
+				{
+					name: 'og:title',
+					content: `${react.meta.title} | Camellia Wiki`
+				},
+				{
+					name: 'description',
+					content: truncateMdText() || "taco" // i wanted to make it default to the markdown's desc but the backend applies descs automatically? - john
+				},
+				{
+					name: 'og:description',
+					content: truncateMdText() || "taco"
+				},
+				{
+					name: 'keywords',
+					content: `${react.meta.title + ', ' + react.meta.author}, camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community`
+				},
+				{
+					name: 'author',
+					content: react.meta.author
+				}
+			]
+		});
 
 		nextTick(async () => {
 			setupObserver();

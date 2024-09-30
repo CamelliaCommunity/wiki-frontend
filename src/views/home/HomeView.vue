@@ -14,7 +14,7 @@ import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
 import GrayLine from '@/components/GrayLine.vue'; // soon
 
-// Utils.setTitle('Homepage');
+Utils.setTitle('Homepage');
 
 const articlePlaceholders = {
 	loading: {
@@ -113,7 +113,6 @@ API.get("/articles?type=community&count=5").then((res) => {
 });
 
 useHead({
-	title: 'Homepage | Camellia Wiki',
 	meta: [
 		{
 			name: 'description',
@@ -122,6 +121,14 @@ useHead({
 		{
 			name: 'og:description',
 			content: 'The Camellia Wiki includes the focus on Camellia, his works, and rhythm games he has associated with. We encourage you to take a look!'
+		},
+		{
+			name: 'keywords',
+			content: 'camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community'
+		},
+		{
+			name: 'author',
+			content: 'Theaceae Collective'
 		}
 	]
 });
