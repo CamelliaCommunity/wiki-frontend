@@ -83,10 +83,6 @@ if (path === 'style-test') {
 		// stupid thing to make the desc shorter - john
 		function truncateMdText() {
 			const textOnly = md.content.replace(/[#*`>\[\]]/g, '').replace(/\n+/g, ' ').trim();
-			if (textOnly.length <= 400) {
-				return textOnly;
-			}
-
 			const truncated = textOnly.slice(0, 400);
 			const lastSpaceIndex = truncated.lastIndexOf(' ');
 			return truncated.slice(0, lastSpaceIndex) + '...';
