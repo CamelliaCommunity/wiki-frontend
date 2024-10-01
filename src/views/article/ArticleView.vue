@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { reactive, nextTick, ref } from 'vue';
+import { reactive, nextTick, ref, onMounted } from 'vue';
 import { useHead } from '@unhead/vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
@@ -15,11 +15,14 @@ import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 import API from '@/utils/API';
 import Toast from '@/utils/Toast';
+import MetaTagsController from '@/utils/MetaTagsController';
 
 const route = useRoute();
 
 const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
+
+const pageMeta = ref();
 
 const react = reactive({
 	article: '',
@@ -64,6 +67,7 @@ if (path === 'style-test') {
 			react.error = res.status;
 			react.loaded = true;
 			Utils.setTitle("Error");
+			pageMeta.value = MetaTagsController.getMeta("default");
 			return;
 		}
 
@@ -75,43 +79,19 @@ if (path === 'style-test') {
 		react.breadcrumbs = data.breadcrumbs;
 
 		Utils.setTitle(meta.title);
+		let articleMeta = MetaTagsController.getMeta(path);
+		if (!articleMeta) {
+			try {
+				MetaTagsController.setMeta(path, meta, true);
+				articleMeta = MetaTagsController.getMeta(path);
+			} catch { };
+		};
+		if (!articleMeta) MetaTagsController.getMeta("default");
+
 
 		react.article = MarkdownUtils.render(md.content);
 		react.sections = md.sections;
 		react.loaded = true; // nuke loading since we got something now!
-
-		// stupid thing to make the desc shorter - john
-		function truncateMdText() {
-			const textOnly = md.content.replace(/[#*`>\[\]]/g, '').replace(/\n+/g, ' ').trim();
-			const truncated = textOnly.slice(0, 400);
-			const lastSpaceIndex = truncated.lastIndexOf(' ');
-			return truncated.slice(0, lastSpaceIndex) + '...';
-		}
-
-		useHead({
-			meta: [
-				{
-					name: 'og:title',
-					content: `${react.meta.title} | Camellia Wiki`
-				},
-				{
-					name: 'description',
-					content: truncateMdText() || "taco" // i wanted to make it default to the markdown's desc but the backend applies descs automatically? - john
-				},
-				{
-					name: 'og:description',
-					content: truncateMdText() || "taco"
-				},
-				{
-					name: 'keywords',
-					content: `${react.meta.title + ', ' + react.meta.author}, camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community`
-				},
-				{
-					name: 'author',
-					content: react.meta.author
-				}
-			]
-		});
 
 		nextTick(async () => {
 			setupObserver();
@@ -207,6 +187,10 @@ if (path === 'style-test') {
 		// Observe all sections with an id
 		document.querySelectorAll("h2[id],h3[id]").forEach((section) => observer.observe(section));
 	};
+
+	onMounted(() => {
+		useHead(pageMeta);
+	});
 };
 </script>
 

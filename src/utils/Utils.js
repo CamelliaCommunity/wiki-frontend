@@ -4,6 +4,7 @@ export default class Utils {
 			document.title = "Camellia Wiki";
 		else
 			document.title = title + " | Camellia Wiki";
+		return document.title;
 	}
 	
 	static makeSlug = (s) => {
@@ -12,5 +13,18 @@ export default class Utils {
 		s = s.replaceAll(" ", "-");
 		s = s.replaceAll(".html", "");
 		return s;
+	}
+
+	static truncateMDText = (content) => {
+		const textOnly = content
+			.replace(/!\[.*?\]\(.*?\)/g, "") // Remove: image links
+			.replace(/\[([^\]]+)\]\(.*?\)/g, "$1") // Replace: links with just text
+			.replace(/\[\^.*?\]/g, "") // Remove: footnotes
+			.replace(/[#*`>\[\]]/g, "") // Remove: other symbols
+			.replace(/\n+/g, " ") // Replace: multiple newlines with a space
+			.trim(); // Trim: leading and trailing whitespace
+		const truncated = textOnly.slice(0, 400);
+		const lastSpaceIndex = truncated.lastIndexOf(" ");
+		return truncated.slice(0, lastSpaceIndex) + "...";
 	}
 }
