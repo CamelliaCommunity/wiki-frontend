@@ -5,15 +5,17 @@ import FooterLink from "./FooterLink.vue";
 <template>
 	<div class="w-full relative mt-4 flex h-24 flex-col rounded-t-2xl bg-background-3">
 		<div class="w-full h-4 bg-background-1">
-			<div class="z-40 w-full h-4 bg-background-2 rounded-b-2xl"></div>
+			<div class="w-full h-4 bg-background-2 rounded-b-2xl"></div>
 		</div>
-		<div class="w-full h-16 justify-center text-center rounded-b-2xl bg-background-1 p-1 flex flex-row">
-			<div class="flex align-middle gap-2 w-auto p-1">
-				<img src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/maintainedby.png"
-					alt="Big Theaceae Logo" />
+		<div class="w-full h-16 relative bg-background-1 flex items-center">
+			<div class="absolute left-1 flex items-center hover:bg-background-3 p-1 rounded-xl transition">
+				<a href="https://github.com/CamelliaCommunity" target="_blank">
+					<img src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/maintainedby.png"
+						alt="Big Theaceae Logo" class="h-12" />
+				</a>
 			</div>
-			<div>
-				<p class="flex text-xl justify-center align-middle gap-2">
+			<div class="mx-auto text-center">
+				<p class="flex text-xl justify-center gap-2">
 					<FooterLink url="/legal/terms" text="Terms" />
 					<span class="relative bottom-0.5 text-xl">&bull;</span>
 					<FooterLink url="/legal/privacy" text="Privacy" />
@@ -33,5 +35,6 @@ import FooterLink from "./FooterLink.vue";
 		</div>
 	</div>
 </template>
+
 
 <style></style>
