@@ -8,12 +8,11 @@ import FooterLink from "./FooterLink.vue";
 			<div class="w-full h-4 bg-background-2 rounded-b-2xl"></div>
 		</div>
 		<div class="w-full h-16 relative bg-background-1 flex items-center">
-			<div class="absolute left-1 flex items-center hover:bg-background-3 p-1 rounded-xl transition">
-				<a href="https://github.com/CamelliaCommunity" target="_blank">
-					<img src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/maintainedby.png"
-						alt="Big Theaceae Logo" class="h-12" />
-				</a>
-			</div>
+			<a href="https://github.com/CamelliaCommunity" target="_blank"
+				class="absolute left-1 flex items-center hover:bg-background-3 p-1 rounded-xl transition">
+				<img src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/maintainedby.png"
+					alt="Big Theaceae Logo" class="h-12" />
+			</a>
 			<div class="mx-auto text-center">
 				<p class="flex text-xl justify-center gap-2">
 					<FooterLink url="/legal/terms" text="Terms" />
