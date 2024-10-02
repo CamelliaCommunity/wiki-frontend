@@ -111,23 +111,25 @@ API.get("/articles?type=news/popular").then((res) => {
 					</div>
 				</div>
 				<BlockquoteNote class="border-x-0 rounded-lg font-semibold text-3xl"
-					title="Send us money or the wiki hoster is getting it.">
+					title="Send Us Money Or The Wiki Hoster Is Getting It.">
 					<div class="mb-2">On a serious note, the wiki hoster needs money.</div>
-					<a href="https://ko-fi.com/camelliacommunity" target="_blank">
+					<a href="https://ko-fi.com/camelliacommunity" target="_blank"
+						class="inline-block p-2 hover:bg-background-3 rounded-xl transition">
 						<img :src="Kofi" class="w-60 m-auto">
 					</a>
 				</BlockquoteNote>
 				<div class="flex w-full flex-col gap-4 px-8">
+					<!-- todo: make this update with a json file or whatever - john -->
 					<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
-						<p class='text-3xl font-semibold'>Follow Spinny's Twitter. It's our therapy.
-							<br>
-							<a class="text-lg text-accent" target="_blank" href="https://x.com/spinnyternally">
-								Visit Spinny's Twitter
-							</a>
-						</p>
+						<div class='text-3xl font-semibold mb-2'>Follow Spinny's Twitter. It's Our Therapy.</div>
+						<div class="mb-2">As a result of hard times we are linking you Spinny's Twitter.</div>
+						<a class="text-lg text-accent readMoreHover" target="_blank"
+							href="https://x.com/spinnyternally">
+							Visit Spinny's Twitter
+						</a>
 					</BlockquoteNote>
 					<div>
-						<h2 class="text-4xl font-semibold mb-1">Read More</h2>
+						<h2 class="text-4xl font-semibold mb-1">Some More News</h2>
 						<GradientLine />
 					</div>
 					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full">
