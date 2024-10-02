@@ -89,14 +89,16 @@ provide("commentSystem", commentSystem);
 
 	<NewComment :error="react.error" :loaded="react.loaded" />
 
-	<div class="m-0 p-0">
-		<span class="mx-7 font-normal text-light-gray">Sort by</span>
-		<span :class="`ml-5 mr-4 cursor-pointer ${sortedBy == 1 ? 'text-accent' : 'text-white'}`"
-			@click="commentSorter(1)">New</span>
-		<span :class="`mx-4 cursor-pointer ${sortedBy == 2 ? 'text-accent' : 'text-white'}`"
-			@click="commentSorter(2)">Old</span>
-		<span :class="`mx-4 cursor-pointer ${sortedBy == 3 ? 'text-accent' : 'text-white'}`"
-			@click="commentSorter(3)">Top</span>
+	<div class="flex gap-10">
+		<span class="ml-6 font-normal text-light-gray">Sort by</span>
+		<div class="flex gap-6">
+			<span :class="`cursor-pointer ${sortedBy == 1 ? 'text-accent' : 'text-white'}`"
+				@click="commentSorter(1)">New</span>
+			<span :class="`cursor-pointer ${sortedBy == 2 ? 'text-accent' : 'text-white'}`"
+				@click="commentSorter(2)">Old</span>
+			<span :class="`cursor-pointer ${sortedBy == 3 ? 'text-accent' : 'text-white'}`"
+				@click="commentSorter(3)">Top</span>
+		</div>
 	</div>
 
 	<GradientLine />
