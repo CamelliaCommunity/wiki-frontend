@@ -5,7 +5,7 @@ import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 
 import NewsPost from '@/views/news/components/NewsPost.vue';
-import BigPost from '@/views/home/components/BigPost.vue';
+import BigNewsPost from './components/BigNewsPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import GradientLine from '@/components/GradientLine.vue';
 
@@ -77,7 +77,7 @@ API.get("/articles?type=news/popular").then((res) => {
 
 <template>
 	<div class="w-full flex flex-col items-center justify-center">
-		<div class="xl:w-content-width flex flex-col items-center justify-center">
+		<div class="w-full xl:w-content-width flex flex-col items-center justify-center">
 			<div class="flex justify-between w-full mb-2 px-5">
 				<p class="flex gap-0.5 items-center">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
@@ -87,6 +87,7 @@ API.get("/articles?type=news/popular").then((res) => {
 					</span>
 				</p>
 			</div>
+			<!-- todo: add bg image to make it look cooler - john -->
 			<div
 				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">The Wiki Times</h3>
@@ -98,7 +99,8 @@ API.get("/articles?type=news/popular").then((res) => {
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<div class="w-full">
-						<BigPost post-type="In Popular News" :post="react.newsPopular" linearBackground other-image />
+						<BigNewsPost post-type="In Popular News" :post="react.newsPopular" linearBackground
+							other-image />
 					</div>
 					<div
 						class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">

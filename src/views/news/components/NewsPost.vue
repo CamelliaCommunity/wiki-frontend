@@ -67,7 +67,7 @@ const props = defineProps({
 	.card-content {
 		display: flex;
 		flex-direction: column;
-		padding: 25px 20px;
+		padding: 20px;
 		justify-content: space-between;
 
 		.card-line {
