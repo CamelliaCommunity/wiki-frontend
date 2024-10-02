@@ -46,28 +46,17 @@ const react = reactive({
 // API calls
 
 // News
-react.news = [];
-API.get("/articles?type=news&count=999").then((res) => {
+react.news = []; // All news
+react.newsSmall = []; // First four news
+react.newsOne = []; // First news only
+API.get("/articles?type=news&count=1984").then((res) => {
 	let data = res.data;
 	react.news = data;
+	react.newsSmall = data.slice(0, 4);
+	react.newsOne = data[0];
 });
 
-
-// News but 4
-react.newsSmall = [];
-API.get("/articles?type=news&count=4").then((res) => {
-	let data = res.data;
-	react.newsSmall = data;
-});
-
-// ONE
-react.newsOne = [];
-API.get("/articles?type=news").then((res) => {
-	let data = res.data[0];
-	react.newsOne = data;
-});
-
-// popular
+// Popular News
 react.newsPopular = [];
 API.get("/articles?type=news/popular").then((res) => {
 	let data = res.data[0];
