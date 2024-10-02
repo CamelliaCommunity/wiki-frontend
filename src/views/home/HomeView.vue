@@ -12,7 +12,6 @@ import { reactive } from 'vue';
 import { useHead } from '@unhead/vue'
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
-import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
 

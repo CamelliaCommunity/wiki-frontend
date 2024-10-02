@@ -4,7 +4,6 @@ import { reactive } from 'vue';
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
 
-import FeaturedPost from '@/views/home/components/FeaturedPost.vue';
 import NewsPost from '@/views/news/components/NewsPost.vue';
 import BigPost from '@/views/home/components/BigPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
@@ -67,6 +66,13 @@ API.get("/articles?type=news").then((res) => {
 	let data = res.data[0];
 	react.newsOne = data;
 });
+
+// popular
+react.newsPopular = [];
+API.get("/articles?type=news/popular").then((res) => {
+	let data = res.data[0];
+	react.newsPopular = data;
+});
 </script>
 
 <template>
@@ -92,7 +98,7 @@ API.get("/articles?type=news").then((res) => {
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<div class="w-full">
-						<BigPost post-type="Recent Post" :post="react.newsOne" linearBackground other-image />
+						<BigPost post-type="In Popular News" :post="react.newsPopular" linearBackground other-image />
 					</div>
 					<div
 						class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
