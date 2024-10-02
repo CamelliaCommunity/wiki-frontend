@@ -1,7 +1,16 @@
-# Camellia Wiki (Frontend)
-### This is the frontend code for the Camellia Wiki (rewritten).
+<p align="center">
+  <img width="300" alt="wiki logo" src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/wikilogo.png">
+</p>
 
-[![ko-fi](https://storage.ko-fi.com/cdn/brandasset/kofi_bg_tag_dark.png)](https://ko-fi.com/P5P6SNZFW)
+# Camellia Wiki (Frontend)
+
+<p align="left">
+  <a href="https://ko-fi.com/P5P6SNZFW">
+    <img width="200" alt="ko-fi" src="https://storage.ko-fi.com/cdn/brandasset/kofi_bg_tag_dark.png">
+  </a>
+</p>
+
+### This is the frontend code for the Camellia Wiki (rewritten).
 
 ### [Alpha](https://alpha.camellia.wiki) | Live
 
