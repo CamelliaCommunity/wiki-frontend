@@ -40,12 +40,12 @@ onMounted(() => {
 
 onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyDown); });
 
-kofiWidgetOverlay.draw('camelliacommunity', {
-	'type': 'floating-chat',
-	'floating-chat.donateButton.text': 'Support us!',
-	'floating-chat.donateButton.background-color': '#323842',
-	'floating-chat.donateButton.text-color': '#fff'
-});
+// kofiWidgetOverlay.draw('camelliacommunity', {
+// 	'type': 'floating-chat',
+// 	'floating-chat.donateButton.text': 'Support us!',
+// 	'floating-chat.donateButton.background-color': '#323842',
+// 	'floating-chat.donateButton.text-color': '#fff'
+// });
 </script>
 
 <template>
