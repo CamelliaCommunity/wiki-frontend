@@ -129,7 +129,7 @@ API.get("/articles?type=news/popular").then((res) => {
 						</a>
 					</BlockquoteNote>
 					<div>
-						<h2 class="text-4xl font-semibold mb-1">Some More News</h2>
+						<h2 class="text-4xl font-semibold mb-1">All News Articles</h2>
 						<GradientLine />
 					</div>
 					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full">
