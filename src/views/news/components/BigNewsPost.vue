@@ -26,7 +26,9 @@ const props = defineProps({
 
 <template>
     <RouterLink :to="post.url || '/not-found'" class="w-fit">
-        <OverlapGrid class="big-post w-full h-full rounded-lg overlap-grid" v-if="post.meta">
+        <!-- this stupid fixed width and height man - john -->
+        <OverlapGrid class="big-news-post w-full h-full rounded-lg overlap-grid md:w-[598px] md:h-[499px]"
+            v-if="post.meta">
             <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
             <div class="dim" v-if="linearBackground"></div>
             <div class="radial-dim" v-else></div>
@@ -37,7 +39,7 @@ const props = defineProps({
                         <h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
                     </div>
                     <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage"
-                        class="object-scale-down w-48 self-center rounded-lg" />
+                        class="object-scale-down w-64 self-center rounded-lg" />
                     <h2 class="text-3xl italic font-semibold self-center text-center text-shadow">{{ post.meta.title }}
                     </h2>
                 </div>
@@ -51,7 +53,7 @@ const props = defineProps({
 </template>
 
 <style lang="scss">
-.big-post {
+.big-news-post {
 
     .dim {
         transition: background 400ms;

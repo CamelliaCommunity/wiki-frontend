@@ -51,4 +51,9 @@ Sentry.init({
 // -- Overlay Scrollbars (Vue)
 import 'overlayscrollbars/overlayscrollbars.css';
 
+// -- Vue Unhead?
+import { createHead } from '@unhead/vue'
+const head = createHead()
+app.use(head)
+
 app.mount('#app')
