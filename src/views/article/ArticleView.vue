@@ -218,8 +218,7 @@ if (path === 'style-test') {
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span v-for="(part, index) in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />
-						<span v-if='part.name.toLowerCase() == "news"' class="text-light-gray">{{ part.name }}</span>
-						<span v-else-if="index == (Object.keys(react.breadcrumbs).length - 1)">{{ part.name }}</span>
+						<span v-if="index == (Object.keys(react.breadcrumbs).length - 1)">{{ part.name }}</span>
 						<RouterLink v-else class="text-light-gray readMoreHover" :to=part.path>{{ part.name }}
 						</RouterLink>
 					</span>

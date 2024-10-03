@@ -12,7 +12,6 @@ import { reactive } from 'vue';
 import { useHead } from '@unhead/vue'
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
-import GrayLine from '@/components/GrayLine.vue'; // soon
 
 Utils.setTitle('Homepage');
 
@@ -154,22 +153,13 @@ useHead({
 						<HomeStats class="w-full" :stats="react.stats" />
 					</div>
 				</div>
-
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<LatestRelease linearBackground />
 				</div>
-
 				<div>
 					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
 					<GradientLine :overshoot="false" />
 				</div>
-				<!-- <div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-80 overflow-y-auto max-h-full">
-					<div v-for="(post, index) in react.posts" class="flex flex-col w-full gap-2">
-						<SimplePost :post="post" />
-						<GrayLine v-if="index != (react.posts.length - 1)" />
-					</div>
-				</div> -->
-
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div v-for="(post) in react.posts" class="w-full flex flex-col gap-4">
 						<SimplePost :post="post" />
