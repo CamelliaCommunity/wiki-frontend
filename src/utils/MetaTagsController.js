@@ -40,18 +40,25 @@ export default class MetaTagsController {
 				{ name: "og:title", content: pageTitle },
 				{ name: "description", content: pageDesc },
 				{ name: "og:description", content: pageDesc },
-				{ name: "keywords", content: this.createKeywords().join(", ") }
+				{ name: "keywords", content: this.createKeywords().join(", ") },
+				{ property: "theme-color", content: "#F876D3" }
 			]
 		};
 	}
 
 	static mergeTwoMetas(inputOne, inputTwo) {
-		const metaMap = {};
+		const metaMap = new Map();
 
-		inputOne.forEach(i => { metaMap[i.name] = i.content; });
-		inputTwo.forEach(i => { metaMap[i.name] = i.content; });
+		inputOne.forEach(i => {
+			const key = i.name || i.property;
+			metaMap.set(key, i);
+		});
+		inputTwo.forEach(i => {
+			const key = i.name || i.property;
+			metaMap.set(key, i);
+		});
 
-		return Object.keys(metaMap).map(name => ({ name, content: metaMap[name ]}));
+		return Array.from(metaMap.values());
 	}
 
 	static getMeta(url) {
