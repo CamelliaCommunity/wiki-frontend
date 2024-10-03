@@ -163,7 +163,7 @@ API.get("/articles?type=news&count=1984").then((res) => {
 </template>
 <style lang="scss">
 .news-header {
-	background-color: var(--background-3);
+	background-color: var(--background-1);
 	background: url('/src/assets/images/home-header.png') no-repeat center center / cover;
 
 	.dim {
