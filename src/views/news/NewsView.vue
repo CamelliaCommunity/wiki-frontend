@@ -50,7 +50,6 @@ const react = reactive({
 
 // API calls
 
-
 // Popular News
 // TODO: Get the popular news. Once that is added in the Backend.
 //API.get("/articles/popular?type=news").then((res) => {
@@ -89,22 +88,7 @@ API.get("/articles?type=news&count=1984").then((res) => {
 		react.evenMore = react.all.slice(allSliceEndRecent + 1, react.all.length);
 	};
 });
-// react.news = []; // All news
-// react.newsSmall = []; // First four news
-// react.newsOne = []; // First news only
-// API.get("/articles?type=news&count=1984").then((res) => {
-// 	let data = res.data;
-// 	react.news = data;
-// 	react.newsSmall = data.slice(0, 4);
-// 	react.newsOne = data[0];
-// });
 
-// // Popular News
-// react.newsPopular = [];
-// API.get("/articles?type=news/popular").then((res) => {
-// 	let data = res.data[0];
-// 	react.newsPopular = data;
-// });
 </script>
 
 <template>
@@ -119,13 +103,15 @@ API.get("/articles?type=news&count=1984").then((res) => {
 					</span>
 				</p>
 			</div>
-
-			<div
-				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
-				<h3 class="text-2xl font-semibold">The Wiki Times</h3>
-				<p class="font-extralight">The only Real News Source</p>
-				<img :src="WikiLogo" alt="Camellia Wiki Icon" class="w-8" />
-			</div>
+			<OverlapGrid class="news-header w-full md:h-16 rounded-lg mb-4 overlap-grid">
+				<div class="dim">
+				</div>
+				<div class="flex flex-col md:flex-row justify-between items-center px-5">
+					<h3 class="text-2xl font-semibold">The Wiki Times</h3>
+					<p class="font-extralight">The only Real News Source</p>
+					<img :src="WikiLogo" alt="Camellia Wiki Icon" class="w-8" />
+				</div>
+			</OverlapGrid>
 		</div>
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
 			<div class="flex w-full flex-col gap-4">
@@ -175,3 +161,13 @@ API.get("/articles?type=news&count=1984").then((res) => {
 		</div>
 	</div>
 </template>
+<style lang="scss">
+.news-header {
+	background-color: var(--background-3);
+	background: url('/src/assets/images/home-header.png') no-repeat center center / cover;
+
+	.dim {
+		background: rgba(0, 0, 0, 0.4) linear-gradient(-120deg, transparent 0%, var(--background-1) 58%)
+	}
+}
+</style>
