@@ -230,7 +230,7 @@ if (comment && comment.content?.length > 0) {
 			<p v-else-if="(!comment.isEditing) && !comment.isDeleted"
 				class="flex flex-col text-lg w-5/6 overflow-hidden text-ellipsis relative">
 				<MarkdownView :article="comment.renderedContent"
-					:class="`${!comment.showMore ? 'imFading max-h-16' : ''}`" />
+					:class="`${!comment.showMore ? 'imFading max-h-16' : ''} ${comment.hovered || comment.isEditing || comment.isReplying ? 'hovered' : ''}`" />
 			</p>
 			<NewComment v-if="!comment.isReplying && comment.isEditing && !comment.isDeleted && API.user.loggedIn"
 				:loaded="!comment.isLoading" :commentId="comment.id" :extraSubmit="data => commentAction(2, data)"
@@ -319,14 +319,14 @@ if (comment && comment.content?.length > 0) {
 	bottom: 0;
 	content: "";
 	display: block;
-	height: 38px;
+	height: 48px;
 	left: 0;
 	pointer-events: none;
 	position: absolute;
 	width: 100%;
 }
 
-#comment:hover .imFading::after {
+.imFading.hovered::after {
 	background-image: linear-gradient(180deg, transparent, var(--background-3));
 }
 </style>
