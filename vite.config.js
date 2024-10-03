@@ -11,13 +11,20 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview}) => {
 	const build = {
 		bourcemap: true,
 		checkSizeWarningLimit: 10000,
+		modulePreload: {
+			resolveDependencies: (url, deps, context) => {
+				return [];
+			}
+		},
 		rollupOptions: {
 			output: {
 				manualChunks(id) {
-					if (id.includes("node_modules")) {
-						return id.toString().split("node_modules/")[1].split("/")[0].toString()
-					}
-				}
+					// To see what modules are big, look at the sizes using:
+					// if (id.includes("node_modules")) return id.toString().split("node_modules/")[1].split("/")[0].toString();
+
+					const bigBois = [ "@sentry-internal", "@phosphor-icons" ];
+					if (bigBois.some(n => id.includes(`node_modules/${n}`))) return id.toString().split("node_modules/")[1].split("/")[0].toString();
+				},
 			}
 		}
 	};
