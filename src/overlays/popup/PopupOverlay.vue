@@ -27,6 +27,7 @@ Events.Register(props.event, () => {
 
 Events.Register(props.event + "-close", () => {
 	ClosePopup(true);
+	Events.Emit(props.event + "-closeComplete");
 });
 
 function ClosePopup(fromEmitted) {

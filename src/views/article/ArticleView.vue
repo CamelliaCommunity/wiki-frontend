@@ -30,7 +30,7 @@ const react = reactive({
 	meta: {},
 	breadcrumbs: [],
 	loaded: false,
-	error: false,
+	error: 0,
 	commentSystem: {
 		loaded: false,
 		error: false,
@@ -64,7 +64,6 @@ onMounted(() => {
 		// uncomment the setTimeout to simulate long loading
 		// setTimeout(() => {
 		API.get(articleUrl).then((res) => {
-			console.log(res);
 			if (res.status != 200) {
 				react.error = res.status || 9999;
 				react.loaded = true;

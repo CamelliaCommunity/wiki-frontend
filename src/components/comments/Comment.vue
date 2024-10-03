@@ -142,6 +142,7 @@ const commentAction = (action, options) => {
 				};
 			});
 		};
+		Events.Register(`popup-comment-${comment.id}-confirmation-closeComplete`, popup.clickNo);
 		Events.Emit(`popup-comment-${comment.id}-confirmation`);
 	} else if (action == 4) { // Copy to clipboard
 		const url = `${route.fullPath.split("#")[0]}#comment-${comment.id}`;
