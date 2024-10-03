@@ -11,7 +11,7 @@ import VueCookies from 'vue-cookies'
 // -- Toastify
 import 'vue3-toastify/dist/index.css';
 // -- Overlay Scrollbars (Vue)
-import 'overlayscrollbars/overlayscrollbars.css';
+// import 'overlayscrollbars/overlayscrollbars.css';
 // -- Vue Unhead?
 import { createHead } from '@unhead/vue';
 

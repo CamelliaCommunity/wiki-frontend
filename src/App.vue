@@ -1,5 +1,5 @@
 <script setup>
-import { useOverlayScrollbars } from 'overlayscrollbars-vue';
+// import { useOverlayScrollbars } from 'overlayscrollbars-vue';
 import { onBeforeUnmount, onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 
