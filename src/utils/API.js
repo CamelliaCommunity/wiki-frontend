@@ -154,7 +154,6 @@ export default class API {
 		};
 	}
 
-	// its true cos uhhh yeah (temp) - john
 	static performLogout = async() => {
 		$cookies.remove(this.cookie_name_token);
 		$cookies.remove(this.cookie_name_user);
@@ -165,10 +164,9 @@ export default class API {
 	static performLogin = async() => {
 		let popupWindow;
 		// Create Discord popup
-		const DISCORD_CLIENT_ID = "1169155506988929024";
 		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=960,height=727";
 		popupWindow = window.open(
-			`https://discord.com/oauth2/authorize?response_type=token&client_id=${DISCORD_CLIENT_ID}&scope=identify&redirect_uri=${window.location.protocol}//${window.location.host}/oauthComplete`,
+			`https://discord.com/oauth2/authorize?response_type=token&client_id=${Config.Discord.ClientID}&scope=identify&redirect_uri=${window.location.protocol}//${window.location.host}/oauthComplete`,
 			"popup",
 			popupParams
 		);
