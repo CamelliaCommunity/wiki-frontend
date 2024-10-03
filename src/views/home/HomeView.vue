@@ -8,7 +8,7 @@ import SidebarPosts from './components/SidebarPosts.vue';
 
 import Utils from '@/utils/Utils';
 import API from '@/utils/API';
-import { nextTick, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useHead } from '@unhead/vue'
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
@@ -66,28 +66,28 @@ const react = reactive({
 API.get("/articles/featured").then((res) => {
 	if (res.status == 200) react.featured = res.data;
 	else if (res.status == 204) react.featured.meta = articlePlaceholders.none;
-	else if (res.status >= 400) react.featured.meta = articlePlaceholders.error;
+	else if (res.status >= 400 || !res.status) react.featured.meta = articlePlaceholders.error;
 });
 
 // Popular
 API.get("/articles/popular").then((res) => {
 	if (res.status == 200) react.popular = res.data;
 	else if (res.status == 204) react.popular.meta = articlePlaceholders.none;
-	else if (res.status >= 400) react.popular.meta = articlePlaceholders.error;
+	else if (res.status >= 400 || !res.status) react.popular.meta = articlePlaceholders.error;
 });
 
 API.get("/articles/random").then((res) => {
 	if (res.status == 200) react.random = res.data;
 	else if (res.status == 204) react.random.meta = articlePlaceholders.none;
-	else if (res.status >= 400) react.random.meta = articlePlaceholders.error;
+	else if (res.status >= 400 || !res.status) react.random.meta = articlePlaceholders.error;
 });
 
 // Statistics
 API.get("/stats").then((res) => {
 	let tmpData = {
-		articles: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.articles,
-		comments: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.comments,
-		visits: (res.status >= 400 || res.status == 204) ? "N/A" : res.data?.visitors,
+		articles: (res.status >= 400 || !res.status || res.status == 204) ? "N/A" : res.data?.articles,
+		comments: (res.status >= 400 || !res.status || res.status == 204) ? "N/A" : res.data?.comments,
+		visits: (res.status >= 400 || !res.status || res.status == 204) ? "N/A" : res.data?.visitors,
 	};
 	react.stats = tmpData;
 });
@@ -122,7 +122,6 @@ onMounted(() => {
 	<div class="w-full flex flex-col items-center justify-center gap-5">
 		<HomeHeader />
 		<div class="flex flex-col md:flex-row w-full xl:w-content-width xl:mx-auto gap-5 md">
-			<!-- i removed the justify-between as temporary fix, sorry emma :( - john -->
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<BigPost post-type="Popular Today" :post="react.popular" linearBackground other-image />

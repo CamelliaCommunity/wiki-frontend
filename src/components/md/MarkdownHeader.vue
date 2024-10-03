@@ -2,7 +2,7 @@
 import { PhLinkSimple } from '@phosphor-icons/vue';
 import GradientLine from '../GradientLine.vue';
 import GrayLine from '../GrayLine.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import Toast from '@/utils/Toast';
 
@@ -29,7 +29,7 @@ function copyLink() {
 
 	navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${url}`)
 		.then(() => Toast.showToast("Copied to clipboard!", { type: "success" }))
-		.catch((err) => Toast.showToast("Error occurred copying to clipboard."))
+		.catch((_) => Toast.showToast("Error occurred copying to clipboard."))
 }
 </script>
 

@@ -44,7 +44,7 @@ function ClosePopup(fromEmitted) {
 				ref="popupContent">
 				<div class="flex grow">
 					<div class="justify-center text-lg w-full flex mb-3">
-						<p class="whitespace-pre text-center">
+						<p class="whitespace-pre text-wrap text-center">
 							<slot name="content">
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud

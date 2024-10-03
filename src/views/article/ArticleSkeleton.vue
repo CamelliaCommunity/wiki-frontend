@@ -3,7 +3,7 @@ import NewArticleView from "./NewArticleView.vue";
 
 const props = defineProps({
 	loading: Boolean,
-	error: Boolean
+	error: Number
 })
 
 const skeleData = {
@@ -45,7 +45,7 @@ const skeleData = {
 		</div>
 	</div>
 	<template v-else-if="error">
-		<NewArticleView></NewArticleView>
+		<NewArticleView :error="error != 404 ? 'ServerError' : 'NotFound'" />
 	</template>
 	<slot v-else></slot>
 </template>

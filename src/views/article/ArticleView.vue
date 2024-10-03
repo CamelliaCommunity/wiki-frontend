@@ -64,13 +64,14 @@ onMounted(() => {
 		// uncomment the setTimeout to simulate long loading
 		// setTimeout(() => {
 		API.get(articleUrl).then((res) => {
+			console.log(res);
 			if (res.status != 200) {
-				react.error = res.status;
+				react.error = res.status || 9999;
 				react.loaded = true;
 				Utils.setTitle("Error");
 				pageMeta.value = MetaTagsController.getMeta("default");
 				return;
-			}
+			};
 
 			let data = res.data;
 			var md = MarkdownUtils.parse(data);

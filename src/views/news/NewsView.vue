@@ -56,7 +56,7 @@ const react = reactive({
 react.popular.data = { meta: articlePlaceholders.none, url: "" };
 // if (res.status == 200) react.popular.data = res.data;
 // else if (res.status == 204) react.popular.data = articlePlaceholders.none;
-// else if (res.status >= 400) react.popular.data = articlePlaceholders.error;
+// else if (res.status >= 400 || !res.status) react.popular.data = articlePlaceholders.error;
 //});
 
 // Get all news
@@ -65,7 +65,7 @@ let allSliceEndRecent = 4;
 API.get("/articles?type=news&count=1984").then((res) => {
 	if (res.status == 200) react.all = res.data;
 	else if (res.status == 204) react.all[0] = { meta: articlePlaceholders.none, url: "" };
-	else if (res.status >= 400) react.all[0] = { meta: articlePlaceholders.error, url: "" };
+	else if (res.status >= 400 || !res.status) react.all[0] = { meta: articlePlaceholders.error, url: "" };
 
 	if (react.all[0].meta.date == articlePlaceholders.none.date || react.all[0].meta.date == articlePlaceholders.error.date) {
 		let finalArr = [];
