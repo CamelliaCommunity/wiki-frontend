@@ -9,20 +9,18 @@ export default class MetaTagsController {
 		"/": {
 			...this.defaultMeta,
 			title: "Homepage | Camellia Wiki",
-			meta: [
-				...this.defaultMeta.meta,
+			meta: this.mergeTwoMetas(this.defaultMeta.meta, [
 				{ name: "og:title", content: "Homepage | Camellia Wiki" },
 				{ name: "author", content: "Theaceae Collective" }
-			]
+			])
 		},
 		"/news": {
 			...this.defaultMeta,
 			title: "News | Camellia Wiki",
-			meta: [
-				...this.defaultMeta.meta,
+			meta: this.mergeTwoMetas(this.defaultMeta.meta, [
 				{ name: "og:title", content: "News | Camellia Wiki" },
 				{ name: "author", content: "Theaceae Collective" }
-			]
+			])
 		},
 		"default": this.defaultMeta
 	});
@@ -47,6 +45,15 @@ export default class MetaTagsController {
 		};
 	}
 
+	static mergeTwoMetas(inputOne, inputTwo) {
+		const metaMap = {};
+
+		inputOne.forEach(i => { metaMap[i.name] = i.content; });
+		inputTwo.forEach(i => { metaMap[i.name] = i.content; });
+
+		return Object.keys(metaMap).map(name => ({ name, content: metaMap[name ]}));
+	}
+
 	static getMeta(url) {
 		if (!url) url = "/";
 		return this.knownMetas[url || "/"];
@@ -64,7 +71,7 @@ export default class MetaTagsController {
 		if (fromAPI) {
 			tmpMeta.title = (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName;
 			tmpMeta.meta.push(
-				{ name: "og:title", content: data.meta.title || this.defaultMeta.meta.title },
+				{ name: "og:title", content: (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName },
 				{ name: "description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
 				{ name: "og:description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
 				{ name: "author", content: data.meta.author || this.defaultMeta.meta.author },
