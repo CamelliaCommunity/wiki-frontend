@@ -8,6 +8,7 @@ import NewsPost from '@/views/news/components/NewsPost.vue';
 import BigNewsPost from './components/BigNewsPost.vue';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
 import GradientLine from '@/components/GradientLine.vue';
+import OverlapGrid from '@/components/OverlapGrid.vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 import WikiLogo from "@/assets/images/icon.png";
@@ -16,52 +17,94 @@ import GrayLine from '@/components/GrayLine.vue';
 
 Utils.setTitle('News');
 
-const loadingContentMeta = {
-	title: 'loading...',
-	description: 'we are still fetching this for you...',
-	date: -1,
+const articlePlaceholders = {
+	loading: {
+		title: 'loading...',
+		description: 'we are still fetching this for you...',
+		date: -1,
+	},
+	none: {
+		title: 'No content.',
+		description: '',
+		date: -2
+	},
+	error: {
+		title: 'Oh no!',
+		description: 'Something went wrong while loading this... :(',
+		date: -3
+	}
 };
 
-// clean this shit up please - john
+const loadingPlaceholder = { meta: articlePlaceholders.loading, url: "" };
+
 const react = reactive({
-	// Featured
-	featured: {
-		meta: loadingContentMeta,
-		url: "/featured"
-	},
-
-	// Popular
+	// All
+	all: [],
 	popular: {
-		meta: loadingContentMeta,
-		url: "/popular"
+		title: "In Popular News",
+		data: loadingPlaceholder
 	},
-
-	// Random
-	random: {
-		meta: loadingContentMeta,
-		url: "/random"
-	}
+	mostRecent: [loadingPlaceholder, loadingPlaceholder, loadingPlaceholder, loadingPlaceholder],
+	evenMore: [loadingPlaceholder, loadingPlaceholder, loadingPlaceholder, loadingPlaceholder]
 });
 
 // API calls
 
-// News
-react.news = []; // All news
-react.newsSmall = []; // First four news
-react.newsOne = []; // First news only
-API.get("/articles?type=news&count=1984").then((res) => {
-	let data = res.data;
-	react.news = data;
-	react.newsSmall = data.slice(0, 4);
-	react.newsOne = data[0];
-});
 
 // Popular News
-react.newsPopular = [];
-API.get("/articles?type=news/popular").then((res) => {
-	let data = res.data[0];
-	react.newsPopular = data;
+// TODO: Get the popular news. Once that is added in the Backend.
+//API.get("/articles/popular?type=news").then((res) => {
+react.popular.data = { meta: articlePlaceholders.none, url: "" };
+// if (res.status == 200) react.popular.data = res.data;
+// else if (res.status == 204) react.popular.data = articlePlaceholders.none;
+// else if (res.status >= 400) react.popular.data = articlePlaceholders.error;
+//});
+
+// Get all news
+let allSliceStartRecent = 0;
+let allSliceEndRecent = 4;
+API.get("/articles?type=news&count=1984").then((res) => {
+	if (res.status == 200) react.all = res.data;
+	else if (res.status == 204) react.all[0] = { meta: articlePlaceholders.none, url: "" };
+	else if (res.status >= 400) react.all[0] = { meta: articlePlaceholders.error, url: "" };
+
+	if (react.all[0].meta.date == articlePlaceholders.none.date || react.all[0].meta.date == articlePlaceholders.error.date) {
+		let finalArr = [];
+
+		if (react.all[0].meta.date == articlePlaceholders.error.date) finalArr.push({ meta: articlePlaceholders.error, url: "" });
+
+		react.mostRecent = finalArr;
+		react.evenMore = finalArr;
+	} else {
+		react.mostRecent = react.all.slice(allSliceStartRecent, allSliceEndRecent);
+		react.evenMore = react.all.slice(allSliceEndRecent, react.all.length);
+	};
+
+	// If Popular has an issue, change to Recent News
+	if (react.popular.data.meta.date == articlePlaceholders.none.date || react.popular.data.meta.date == articlePlaceholders.error.date) {
+		react.popular.title = "Recent News";
+		react.popular.data = react.all[0];
+
+		react.mostRecent = react.all.slice(allSliceStartRecent + 1, allSliceEndRecent + 1);
+		react.evenMore = react.all.slice(allSliceEndRecent + 1, react.all.length);
+	};
 });
+// react.news = []; // All news
+// react.newsSmall = []; // First four news
+// react.newsOne = []; // First news only
+// API.get("/articles?type=news&count=1984").then((res) => {
+// 	let data = res.data;
+// 	react.news = data;
+// 	react.newsSmall = data.slice(0, 4);
+// 	react.newsOne = data[0];
+// });
+
+// // Popular News
+// react.newsPopular = [];
+// API.get("/articles?type=news/popular").then((res) => {
+// 	let data = res.data[0];
+// 	react.newsPopular = data;
+// });
 </script>
 
 <template>
@@ -76,7 +119,7 @@ API.get("/articles?type=news/popular").then((res) => {
 					</span>
 				</p>
 			</div>
-			<!-- todo: add bg image to make it look cooler - john -->
+
 			<div
 				class="w-full md:h-16 bg-background-1 rounded-lg p-5 flex flex-col md:flex-row justify-between items-center mb-4">
 				<h3 class="text-2xl font-semibold">The Wiki Times</h3>
@@ -88,14 +131,14 @@ API.get("/articles?type=news/popular").then((res) => {
 			<div class="flex w-full flex-col gap-4">
 				<div class="w-full flex flex-col md:flex-row gap-4">
 					<div class="w-full">
-						<BigNewsPost post-type="In Popular News" :post="react.newsPopular" linearBackground
+						<BigNewsPost :post-type="react.popular.title" :post="react.popular.data" linearBackground
 							other-image />
 					</div>
 					<div
 						class="w-full flex flex-col justify-between gap-2 lg:max-h-full xl:max-h-full overflow-y-auto max-h-full">
-						<template v-for="(post, index) in react.newsSmall">
+						<template v-for="(post, index) in react.mostRecent">
 							<NewsPost class="flex flex-col w-full" :post="post" linearBackground />
-							<GrayLine v-if="index != (react.newsSmall.length - 1)" />
+							<GrayLine v-if="(index + 1) != react.mostRecent.length" class="!h-0.5" />
 						</template>
 					</div>
 				</div>
@@ -108,7 +151,7 @@ API.get("/articles?type=news/popular").then((res) => {
 					</a>
 				</BlockquoteNote>
 				<div class="flex w-full flex-col gap-4 px-8">
-					<!-- todo: make this update with a json file or whatever - john -->
+					<!-- TODO: This is a placeholder for now, but in the future, we will use the Backend to get more and possibly randomize. -->
 					<BlockquoteNote class="border-x-0 rounded-lg" title="Community Advertisement">
 						<div class='text-3xl font-semibold mb-2'>Follow Spinny's Twitter. It's Our Therapy.</div>
 						<div class="mb-2">As a result of hard times we are linking you Spinny's Twitter.</div>
@@ -118,13 +161,13 @@ API.get("/articles?type=news/popular").then((res) => {
 						</a>
 					</BlockquoteNote>
 					<div>
-						<h2 class="text-4xl font-semibold mb-1">All News Articles</h2>
+						<h2 class="text-4xl font-semibold mb-1">Read More</h2>
 						<GradientLine />
 					</div>
 					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full">
-						<div v-for="(post, index) in react.news" class="flex flex-col w-full gap-2">
+						<div v-for="(post, index) in react.evenMore" class="flex flex-col w-full gap-2">
 							<NewsPost :post="post" linearBackground />
-							<GrayLine v-if="index != (react.news.length - 1)" />
+							<GrayLine v-if="(index + 1) != react.evenMore.length" class="!h-0.5" />
 						</div>
 					</div>
 				</div>
