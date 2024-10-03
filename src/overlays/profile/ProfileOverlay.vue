@@ -67,7 +67,7 @@ function wipToast() {
 			@click="Close" v-if="react.open">
 			<div class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
 				ref="content">
-				<TitleBar :close="Close" />
+				<TitleBar title="Profile View" :close="Close" />
 				<div class="flex grow">
 					<div class="w-full flex mb-2.5"></div>
 				</div>

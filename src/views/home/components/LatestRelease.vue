@@ -83,7 +83,7 @@ API.get(sourceRandom.url).then((res) => {
 		react.output = { ...output, type: output.type == "YouTube" ? "YouTube Upload" : "Spotify Release" };
 	} else if (res.status == 204) {
 		react.output = { ...react.output, title: "No current release data was found." };
-	} else if (res.status >= 400) {
+	} else if (res.status >= 400 || !res.status) {
 		react.output = { ...react.output, title: "Oh no! Something went wrong while fetching this!" };
 	};
 });

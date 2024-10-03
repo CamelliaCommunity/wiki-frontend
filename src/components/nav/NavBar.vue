@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from 'vue-router';
 import { PhList, PhX, PhGlobe, PhBell, PhMagnifyingGlass } from "@phosphor-icons/vue";
 
@@ -60,12 +60,15 @@ function openLink(e, url) {
 	togNav(false);
 }
 
-window.addEventListener("keydown", (e) => {
-	const inputFocused = e.target.tagName.toLowerCase() == 'input' || e.target.tagName.toLowerCase() == 'textarea';
-	if (!inputFocused) {
-		if (e.key == "q") togNav();
-		else if (e.key == "l" && API.user.loggedIn) API.performLogout();
-	};
+onMounted(() => {
+
+	window.addEventListener("keydown", (e) => {
+		const inputFocused = e.target.tagName.toLowerCase() == 'input' || e.target.tagName.toLowerCase() == 'textarea';
+		if (!inputFocused) {
+			if (e.key == "q") togNav();
+			else if (e.key == "l" && API.user.loggedIn) API.performLogout();
+		};
+	});
 });
 </script>
 

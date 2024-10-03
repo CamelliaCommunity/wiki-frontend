@@ -1,7 +1,8 @@
 <script setup>
-import { RouterView } from 'vue-router';
-import { useOverlayScrollbars } from 'overlayscrollbars-vue';
+// import { useOverlayScrollbars } from 'overlayscrollbars-vue';
 import { onBeforeUnmount, onMounted } from 'vue';
+import { RouterView } from 'vue-router';
+
 
 import NavBar from './components/nav/NavBar.vue';
 import FooterBar from './components/footer/FooterBar.vue';
@@ -22,20 +23,39 @@ const handleKeyDown = (e) => {
 onMounted(() => {
 	API.fetchUser();
 
-	const [initBodyOverlayScrollBars] = useOverlayScrollbars({
-		defer: true,
-		options: {
-			scrollbars: {
-				theme: 'os-theme-light',
-				clickScroll: true,
-			},
-		},
-	});
+	// fix up this shit at a later time - john
+	// const [initBodyOverlayScrollBars] = useOverlayScrollbars({
+	// 	defer: true,
+	// 	options: {
+	// 		scrollbars: {
+	// 			theme: 'os-theme-light',
+	// 			clickScroll: true,
+	// 		},
+	// 	},
+	// });
 
-	initBodyOverlayScrollBars(document.body);
-
+	// initBodyOverlayScrollBars(document.body);
 
 	window.addEventListener("keydown", handleKeyDown);
+
+	// Load Ko-Fi
+	// new Promise((resolve, _) => {
+	// 	let kofiWidgetScript = document.createElement("script");
+	// 	kofiWidgetScript.onload = () => {
+	// 		resolve(() => {
+	// 			kofiWidgetOverlay.draw('camelliacommunity', {
+	// 				'type': 'floating-chat',
+	// 				'floating-chat.donateButton.text': 'Support us!',
+	// 				'floating-chat.donateButton.background-color': '#323842',
+	// 				'floating-chat.donateButton.text-color': '#fff'
+	// 			});
+	// 		});
+	// 	};
+	// 	kofiWidgetScript.async = true;
+	// 	kofiWidgetScript.src = "https://storage.ko-fi.com/cdn/scripts/overlay-widget.js";
+	// 	document.head.appendChild(kofiWidgetScript);
+	// });
+
 });
 
 onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyDown); });

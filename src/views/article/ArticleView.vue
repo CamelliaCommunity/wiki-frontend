@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { reactive, nextTick, ref } from 'vue';
+import { reactive, nextTick, ref, onMounted } from 'vue';
 import { useHead } from '@unhead/vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
@@ -15,11 +15,14 @@ import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 import API from '@/utils/API';
 import Toast from '@/utils/Toast';
+import MetaTagsController from '@/utils/MetaTagsController';
 
 const route = useRoute();
 
 const pathSplit = route.path.split('/');
 const path = pathSplit.slice(1).join('/');
+
+const pageMeta = ref();
 
 const react = reactive({
 	article: '',
@@ -27,7 +30,7 @@ const react = reactive({
 	meta: {},
 	breadcrumbs: [],
 	loaded: false,
-	error: false,
+	error: 0,
 	commentSystem: {
 		loaded: false,
 		error: false,
@@ -37,177 +40,158 @@ const react = reactive({
 	}
 });
 
-// get article data from backend
-let articleUrl = `/articles/${path}`;
-let routeHash = route.hash?.split("#").filter(e => e.length > 0);
+onMounted(() => {
+	// get article data from backend
+	let articleUrl = `/articles/${path}`;
+	let routeHash = route.hash?.split("#").filter(e => e.length > 0);
 
-if (path === 'style-test') {
-	articleUrl = 'http://localhost:5173/src/assets/tests/blockquote-test.md'; // can be replaced with md files in the tests folder
+	if (path === 'style-test') {
+		articleUrl = 'http://localhost:5173/src/assets/tests/blockquote-test.md'; // can be replaced with md files in the tests folder
 
-	fetch(articleUrl)
-		.then((response) => response.text())
-		.then((text) => {
-			var md = MarkdownUtils.parse({ meta: {}, content: text });
-			console.log(text, md);
+		fetch(articleUrl)
+			.then((response) => response.text())
+			.then((text) => {
+				var md = MarkdownUtils.parse({ meta: {}, content: text });
+				console.log(text, md);
 
-			Utils.setTitle("Style Test");
+				Utils.setTitle("Style Test");
+
+				react.article = MarkdownUtils.render(md.content);
+				react.sections = md.sections;
+				react.loaded = true; // nuke loading since we got something now!
+			});
+	} else {
+		// uncomment the setTimeout to simulate long loading
+		// setTimeout(() => {
+		API.get(articleUrl).then((res) => {
+			if (res.status != 200) {
+				react.error = res.status || 9999;
+				react.loaded = true;
+				Utils.setTitle("Error");
+				pageMeta.value = MetaTagsController.getMeta("default");
+				return;
+			};
+
+			let data = res.data;
+			var md = MarkdownUtils.parse(data);
+			var meta = data.meta;
+
+			react.meta = meta;
+			react.breadcrumbs = data.breadcrumbs;
+
+			Utils.setTitle(meta.title);
+			let articleMeta = MetaTagsController.getMeta(path);
+			if (!articleMeta) {
+				try {
+					MetaTagsController.setMeta(path, meta, true);
+					articleMeta = MetaTagsController.getMeta(path);
+				} catch { };
+			};
+			if (!articleMeta) MetaTagsController.getMeta("default");
+
 
 			react.article = MarkdownUtils.render(md.content);
 			react.sections = md.sections;
 			react.loaded = true; // nuke loading since we got something now!
-		});
-} else {
-	// uncomment the setTimeout to simulate long loading
-	// setTimeout(() => {
-	API.get(articleUrl).then((res) => {
-		if (res.status != 200) {
-			react.error = res.status;
-			react.loaded = true;
-			Utils.setTitle("Error");
-			return;
-		}
 
-		let data = res.data;
-		var md = MarkdownUtils.parse(data);
-		var meta = data.meta;
+			nextTick(async () => {
+				setupObserver();
 
-		react.meta = meta;
-		react.breadcrumbs = data.breadcrumbs;
-
-		Utils.setTitle(meta.title);
-
-		react.article = MarkdownUtils.render(md.content);
-		react.sections = md.sections;
-		react.loaded = true; // nuke loading since we got something now!
-
-		// stupid thing to make the desc shorter - john
-		function truncateMdText() {
-			const textOnly = md.content.replace(/[#*`>\[\]]/g, '').replace(/\n+/g, ' ').trim();
-			const truncated = textOnly.slice(0, 400);
-			const lastSpaceIndex = truncated.lastIndexOf(' ');
-			return truncated.slice(0, lastSpaceIndex) + '...';
-		}
-
-		useHead({
-			meta: [
-				{
-					name: 'og:title',
-					content: `${react.meta.title} | Camellia Wiki`
-				},
-				{
-					name: 'description',
-					content: truncateMdText() || "taco" // i wanted to make it default to the markdown's desc but the backend applies descs automatically? - john
-				},
-				{
-					name: 'og:description',
-					content: truncateMdText() || "taco"
-				},
-				{
-					name: 'keywords',
-					content: `${react.meta.title + ', ' + react.meta.author}, camellia, wiki, community, producer, wiki, fandom, hardcore, music, tano*c, japanese, rhythm game, gaming, osu!, discography, albums, songs, fan community`
-				},
-				{
-					name: 'author',
-					content: react.meta.author
-				}
-			]
-		});
-
-		nextTick(async () => {
-			setupObserver();
-
-			// Navigate to hash after content is rendered
-			if (routeHash[0] && !routeHash[0].startsWith("comment-")) {
-				const hashToHeader = document.getElementById(routeHash[0]);
-				if (hashToHeader) hashToHeader.scrollIntoView();
-			};
-
-			const getComments = async (url) => {
-				const res = await API.get(url);
-				return { status: res.status, data: res.data || [] };
-			};
-
-			let commentData;
-			let commentURL = `/articles/${path.split("/").pop()}/comments`;
-
-			const commentRes = await getComments(commentURL);
-			if (commentRes.status != 200 || commentRes.data.length < 1) {
-				commentURL = `/articles/${Utils.makeSlug(meta.title.toLowerCase())}/comments`;
-				const fallbackCommentRes = await getComments(commentURL);
-				if (fallbackCommentRes.status != 200) {
-					Toast.showToast("Failed to load comments!", { type: "error" });
-					react.commentSystem.error = true;
-				} else {
-					commentData = fallbackCommentRes.data;
-				};
-			} else {
-				commentData = commentRes.data;
-			};
-
-			if (commentData && commentData.length > 0) {
-				for (let i = 0; i < commentData.length; i++) {
-					commentData[i] = {
-						...commentData[i],
-						moreActions: ref(false),
-						hovered: ref(false),
-						showMore: ref(true),
-
-						isEditing: ref(false),
-						isReplying: ref(false)
-					};
-				};
-			};
-
-			react.commentSystem.loaded = true;
-			if (commentData) {
-				// TODO: This is where we get the default from localstorage or cookies or something
-				react.commentSystem.sortedBy = 1;
-				react.commentSystem.cache = commentData;
-				react.commentSystem.path = commentURL;
-			};
-
-			nextTick(() => {
-				if (routeHash[0] && routeHash[0].startsWith("comment-")) {
+				// Navigate to hash after content is rendered
+				if (routeHash[0] && !routeHash[0].startsWith("comment-")) {
 					const hashToHeader = document.getElementById(routeHash[0]);
-					if (hashToHeader) {
-						hashToHeader.classList.add("highlighted-comment");
-						hashToHeader.scrollIntoView();
-						setInterval(() => {
-							hashToHeader.classList.remove("highlighted-comment");
-						}, 3000);
+					if (hashToHeader) hashToHeader.scrollIntoView();
+				};
+
+				const getComments = async (url) => {
+					const res = await API.get(url);
+					return { status: res.status, data: res.data || [] };
+				};
+
+				let commentData;
+				let commentURL = `/articles/${path.split("/").pop()}/comments`;
+
+				const commentRes = await getComments(commentURL);
+				if (commentRes.status != 200 || commentRes.data.length < 1) {
+					commentURL = `/articles/${Utils.makeSlug(meta.title.toLowerCase())}/comments`;
+					const fallbackCommentRes = await getComments(commentURL);
+					if (fallbackCommentRes.status != 200) {
+						Toast.showToast("Failed to load comments!", { type: "error" });
+						react.commentSystem.error = true;
+					} else {
+						commentData = fallbackCommentRes.data;
+					};
+				} else {
+					commentData = commentRes.data;
+				};
+
+				if (commentData && commentData.length > 0) {
+					for (let i = 0; i < commentData.length; i++) {
+						commentData[i] = {
+							...commentData[i],
+							moreActions: ref(false),
+							hovered: ref(false),
+							showMore: ref(true),
+
+							isEditing: ref(false),
+							isReplying: ref(false)
+						};
 					};
 				};
-			});
-		});
-	});
 
-	// Observer setup function
-	// Eaten from https://codepen.io/bramus/pen/ExaEqMJ
-	// Highlight Contents wedge when user is in a new section of the page
-	function setupObserver() {
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((sectionEntry) => {
-				const id = sectionEntry.target.getAttribute('id');
-				const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
-
-				if (wedgeLink) {
-					wedgeLink.classList[sectionEntry.isIntersecting ? "add" : "remove"]("text-white");
-
-					let wedgeLinkParent = wedgeLink.parentElement;
-
-					let hasCir = wedgeLinkParent.parentElement.classList.contains("list-[circle]") || wedgeLinkParent.parentElement.classList.contains("list-[disc]");
-					if (hasCir) {
-						wedgeLinkParent.classList[sectionEntry.isIntersecting ? "add" : "remove"]("list-[disc]")
-						wedgeLinkParent.classList[!sectionEntry.isIntersecting ? "add" : "remove"]("list-[circle]")
-					};
+				react.commentSystem.loaded = true;
+				if (commentData) {
+					// TODO: This is where we get the default from localstorage or cookies or something
+					react.commentSystem.sortedBy = 1;
+					react.commentSystem.cache = commentData;
+					react.commentSystem.path = commentURL;
 				};
+
+				nextTick(() => {
+					if (routeHash[0] && routeHash[0].startsWith("comment-")) {
+						const hashToHeader = document.getElementById(routeHash[0]);
+						if (hashToHeader) {
+							hashToHeader.classList.add("highlighted-comment");
+							hashToHeader.scrollIntoView();
+							setInterval(() => {
+								hashToHeader.classList.remove("highlighted-comment");
+							}, 3000);
+						};
+					};
+				});
 			});
 		});
 
-		// Observe all sections with an id
-		document.querySelectorAll("h2[id],h3[id]").forEach((section) => observer.observe(section));
+		// Observer setup function
+		// Eaten from https://codepen.io/bramus/pen/ExaEqMJ
+		// Highlight Contents wedge when user is in a new section of the page
+		function setupObserver() {
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((sectionEntry) => {
+					const id = sectionEntry.target.getAttribute('id');
+					const wedgeLink = document.querySelector(`ol li a[href="#${id}"]`);
+
+					if (wedgeLink) {
+						wedgeLink.classList[sectionEntry.isIntersecting ? "add" : "remove"]("text-white");
+
+						let wedgeLinkParent = wedgeLink.parentElement;
+
+						let hasCir = wedgeLinkParent.parentElement.classList.contains("list-[circle]") || wedgeLinkParent.parentElement.classList.contains("list-[disc]");
+						if (hasCir) {
+							wedgeLinkParent.classList[sectionEntry.isIntersecting ? "add" : "remove"]("list-[disc]")
+							wedgeLinkParent.classList[!sectionEntry.isIntersecting ? "add" : "remove"]("list-[circle]")
+						};
+					};
+				});
+			});
+
+			// Observe all sections with an id
+			document.querySelectorAll("h2[id],h3[id]").forEach((section) => observer.observe(section));
+		};
+
 	};
-};
+	useHead(pageMeta);
+});
 </script>
 
 <template>

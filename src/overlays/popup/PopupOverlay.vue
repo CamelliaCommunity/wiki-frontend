@@ -27,6 +27,7 @@ Events.Register(props.event, () => {
 
 Events.Register(props.event + "-close", () => {
 	ClosePopup(true);
+	Events.Emit(props.event + "-closeComplete");
 });
 
 function ClosePopup(fromEmitted) {
@@ -42,21 +43,21 @@ function ClosePopup(fromEmitted) {
 			v-if="popupReact.open">
 			<div class="z-0 max-w-4xl bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
 				ref="popupContent">
+				<slot name="title" :ClosePopup="ClosePopup"></slot>
 				<div class="flex grow">
-					<div class="justify-center text-lg w-full flex mb-3">
-						<p class="whitespace-pre text-center">
-							<slot name="content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-									incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-									pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-									deserunt mollit anim id est laborum.</p>
-							</slot>
-						</p>
+					<div class="justify-center text-lg w-full flex mb-3 whitespace-pre text-wrap text-center">
+						<slot name="content">
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+								incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+								exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+								irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+								pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+								deserunt mollit anim id est laborum.
+							</p>
+						</slot>
 					</div>
 				</div>
-				<!-- default values -->
 				<slot name="footer" :ClosePopup="ClosePopup">
 					<div class="flex justify-center gap-2">
 						<Button @click="ClosePopup">Ok
