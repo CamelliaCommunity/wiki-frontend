@@ -67,7 +67,7 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 	<div class="h-auto w-full flex flex-col rounded-2xl bg-background-3 p-2 gap-2">
 		<div class="w-full flex gap-2">
 			<textarea
-				class="transition h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-2 hover:ring-1 focus:ring-1"
+				class="transition duration-300 h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-4 focus:ring-2 focus:ring-opacity-100"
 				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled"
 				:id="`${boxName}-textbox`" :value="value" />
 
