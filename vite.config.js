@@ -10,7 +10,16 @@ import * as path from "path";
 export default defineConfig(({ command, mode, isSsrBuild, isPreview}) => {
 	const build = {
 		bourcemap: true,
-		checkSizeWarningLimit: 10000
+		checkSizeWarningLimit: 10000,
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (id.includes("node_modules")) {
+						return id.toString().split("node_modules/")[1].split("/")[0].toString()
+					}
+				}
+			}
+		}
 	};
 	const plugins = [
 		vue(), // Vue plugin
