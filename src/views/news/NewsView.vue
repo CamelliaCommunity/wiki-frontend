@@ -167,7 +167,7 @@ API.get("/articles?type=news&count=1984").then((res) => {
 	background: url('/src/assets/images/home-header.png') no-repeat center center / cover;
 
 	.dim {
-		background: rgba(0, 0, 0, 0.4) linear-gradient(-120deg, transparent 0%, var(--background-1) 58%)
+		background: rgba(255, 255, 255, 0.1) linear-gradient(-120deg, transparent 0%, var(--background-1) 58%)
 	}
 }
 </style>
