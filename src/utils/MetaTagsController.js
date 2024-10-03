@@ -15,6 +15,15 @@ export default class MetaTagsController {
 				{ name: "author", content: "Theaceae Collective" }
 			]
 		},
+		"/news": {
+			...this.defaultMeta,
+			title: "News | Camellia Wiki",
+			meta: [
+				...this.defaultMeta.meta,
+				{ name: "og:title", content: "News | Camellia Wiki" },
+				{ name: "author", content: "Theaceae Collective" }
+			]
+		},
 		"default": this.defaultMeta
 	});
 

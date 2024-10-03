@@ -17,9 +17,9 @@ import 'overlayscrollbars/overlayscrollbars.css';
 // -- Vue Unhead?
 import { createHead } from '@unhead/vue';
 
-const isProduction = Boolean(import.meta.env.IS_PROD);
+export function createApp(config) {
+	let isProduction = config?.isProduction ?? true; // assume we are always in production unless otherwise.
 
-export function createApp() {
 	const app = createSSRApp(App);
 
 	// Plugin config
@@ -31,7 +31,7 @@ export function createApp() {
 	// -- Vue-Router
 	app.use(router);
 
-	// -- Vue Unhead?
+	// -- Vue Unhead
 	const head = createHead();
 	app.use(head);
 

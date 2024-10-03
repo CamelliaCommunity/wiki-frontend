@@ -16,22 +16,22 @@ const getData = async(endpoint) => {
 	}).catch(async response => { return { status: response.status, data: (typeof response.text == "function" ? await response.text() : response) } });
 };
 
-export async function render(url) {
-	const { app, router, head } = createApp();
+export async function render(config) {
+	const { app, head } = createApp(config);
 
 	// <head>
 	await head.resolveTags();
 
-	let metaUse = MetaTagsController.getMeta("/" + url);
+	let metaUse = MetaTagsController.getMeta("/" + config.url);
 
 	try {
 		if (!metaUse) {
-			let articleUrl = `/articles/${url}`;
+			let articleUrl = `/articles/${config.url}`;
 			let articleData = await getData(articleUrl);
-			if (articleData.data?.meta && !MetaTagsController.getMeta(url)) MetaTagsController.setMeta(url, articleData.data, true);
-			metaUse = MetaTagsController.getMeta(url);
+			if (articleData.data?.meta && !MetaTagsController.getMeta(config.url)) MetaTagsController.setMeta(config.url, articleData.data, true);
+			metaUse = MetaTagsController.getMeta(config.url);
 		};
-	} catch { };
+	} catch (Ex) { console.log("Error while getting article data: " + Ex.message); };
 	if (!metaUse) metaUse = MetaTagsController.getMeta("default");
 	
 	head.push(metaUse);

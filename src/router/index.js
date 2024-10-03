@@ -5,7 +5,9 @@ import ArticleView from '../views/article/ArticleView.vue'
 import oauthComplete from '../views/oauthComplete.vue'
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: import.meta.env.SSR
+		? createMemoryHistory(import.meta.env.BASE_URL)
+		: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
 			path: '/',

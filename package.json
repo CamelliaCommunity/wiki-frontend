@@ -7,8 +7,9 @@
     "dev": "vite --mode development",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:server": "cross-env IS_SERVER=true vite build --ssr src/entry-server.js --outDir dist/server",
-    "serve": "cross-env PROD_STATUS=production IS_SERVER=true node server",
+    "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
+    "serve:prod": "cross-env IS_PROD=true node server",
+	"serve": "cross-env IS_PROD=false node server",
     "preview": "vite preview --mode preview"
   },
   "dependencies": {
