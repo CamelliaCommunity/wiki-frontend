@@ -77,20 +77,22 @@ export default class MetaTagsController {
 
 		if (fromAPI) {
 			tmpMeta.title = (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName;
-			tmpMeta.meta.push(
+			let metaArr = [
 				{ name: "og:title", content: (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName },
 				{ name: "description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
 				{ name: "og:description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
 				{ name: "author", content: data.meta.author || this.defaultMeta.meta.author },
 				{ name: "keywords", content: this.createKeywords([data.meta.title, data.meta.author]).join(", ") }
-			);
+			];
 			if (data.meta.image) {
-				tmpMeta.meta.push(
+				metaArr.push(
 					{ name: "twitter:card", content: "summary_large_image" },
 					{ name: "twitter:image", content: data.meta.image }
 				);
 			};
-		} else tmpMeta.meta = [ ...this.defaultMeta.meta, ...data.meta ];
+			tmpMeta.meta = this.mergeTwoMetas(this.defaultMeta.meta, metaArr);
+
+		} else tmpMeta.meta = this.mergeTwoMetas(this.defaultMeta.meta, data.meta);
 
 		this.knownMetas[url] = tmpMeta;
 		return this.knownMetas[url];
