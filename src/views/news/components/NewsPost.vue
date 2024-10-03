@@ -33,14 +33,14 @@ const props = defineProps({
 			<div class="card-content">
 				<div class="card-line">
 					<!-- this messes up jp text. sucks - john -->
-					<h2 class="post-title text-2xl font-medium leading-5 text-shadow">{{ post.meta.title }}</h2>
+					<h2 class="post-title text-2xl font-medium text-shadow">{{ post.meta.title }}</h2>
 					<div class="flex justify-between items-center">
 						<h3 class="text-lg font-semibold">{{ postType }}</h3>
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
 					</div>
 				</div>
 				<div class="card-line">
-					<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
+					<p class="post-description w-full">{{ post.meta.description }}</p>
 				</div>
 			</div>
 		</OverlapGrid>
