@@ -10,8 +10,6 @@ import './assets/style/tailwind.css';
 import VueCookies from 'vue-cookies'
 // -- Toastify
 import 'vue3-toastify/dist/index.css';
-// -- Sentry
-import * as Sentry from '@sentry/vue';
 // -- Overlay Scrollbars (Vue)
 import 'overlayscrollbars/overlayscrollbars.css';
 // -- Vue Unhead?
@@ -34,31 +32,6 @@ export function createApp(config) {
 	// -- Vue Unhead
 	const head = createHead();
 	app.use(head);
-
-	// -- Sentry
-	// To stop exploding Sentry with errors we already will know...
-	// tracesSampleRate was 1.0 but is now 0
-	// replaysSessionSampleRate was 0.1 but is now 0
-	Sentry.init({
-		app,
-		environment: !isProduction ? "development" : "production",
-		dsn: 'https://eb80b3d62eb928b250cd8af2d048a5c8@sentry.flux.moe/3',
-		integrations: [
-			Sentry.browserTracingIntegration(),
-			Sentry.replayIntegration(),
-		],
-		enableTracing: isProduction,
-		// Performance Monitoring
-		tracesSampleRate: !isProduction ?
-			0 :
-			0.5,  //  Capture % (* 100) of the transactions
-		// Set 'tracePropagationTargets' to control for which URLs distributed tracing
-		// should be enabled
-		tracePropagationTargets: [/^https:\/\/camellia\.wiki\//],
-		// Session Replay
-		replaysSessionSampleRate: !isProduction ? 0 : 0.1,
-		replaysOnErrorSampleRate: 1.0
-	});
 
 	return { app, router, head };
 };

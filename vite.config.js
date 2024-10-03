@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { sentryVitePlugin } from "@sentry/vite-plugin"
 
 import * as path from "path";
 
@@ -22,22 +21,14 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview}) => {
 					// To see what modules are big, look at the sizes using:
 					// if (id.includes("node_modules")) return id.toString().split("node_modules/")[1].split("/")[0].toString();
 
-					const bigBois = [ "@sentry-internal", "@phosphor-icons" ];
+					const bigBois = [ "@phosphor-icons" ];
 					if (bigBois.some(n => id.includes(`node_modules/${n}`))) return id.toString().split("node_modules/")[1].split("/")[0].toString();
 				},
 			}
 		}
 	};
 	const plugins = [
-		vue(), // Vue plugin
-
-		// Sentry
-		sentryVitePlugin({
-			url: "https://sentry.flux.moe",
-			org: "choccymilk",
-			project: "camellia-wiki",
-			authToken: process.env.SENTRY_AUTH_TOKEN
-		})
+		vue() // Vue plugin
 	];
 	const resolve = {
 		alias: {
