@@ -5,8 +5,8 @@ import router from '@/router'
 import LoadingImage from '../LoadingImage.vue';
 import MarkdownHeader from './MarkdownHeader.vue';
 import MarkdownImage from './MarkdownImage.vue';
-import Blockquote from '@/components/Blockquote.vue';
-import BlockquoteNote from '@/components/BlockquoteNote.vue';
+import Blockquote from '../Blockquote.vue';
+import BlockquoteNote from '../BlockquoteNote.vue';
 
 import { PhLinkSimple } from '@phosphor-icons/vue';
 
@@ -32,12 +32,12 @@ const renderMd = (htmlContent) => {
 		}
 	});
 
-	rendered.use(router)
+	rendered.use(router);
 
 	if (content.value) {
-		content.value.innerHTML = '';
-		rendered.mount(content.value);
-	}
+		content.value.innerHTML = "";
+		rendered.mount(content.value, true);
+	};
 };
 
 watch(() => props.article, (article) => renderMd(article), { immediate: true });

@@ -6,7 +6,7 @@
 // Sorry for the jankness!
 // 2024/07/10 5:46
 
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 import { PhCaretUp, PhCaretDown } from '@phosphor-icons/vue';
 
@@ -25,7 +25,6 @@ const handleScroll = (e) => {
 	react.currPos = currPos;
 	react.prevPos = 0;
 };
-document.addEventListener("scroll", handleScroll);
 
 const scrollPos = (e) => {
 	const currPos = getcurrPos();
@@ -42,16 +41,25 @@ const scrollPos = (e) => {
 	setTimeout(() => { document.addEventListener("scroll", handleScroll); e.target.addEventListener("click", scrollPos); }, currPos);
 };
 
+onMounted(() => {
+	document.addEventListener("scroll", handleScroll);
+});
+
 </script>
 
 <template>
 	<Transition name="fade">
-		<div id="scrollTo" v-if="react.showReturnBtn" class="fixed bg-background-1 p-5 bottom-0 right-0 cursor-pointer" @click="scrollPos">
-		<Component :is="((react.prevPos == 0) ? PhCaretUp : PhCaretDown)" class="text-xl"></Component>
+		<div id="scrollTo" v-if="react.showReturnBtn" class="fixed bg-background-1 p-5 bottom-0 right-0 cursor-pointer"
+			@click="scrollPos">
+			<Component :is="((react.prevPos == 0) ? PhCaretUp : PhCaretDown)" class="text-xl"></Component>
 		</div>
 	</Transition>
 </template>
 
 <style lang="scss">
-#scrollTo { border-radius: 40px; right: 2em; bottom: 18px; }
+#scrollTo {
+	border-radius: 40px;
+	right: 2em;
+	bottom: 18px;
+}
 </style>

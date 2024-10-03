@@ -1,11 +1,10 @@
-import DefaultAvatar from '@/assets/images/avatar.png';
+import DefaultAvatar from '../assets/images/avatar.png';
 import { reactive } from 'vue';
-import Toast from './Toast';
-
+import Toast from "./Toast";
+import Config from "./Config";
 
 export default class API {
-    static url = 'https://backend.camellia.wiki';
-    // static url = 'http://localhost:1984';
+    static url = Config.backendURL;
 
     static async get(endpoint) {
         return fetch(this.url + endpoint, {
