@@ -137,7 +137,7 @@ onMounted(() => {
 					<LatestRelease linearBackground />
 				</div>
 				<div>
-					<h2 class="text-4xl font-semibold">Wiki Articles</h2>
+					<h2 class="text-4xl font-semibold mb-1">Wiki Articles</h2>
 					<GradientLine :overshoot="false" />
 				</div>
 				<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
