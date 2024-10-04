@@ -4,13 +4,20 @@ import Config from './Config';
 import Utils from './Utils';
 
 export default class MetaTagsController {
+	static maxMetaLengths = {
+		"og:title": 90, // 30-60 preferredd, 90 max
+		"og:description": 300, // 55-20 preferred, 300 max
+		"twitter:title": 70, // 30-60 preferred, 70 max
+		"twitter:description": 200 // 55-200 preferred
+	}
 	static defaultMeta = this.createDefaultMeta();
 	static knownMetas = reactive({
 		"/": {
 			...this.defaultMeta,
 			title: "Homepage | Camellia Wiki",
 			meta: this.mergeTwoMetas(this.defaultMeta.meta, [
-				{ name: "og:title", content: "Homepage | Camellia Wiki" },
+				{ property: "og:title", content: "Homepage | Camellia Wiki" },
+				{ name: "twitter:title", content: "Homepage | Camellia Wiki" },
 				{ name: "author", content: "Theaceae Collective" }
 			])
 		},
@@ -18,7 +25,8 @@ export default class MetaTagsController {
 			...this.defaultMeta,
 			title: "News | Camellia Wiki",
 			meta: this.mergeTwoMetas(this.defaultMeta.meta, [
-				{ name: "og:title", content: "News | Camellia Wiki" },
+				{ property: "og:title", content: "News | Camellia Wiki" },
+				{ name: "twitter:title", content: "News | Camellia Wiki" },
 				{ name: "author", content: "Theaceae Collective" }
 			])
 		},
@@ -37,11 +45,16 @@ export default class MetaTagsController {
 		return {
 			title: pageTitle,
 			meta: [
-				{ name: "og:title", content: pageTitle },
+				{ property: "theme-color", content: "#F876D3" },
+				{ property: "og:title", content: pageTitle },
+				{ property: "og:description", content: pageDesc },
+				{ property: "og:type", content: "article" },
+				{ property: "og:site_name", content: "Camellia Wiki" },
+				{ property: "og:image", content: `${Config.cdnURL}/wikiIcon.png` },
+				{ name: "twitter:card", content: "summary" },
+				{ name: "twitter:image", content: `${Config.cdnURL}/wikiIcon.png` },
 				{ name: "description", content: pageDesc },
-				{ name: "og:description", content: pageDesc },
 				{ name: "keywords", content: this.createKeywords().join(", ") },
-				{ property: "theme-color", content: "#F876D3" }
 			]
 		};
 	}
@@ -78,14 +91,15 @@ export default class MetaTagsController {
 		if (fromAPI) {
 			tmpMeta.title = (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName;
 			let metaArr = [
-				{ name: "og:title", content: (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName },
-				{ name: "description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
-				{ name: "og:description", content: Utils.truncateMDText(data.content) || data.meta.description || this.defaultMeta.meta.description },
+				{ property: "og:title", content: (Utils.truncateMDText(data.meta.title, this.maxMetaLengths["og:title"]) || this.defaultMeta.meta.title) + " | " + Config.siteName },
+				{ property: "og:description", content: Utils.truncateMDText(data.content, this.maxMetaLengths["og:description"]) || Utils.truncateMDText(data.meta.description, this.maxMetaLengths["og:description"]) || this.defaultMeta.meta.description },
+				{ name: "description", content: Utils.truncateMDText(data.content) || Utils.truncateMDText(data.meta.description) || this.defaultMeta.meta.description },
 				{ name: "author", content: data.meta.author || this.defaultMeta.meta.author },
 				{ name: "keywords", content: this.createKeywords([data.meta.title, data.meta.author]).join(", ") }
 			];
 			if (data.meta.image) {
 				metaArr.push(
+					{ property: "og:image", content: data.meta.image },
 					{ name: "twitter:card", content: "summary_large_image" },
 					{ name: "twitter:image", content: data.meta.image }
 				);

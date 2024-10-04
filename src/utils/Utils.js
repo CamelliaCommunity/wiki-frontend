@@ -15,7 +15,7 @@ export default class Utils {
 		return s;
 	}
 
-	static truncateMDText = (content) => {
+	static truncateMDText = (content, maxLength = 400) => {
 		const textOnly = content
 			.replace(/!\[.*?\]\(.*?\)/g, "") // Remove: image links
 			.replace(/\[([^\]]+)\]\(.*?\)/g, "$1") // Replace: links with just text
@@ -23,7 +23,7 @@ export default class Utils {
 			.replace(/[#*`>\[\]]/g, "") // Remove: other symbols
 			.replace(/\n+/g, " ") // Replace: multiple newlines with a space
 			.trim(); // Trim: leading and trailing whitespace
-		const truncated = textOnly.slice(0, 400);
+		const truncated = textOnly.slice(0, maxLength);
 		const lastSpaceIndex = truncated.lastIndexOf(" ");
 		return truncated.slice(0, lastSpaceIndex) + "...";
 	}
