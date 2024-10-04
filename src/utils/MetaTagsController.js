@@ -51,11 +51,12 @@ export default class MetaTagsController {
 				{ property: "og:type", content: "article" },
 				{ property: "og:site_name", content: "Camellia Wiki" },
 				{ property: "og:image", content: `${Config.cdnURL}/wikiIcon.png` },
-				{ name: "twitter:card", content: "summary" },
-				{ name: "twitter:image", content: `${Config.cdnURL}/wikiIcon.png` },
-				{ name: "twitter:description", content: pageDesc },
 				{ name: "description", content: pageDesc },
 				{ name: "keywords", content: this.createKeywords().join(", ") },
+				{ name: "twitter:title", content: pageTitle },
+				{ name: "twitter:description", content: pageDesc },
+				{ name: "twitter:card", content: "summary" },
+				{ name: "twitter:image", content: `${Config.cdnURL}/wikiIcon.png` }
 			]
 		};
 	}
@@ -91,14 +92,15 @@ export default class MetaTagsController {
 
 		if (fromAPI) {
 			tmpMeta.title = (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName;
+			let pageDesc = (descType) => Utils.truncateMDText(data.content, this.maxMetaLengths[descType]) || Utils.truncateMDText(data.meta.description, this.maxMetaLengths[descType]) || this.defaultMeta.meta.description
 			let metaArr = [
-				{ name: "twitter:title", content: tmpMeta.title },
-				{ name: "twitter:description", content: Utils.truncateMDText(data.content, this.maxMetaLengths["twitter:description"]) || Utils.truncateMDText(data.meta.description, this.maxMetaLengths["twitter:description"]) || this.defaultMeta.meta.description }
 				{ property: "og:title", content: tmpMeta.title },
-				{ property: "og:description", content: Utils.truncateMDText(data.content, this.maxMetaLengths["og:description"]) || Utils.truncateMDText(data.meta.description, this.maxMetaLengths["og:description"]) || this.defaultMeta.meta.description },
-				{ name: "description", content: Utils.truncateMDText(data.content) || Utils.truncateMDText(data.meta.description) || this.defaultMeta.meta.description },
+				{ property: "og:description", content: pageDesc("og:description") },
+				{ name: "description", content: pageDesc() },
+				{ name: "keywords", content: this.createKeywords([data.meta.title, data.meta.author]).join(", ") },
 				{ name: "author", content: data.meta.author || this.defaultMeta.meta.author },
-				{ name: "keywords", content: this.createKeywords([data.meta.title, data.meta.author]).join(", ") }
+				{ name: "twitter:title", content: tmpMeta.title },
+				{ name: "twitter:description", content: pageDesc("twitter:description") }
 			];
 			if (data.meta.image) {
 				metaArr.push(
