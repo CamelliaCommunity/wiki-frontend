@@ -91,7 +91,8 @@ export default class MetaTagsController {
 		if (fromAPI) {
 			tmpMeta.title = (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName;
 			let metaArr = [
-				{ property: "og:title", content: (data.meta.title || this.defaultMeta.meta.title) + " | " + Config.siteName },
+				{ name: "twitter:title", content: tmpMeta.title },
+				{ property: "og:title", content: tmpMeta.title },
 				{ property: "og:description", content: Utils.truncateMDText(data.content, this.maxMetaLengths["og:description"]) || Utils.truncateMDText(data.meta.description, this.maxMetaLengths["og:description"]) || this.defaultMeta.meta.description },
 				{ name: "description", content: Utils.truncateMDText(data.content) || Utils.truncateMDText(data.meta.description) || this.defaultMeta.meta.description },
 				{ name: "author", content: data.meta.author || this.defaultMeta.meta.author },
