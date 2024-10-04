@@ -13,6 +13,7 @@ import CommentsSkeleton from './CommentsSkeleton.vue';
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
+import Config from '@/utils/Config';
 import API from '@/utils/API';
 import Toast from '@/utils/Toast';
 import MetaTagsController from '@/utils/MetaTagsController';
@@ -56,7 +57,7 @@ onMounted(() => {
 
 				Utils.setTitle("Style Test");
 
-				react.article = MarkdownUtils.render(md.content);
+				react.article = MarkdownUtils.render(md.content, articleUrl, true);
 				react.sections = md.sections;
 				react.loaded = true; // nuke loading since we got something now!
 			});
@@ -79,6 +80,11 @@ onMounted(() => {
 			react.meta = meta;
 			react.breadcrumbs = data.breadcrumbs;
 
+			// Handle new image system
+			if (react.meta?.image) {
+				react.meta.image = Utils.fixCDNImages(react.meta.image, path.split("/").pop());
+			};
+
 			Utils.setTitle(meta.title);
 			let articleMeta = MetaTagsController.getMeta(path);
 			if (!articleMeta) {
@@ -90,9 +96,11 @@ onMounted(() => {
 			if (!articleMeta) MetaTagsController.getMeta("default");
 
 
-			react.article = MarkdownUtils.render(md.content);
+			react.article = MarkdownUtils.render(md.content, path.split("/").pop(), true);
 			react.sections = md.sections;
 			react.loaded = true; // nuke loading since we got something now!
+
+			pageMeta.value = react.meta;
 
 			nextTick(async () => {
 				setupObserver();

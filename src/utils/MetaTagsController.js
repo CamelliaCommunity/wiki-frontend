@@ -104,9 +104,9 @@ export default class MetaTagsController {
 			];
 			if (data.meta.image) {
 				metaArr.push(
-					{ property: "og:image", content: data.meta.image },
+					{ property: "og:image", content: Utils.fixCDNImages(data.meta.image, data.url) },
 					{ name: "twitter:card", content: "summary_large_image" },
-					{ name: "twitter:image", content: data.meta.image }
+					{ name: "twitter:image", content: Utils.fixCDNImages(data.meta.image, data.url) }
 				);
 			};
 			tmpMeta.meta = this.mergeTwoMetas(this.defaultMeta.meta, metaArr);

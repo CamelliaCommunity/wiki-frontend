@@ -1,9 +1,11 @@
+import Config from "./Config";
+
 export default class Utils {
 	static setTitle(title) {
 		if (title === "")
-			document.title = "Camellia Wiki";
+			document.title = Config.siteName;
 		else
-			document.title = title + " | Camellia Wiki";
+			document.title = title + " | " + Config.siteName;
 		return document.title;
 	}
 	
@@ -26,5 +28,17 @@ export default class Utils {
 		const truncated = textOnly.slice(0, maxLength);
 		const lastSpaceIndex = truncated.lastIndexOf(" ");
 		return truncated.slice(0, lastSpaceIndex) + "...";
+	}
+
+	static fixCDNImages(image, articlePath) {
+		if (!image) return;
+
+		// Check for @ - this will load article media from the CDN root
+		if (image.startsWith("@")) image = `${Config.cdnURL}/${image.slice(1)}`;
+
+		// Check for / - this will load article media from the CDN article directory
+		if (articlePath && image.startsWith("/")) image = `${Config.cdnURL}/articles/${articlePath.split("/").pop()}/${image.slice(1)}`;
+
+		return image;
 	}
 }
