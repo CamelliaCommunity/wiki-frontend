@@ -13,7 +13,6 @@ import CommentsSkeleton from './CommentsSkeleton.vue';
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
-import Config from '@/utils/Config';
 import API from '@/utils/API';
 import Toast from '@/utils/Toast';
 import MetaTagsController from '@/utils/MetaTagsController';
