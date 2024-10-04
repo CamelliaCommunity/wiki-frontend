@@ -27,7 +27,7 @@ const props = defineProps({
 <template>
     <RouterLink :to="post.url || '/not-found'" class="w-fit">
         <!-- this stupid fixed width and height man - john -->
-        <OverlapGrid class="big-news-post w-full h-full rounded-lg overlap-grid md:w-[598px] md:h-[499px]"
+        <OverlapGrid class="big-news-post w-full h-full rounded-lg overlap-grid md:w-[598px] md:h-[502px]"
             v-if="post.meta">
             <LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
             <div class="dim" v-if="linearBackground"></div>
