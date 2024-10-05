@@ -252,7 +252,7 @@ onMounted(() => {
 						</ol>
 					</div>
 				</div>
-				<div class="w-full flex flex-col pt-2">
+				<div class="w-full flex flex-col">
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>
