@@ -230,7 +230,9 @@ onMounted(() => {
 					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
 
 			</div>
-			<div class="overlap-grid w-full h-60 rounded-lg"><img :src="react.meta.image" class="object-cover"></div>
+			<div v-if="react.meta.image && react.meta.layout !== 'article'"
+				class="overlap-grid w-full h-60 mb-4 rounded-lg"><img :src="react.meta.image" class="object-cover">
+			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
 					v-if="react.meta.layout == 'article'">
