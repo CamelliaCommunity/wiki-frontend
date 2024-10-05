@@ -72,7 +72,7 @@ const handleInput = (e) => {
 			// We'll just load all articles, to simulate searching for now.
 			API.get(`/articles/search?query=${trimmedValue}`).then((res) => {
 				react.isLoading = false;
-				if (res.status >= 400 || !res.status) react.error = res.status;
+				if (res.status >= 400 || !res.status) react.error = res.status ?? 500;
 				else {
 					if (res.data?.length) {
 						react.found.all = res.data;
@@ -85,7 +85,7 @@ const handleInput = (e) => {
 						};
 						react.error = 0;
 						searchSorter(react.sortedBy[0], react.sortedBy[1], true); // Trigger the sorter
-					};
+					} else react.error = 404;
 				};
 			});
 		}, 500);
@@ -163,11 +163,11 @@ const stupidGroupSortClassFix = (results, num) => {
 						<PhArrowClockwise :size="42" class="spin-spin-spin" />
 					</div>
 				</div>
-				<div v-else-if="!react.isLoading && react.error == 0" class="flex flex-col gap-4">
-					<p class="text-white text-lg">{{ react.found.all.length }} RESULT{{
-						react.found.all.length == 1 ? "" : "S" }}
+				<div v-else-if="!react.isLoading && react.error != -1" class="flex flex-col gap-4">
+					<p v-if="react.error <= 404" class="text-white text-lg">
+						{{ react.found.all.length }} RESULT{{ react.found.all.length == 1 ? "" : "S" }}
 					</p>
-					<div
+					<div v-if="react.error == 0"
 						class="h-auto w-full flex flex-col rounded-xl bg-background-1 bg-opacity-90 backdrop-blur p-4 gap-2">
 						<div class="flex gap-5">
 							<span class="w-fit min-w-16 font-normal text-light-gray">Sort by</span>
@@ -200,7 +200,7 @@ const stupidGroupSortClassFix = (results, num) => {
 							</div>
 						</div>
 					</div>
-					<div
+					<div v-if="react.error == 0"
 						class="w-full flex flex-col gap-2 max-h-[405px] xl:max-h-[535px] max-lg:overflow-y-scroll overflow-y-auto bg-background-1 bg-opacity-90 backdrop-blur p-4 rounded-xl">
 						<div v-for="(result, index) in react.displayingArticles" class="flex flex-col w-full gap-2">
 							<SearchResult :result="result" :resultClick="() => ClosePopup(null)" />
@@ -208,17 +208,18 @@ const stupidGroupSortClassFix = (results, num) => {
 								class="!h-0.5" />
 						</div>
 					</div>
-				</div>
-				<div v-else-if="react.error > 0" class="flex flex-col gap-4">
-					<div class="w-full flex flex-col gap-4 items-center">
-						<img :src="CameCry" class="w-24"></img>
-						<BlockquoteNote class="w-full" type="caution"
-							title="There was an error processing your search request!">
-							Uh-oh. Something went wrong while searching. Don't panic!
-							Let's try
-							<a class="text-accent hover:text-accent-soft" :href="route.fullPath">refreshing the page</a>
-							and that doesn't work, please contact us!
-						</BlockquoteNote>
+					<div v-if="react.error > 404" class="flex flex-col gap-4">
+						<div class="w-full flex flex-col gap-4 items-center">
+							<img :src="CameCry" class="w-24"></img>
+							<BlockquoteNote class="w-full" type="caution"
+								title="There was an error processing your search request!">
+								Uh-oh. Something went wrong while searching. Don't panic!
+								Let's try
+								<a class="text-accent hover:text-accent-soft" :href="route.fullPath">
+									refreshing the page</a>
+								and that doesn't work, please contact us!
+							</BlockquoteNote>
+						</div>
 					</div>
 				</div>
 			</div>
