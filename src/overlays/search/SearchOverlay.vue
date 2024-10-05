@@ -147,10 +147,10 @@ const stupidGroupSortClassFix = (results, num) => {
 <template>
 	<Transition name="overlay">
 		<!-- Add "overflow-y-scroll" to this div below if you want that to scroll too -->
-		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur max-lg:items-baseline max-lg:p-0"
+		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 bg-opacity-25 backdrop-blur max-lg:items-baseline max-lg:p-0"
 			v-if="react.open" @click="e => ClosePopup(null, e)">
 			<div
-				class="z-0 w-content-width min-h-96 bg-opacity-90 rounded-xl flex flex-col p-5 gap-4 xl:my-auto max-lg:min-h-32 max-lg:max-h-32">
+				class="z-0 w-content-width min-h-96 bg-opacity-90 rounded-xl flex flex-col gap-4 xl:my-auto max-lg:min-h-32 max-lg:max-h-32">
 				<div class="flex gap-4">
 					<SearchTextbox :handleInput="handleInput" :handleKeydown="handleKeydown" />
 					<div class="bg-background-3 p-3 flex justify-center items-center rounded-lg hover:bg-background-4 theShadow cursor-pointer"
