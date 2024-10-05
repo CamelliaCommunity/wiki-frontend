@@ -49,38 +49,8 @@ const props = defineProps({
 					<div>
 						<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
 					</div>
-					<!-- <div class="flex justify-between">
-						<div class="flex justify-between items-center">
-							<div class="flex flex-col gap-1">
-								<p class="flex gap-0.5">
-									<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
-									<span v-for="(part, index) in post.breadcrumbs" class="flex items-center gap-1">
-										<PhCaretRight :size="16" class="text-light-gray" />
-										<RouterLink v-if="index != (Object.keys(post.breadcrumbs).length - 1)"
-											class="text-light-gray readMoreHover" :to=part.path>{{ part.name }}
-										</RouterLink>
-									</span>
-								</p>
-								<h2 class="text-2xl font-bold leading-5 text-shadow">{{ "hi" }}</h2>
-							</div>
-						</div>
-					</div> -->
 				</div>
 			</div>
-			<!-- <div class="flex flex-col gap-1">
-
-
-				</div> -->
-			<!-- <div class="card-line">
-					<h2 class="post-title text-2xl font-medium text-shadow">{{ post.meta.title }}</h2>
-					<div class="flex justify-between items-center">
-						<h3 class="text-lg font-semibold">{{ postType }}</h3>
-						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
-					</div>
-				</div>
-				<div class="card-line">
-					<p class="post-description w-full">{{ post.meta.description }}</p>
-				</div> -->
 		</OverlapGrid>
 	</RouterLink>
 </template>
