@@ -70,7 +70,7 @@ const handleInput = (e) => {
 			// call API
 
 			// We'll just load all articles, to simulate searching for now.
-			API.get("/articles?type=all&count=9999").then((res) => {
+			API.get(`/articles/search?query=${trimmedValue}`).then((res) => {
 				react.isLoading = false;
 				if (res.status >= 400 || !res.status) react.error = res.status;
 				else {
@@ -79,9 +79,9 @@ const handleInput = (e) => {
 
 						for (let i = 0; i < react.found.all.length; i++) {
 							let searchResult = react.found.all[i];
-							if (searchResult.meta.layout == "article") react.found.wikiArticles.push(searchResult);
-							else if (searchResult.meta.layout == "post") react.found.communityPost.push(searchResult);
-							else react.found.newsArticles.push(searchResult);
+							if (searchResult.meta.type == 1) react.found.wikiArticles.push(searchResult);
+							else if (searchResult.meta.type == 3) react.found.communityPost.push(searchResult);
+							else if (searchResult.meta.type == 2) react.found.newsArticles.push(searchResult);
 						};
 						react.error = 0;
 						searchSorter(react.sortedBy[0], react.sortedBy[1], true); // Trigger the sorter
