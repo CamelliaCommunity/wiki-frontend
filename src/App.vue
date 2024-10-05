@@ -17,9 +17,13 @@ import SearchOverlay from './overlays/search/SearchOverlay.vue';
 import Events from './utils/Events';
 const handleKeyDown = (e) => {
 	if (e.repeat) return;
+
+	const isActiveElementInput = () => document.activeElement.nodeName == "TEXTAREA" || document.activeElement.nodeName == "INPUT";
+
+	console.log(document.activeElement)
 	if (e.key == "Escape") {
 		ActiveComponents.close();
-	} else if (e.key == "s" && !ActiveComponents.active.includes("searchoverlay")) {
+	} else if (e.key == "s" && !ActiveComponents.active.includes("searchoverlay") && !isActiveElementInput()) {
 		Events.Emit("searchoverlay");
 		e.preventDefault();
 	}
