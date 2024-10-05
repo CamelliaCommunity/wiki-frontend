@@ -3,7 +3,6 @@ import Events from '@/utils/Events';
 
 import LoadingImage from '../LoadingImage.vue';
 import PopupOverlay from '@/overlays/popup/PopupOverlay.vue';
-import Button from '../Button.vue';
 import TitleBar from '@/overlays/TitleBar.vue';
 
 const pictureID = Math.floor((Date.now() / 3) * Math.random());
