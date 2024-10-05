@@ -41,7 +41,7 @@ const props = defineProps({
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
 					</div>
 					<LoadingImage :src="Utils.fixCDNImages(post.meta.image, post.url) || DefaultImage || EmptyImage"
-						class="object-scale-down w-64 self-center rounded-lg" />
+						class="object-cover w-64 h-64 self-center rounded-lg" />
 					<h2 class="text-3xl italic font-semibold self-center text-center text-shadow">{{ post.meta.title }}
 					</h2>
 				</div>

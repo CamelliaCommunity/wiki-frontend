@@ -2,18 +2,18 @@
 import { reactive } from 'vue';
 
 const react = reactive({
-    loaded: false
+  loaded: false
 });
 
 function onImageLoaded() {
-    react.loaded = true;
+  react.loaded = true;
 }
 </script>
 
 <template>
-    <Transition name="image-fade">
-        <img v-show="react.loaded" loading="eager" @load="onImageLoaded" />
-    </Transition>
+  <Transition name="image-fade">
+    <img v-show="react.loaded" loading="eager" @load="onImageLoaded" />
+  </Transition>
 </template>
 
 <style>
