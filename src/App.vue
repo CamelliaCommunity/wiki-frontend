@@ -13,6 +13,7 @@ import ProfileOverlay from './overlays/profile/ProfileOverlay.vue';
 import API from '@/utils/API';
 
 import ActiveComponents from '@/utils/ActiveComponents';
+import SearchOverlay from './overlays/search/SearchOverlay.vue';
 const handleKeyDown = (e) => {
 	if (e.repeat) return;
 	if (e.key == "Escape") {
@@ -87,6 +88,7 @@ onBeforeUnmount(() => { window.removeEventListener("keydown", handleKeyDown); })
 
 	<ScrollToTop />
 	<ProfileOverlay />
+	<SearchOverlay />
 </template>
 
 <style lang="scss">
