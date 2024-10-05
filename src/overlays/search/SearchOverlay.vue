@@ -164,10 +164,11 @@ const stupidGroupSortClassFix = (results, num) => {
 					</div>
 				</div>
 				<div v-else-if="!react.isLoading && react.error == 0" class="flex flex-col gap-4">
-					<p class="text-gray text-lg">{{ react.found.all.length }} result{{
-						react.found.all.length == 1 ? "" : "s" }}
+					<p class="text-white text-lg">{{ react.found.all.length }} RESULT{{
+						react.found.all.length == 1 ? "" : "S" }}
 					</p>
-					<div class="h-auto w-full flex flex-col rounded-xl bg-background-2 p-4 gap-2">
+					<div
+						class="h-auto w-full flex flex-col rounded-xl bg-background-1 bg-opacity-90 backdrop-blur p-4 gap-2">
 						<div class="flex gap-5">
 							<span class="w-fit min-w-16 font-normal text-light-gray">Sort by</span>
 							<div class="flex gap-5">
@@ -200,7 +201,7 @@ const stupidGroupSortClassFix = (results, num) => {
 						</div>
 					</div>
 					<div
-						class="w-full flex flex-col gap-2 max-h-[405px] xl:max-h-[535px] max-lg:overflow-y-scroll overflow-y-auto bg-background-2 p-4 rounded-xl">
+						class="w-full flex flex-col gap-2 max-h-[405px] xl:max-h-[535px] max-lg:overflow-y-scroll overflow-y-auto bg-background-1 bg-opacity-90 backdrop-blur p-4 rounded-xl">
 						<div v-for="(result, index) in react.displayingArticles" class="flex flex-col w-full gap-2">
 							<SearchResult :result="result" :resultClick="() => ClosePopup(null)" />
 							<GrayLine v-if="(index + 1) != react.displayingArticles.length" :lineStyle=2

@@ -31,7 +31,7 @@ const { handleInput, handleKeydown, handleSubmit } = toRefs(props);
 </script>
 
 <template>
-	<div class="h-auto w-full flex rounded-xl bg-background-2 py-2 px-4 gap-2 items-center">
+	<div class="h-auto w-full flex rounded-xl bg-background-2 theShadow py-2 px-4 gap-2 items-center">
 		<PhMagnifyingGlass :size="28" />
 		<textarea
 			class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-1 focus:ring-2"
