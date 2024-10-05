@@ -202,7 +202,7 @@ const stupidGroupSortClassFix = (results, num) => {
 					<div
 						class="w-full flex flex-col gap-2 max-h-[405px] xl:max-h-[535px] max-lg:overflow-y-scroll overflow-y-auto bg-background-2 p-4 rounded-xl">
 						<div v-for="(result, index) in react.displayingArticles" class="flex flex-col w-full gap-2">
-							<SearchResult :post="result" linearBackground />
+							<SearchResult :result="result" :resultClick="() => ClosePopup(null)" />
 							<GrayLine v-if="(index + 1) != react.displayingArticles.length" :lineStyle=2
 								class="!h-0.5" />
 						</div>
