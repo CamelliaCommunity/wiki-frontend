@@ -80,7 +80,7 @@ const handleInput = (e) => {
 						for (let i = 0; i < react.found.all.length; i++) {
 							let searchResult = react.found.all[i];
 							if (searchResult.meta.type == 1) react.found.wikiArticles.push(searchResult);
-							else if (searchResult.meta.type == 3) react.found.communityPost.push(searchResult);
+							else if (searchResult.meta.type == 3) react.found.communityPost.push(searchResult)
 							else if (searchResult.meta.type == 2) react.found.newsArticles.push(searchResult);
 						};
 						react.error = 0;
