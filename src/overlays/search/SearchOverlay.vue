@@ -147,9 +147,10 @@ const stupidGroupSortClassFix = (results, num) => {
 <template>
 	<Transition name="overlay">
 		<!-- Add "overflow-y-scroll" to this div below if you want that to scroll too -->
-		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur"
+		<div class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur max-lg:items-baseline max-lg:p-0"
 			v-if="react.open" @click="e => ClosePopup(null, e)">
-			<div class="z-0 w-content-width min-h-full bg-opacity-90 rounded-xl flex flex-col p-5 gap-4">
+			<div
+				class="z-0 w-content-width min-h-96 bg-opacity-90 rounded-xl flex flex-col p-5 gap-4 xl:my-auto max-lg:min-h-32 max-lg:max-h-32">
 				<div class="flex gap-4">
 					<SearchTextbox :handleInput="handleInput" :handleKeydown="handleKeydown" />
 					<div class="bg-background-3 p-3 flex justify-center items-center rounded-lg hover:bg-background-4 theShadow cursor-pointer"
@@ -199,7 +200,7 @@ const stupidGroupSortClassFix = (results, num) => {
 						</div>
 					</div>
 					<div
-						class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full bg-background-2 p-4 rounded-xl">
+						class="w-full flex flex-col gap-2 max-h-[405px] xl:max-h-[535px] max-lg:overflow-y-scroll overflow-y-auto bg-background-2 p-4 rounded-xl">
 						<div v-for="(result, index) in react.displayingArticles" class="flex flex-col w-full gap-2">
 							<SearchResult :post="result" linearBackground />
 							<GrayLine v-if="(index + 1) != react.displayingArticles.length" :lineStyle=2
