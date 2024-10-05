@@ -14,11 +14,15 @@ import API from '@/utils/API';
 
 import ActiveComponents from '@/utils/ActiveComponents';
 import SearchOverlay from './overlays/search/SearchOverlay.vue';
+import Events from './utils/Events';
 const handleKeyDown = (e) => {
 	if (e.repeat) return;
 	if (e.key == "Escape") {
 		ActiveComponents.close();
-	};
+	} else if (e.key == "s" && !ActiveComponents.active.includes("searchoverlay")) {
+		Events.Emit("searchoverlay");
+		e.preventDefault();
+	}
 };
 
 onMounted(() => {

@@ -140,8 +140,6 @@ const stupidGroupSortClassFix = (results, num) => {
 	if (!results || results.length < 1) return "cursor-default";
 	return `cursor-pointer ${(react.sortedBy[1] == num) ? "text-accent" : "text-white"}`;
 };
-
-
 </script>
 
 <template>

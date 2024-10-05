@@ -1,5 +1,5 @@
 <script setup>
-import { toRefs } from 'vue';
+import { onMounted, toRefs } from 'vue';
 
 import { PhMagnifyingGlass } from '@phosphor-icons/vue';
 
@@ -16,17 +16,17 @@ const props = defineProps({
 		type: Function,
 		default: () => { }
 	},
-	handleSubmit: {
-		type: Function,
-		default: () => { }
-	},
 	handleCancel: {
 		type: Function,
 		default: () => { }
 	}
 });
 
-const { handleInput, handleKeydown, handleSubmit } = toRefs(props);
+const { handleInput, handleKeydown } = toRefs(props);
+
+onMounted(() => {
+	document.getElementById("searchoverlay-textbox").focus();
+});
 
 </script>
 
