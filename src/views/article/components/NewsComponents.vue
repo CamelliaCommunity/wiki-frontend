@@ -2,7 +2,7 @@
 import { reactive } from 'vue';
 import API from '@/utils/API';
 import BlockquoteNote from '@/components/BlockquoteNote.vue';
-import FeaturedPost from '@/views/home/components/FeaturedPost.vue';
+import FeaturedPost from '@/views/home/components/FeaturedPost.vue'; // placeholder
 
 const props = defineProps({
     type: {
