@@ -9,6 +9,7 @@ import MarkdownView from '@/components/md/MarkdownView.vue';
 
 import ArticleSkeleton from './ArticleSkeleton.vue';
 import CommentsSkeleton from './CommentsSkeleton.vue';
+import NewsComponents from './components/NewsComponents.vue';
 
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
@@ -230,8 +231,13 @@ onMounted(() => {
 					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
 
 			</div>
-			<div v-if="react.meta.image && react.meta.layout !== 'article'"
+			<!-- <div v-if="react.meta.image && react.meta.layout !== 'article'"
 				class="overlap-grid w-full h-60 mb-4 rounded-lg"><img :src="react.meta.image" class="object-cover">
+			</div> -->
+			<!-- the image used for cover article -->
+			<div v-if="react.meta.image && react.meta.layout !== 'article'"
+				class="overlap-grid w-full h-60 mb-4 rounded-lg">
+				<NewsComponents type="1" :image="react.meta.image"></NewsComponents>
 			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
@@ -255,6 +261,11 @@ onMounted(() => {
 				<div class="w-full flex flex-col pt-2">
 					<MarkdownView :article="react.article" />
 				</div>
+			</div>
+			<!-- placehodler stuffffff -->
+			<div v-if="react.meta.image && react.meta.layout !== 'article'"
+				class="w-full flex flex-col gap-4 mt-[120px]">
+				<NewsComponents type="2"></NewsComponents>
 			</div>
 			<div class="article-comments relative inline-block h-max w-max">
 				<CommentsSkeleton :commentSystem="react.commentSystem" />
