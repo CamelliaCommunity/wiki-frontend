@@ -197,7 +197,6 @@ onMounted(() => {
 		};
 
 	};
-	useHead(pageMeta);
 });
 </script>
 
