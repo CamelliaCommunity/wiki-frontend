@@ -33,7 +33,7 @@ const { resultClick } = toRefs(props);
 				:src="Utils.fixCDNImages(result.meta.image, result.url) || EmptyImage" class="object-cover" />
 			<div class="dim" v-if="result.meta.image"></div>
 			<div class="default-bg" v-else></div>
-			<div class="flex flex-col justify-between gap-2 p-5">
+			<div class="flex flex-col h-auto justify-between gap-2 p-5">
 				<div>
 					<div class="flex justify-between items-center">
 						<p class="flex gap-0.5">
@@ -47,11 +47,14 @@ const { resultClick } = toRefs(props);
 						</p>
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(result.meta.date) }}</h3>
 					</div>
-					<h2 class="post-title text-xl font-medium leading-6 text-shadow">{{ result.meta.title }}</h2>
+					<h2 class="post-title text-xl font-medium leading-6 text-shadow truncate max-md:max-w-48">{{
+						result.meta.title }}</h2>
 				</div>
 				<div>
 					<div>
-						<p class="post-description w-full leading-5">{{ result.meta.description }}</p>
+						<p class="post-description w-full leading-5 truncate max-md:max-w-48">
+							{{ result.meta.description }}
+						</p>
 					</div>
 				</div>
 			</div>

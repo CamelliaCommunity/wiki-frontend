@@ -169,7 +169,7 @@ const stupidGroupSortClassFix = (results, num) => {
 						class="h-auto w-full flex flex-col rounded-xl bg-background-1 bg-opacity-90 backdrop-blur p-4 gap-2">
 						<div class="flex gap-5">
 							<span class="w-fit min-w-16 font-normal text-light-gray">Sort by</span>
-							<div class="flex gap-5">
+							<div class="flex flex-wrap gap-5">
 								<span :class="`cursor-pointer ${react.sortedBy[0] == 1 ? 'text-accent' : 'text-white'}`"
 									@click="searchSorter(0, 1)">New</span>
 								<span :class="`cursor-pointer ${react.sortedBy[0] == 2 ? 'text-accent' : 'text-white'}`"
@@ -178,7 +178,7 @@ const stupidGroupSortClassFix = (results, num) => {
 						</div>
 						<div class="flex gap-5">
 							<span class="w-fit min-w-16 font-normal text-light-gray">Group by</span>
-							<div class="flex gap-5">
+							<div class="flex flex-wrap gap-5">
 								<span :class="`cursor-pointer ${react.sortedBy[1] == 1 ? 'text-accent' : 'text-white'}`"
 									@click="searchSorter(1, 1)">
 									All - {{ react.found.all.length }}
