@@ -203,8 +203,8 @@ onMounted(() => {
 <template>
 	<div class="article-page w-full xl:w-content-width">
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
-			<div class="flex justify-between w-full mb-2 px-5">
-				<p class="flex gap-0.5">
+			<div class="flex justify-between w-full mb-2 px-5 flex-wrap">
+				<p class="flex gap-0.5 flex-wrap">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span v-for="(part, index) in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />

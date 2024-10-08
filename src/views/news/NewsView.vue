@@ -94,8 +94,8 @@ API.get("/articles?type=news&count=1984").then((res) => {
 <template>
 	<div class="w-full flex flex-col items-center justify-center">
 		<div class="w-full xl:w-content-width flex flex-col items-center justify-center">
-			<div class="flex justify-between w-full mb-2 px-5">
-				<p class="flex gap-0.5 items-center">
+			<div class="flex justify-between w-full mb-2 px-5 flex-wrap">
+				<p class="flex gap-0.5 items-center flex-wrap">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />
