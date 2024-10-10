@@ -126,7 +126,10 @@ API.user.avatar = "https://picsum.photos/56/56";
                 <span>Old</span>
               </div>
             </div>
-            <div class="flex flex-col gap-4 overflow-auto"></div>
+            <div class="flex flex-col gap-4 overflow-auto">
+              <ProfileComment />
+              <ProfileComment />
+            </div>
           </div>
           <div class="col-span-1">
             <div class="flex flex-col gap-2">
