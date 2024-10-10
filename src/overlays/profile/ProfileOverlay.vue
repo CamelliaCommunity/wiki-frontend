@@ -12,6 +12,7 @@ import TitleBar from "../TitleBar.vue";
 import PopupOverlay from "../popup/PopupOverlay.vue";
 import Button from "@/components/Button.vue";
 import ProfileComment from "./ProfileComment.vue";
+import ProfileCard from "@/components/ProfileCard.vue";
 
 const content = ref();
 
@@ -51,7 +52,7 @@ Events.Register("profile-overlay", (userID) => {
   }
   console.log(
     "looking up user using cache? " +
-      (CacheSystem[userID] !== undefined ? "yes" : "no")
+    (CacheSystem[userID] !== undefined ? "yes" : "no")
   );
 
   if (toRefresh) {
@@ -92,15 +93,12 @@ API.user.avatar = "https://picsum.photos/56/56";
   <Transition name="overlay">
     <div
       class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
-      @click="Close"
-      v-if="react.open"
-    >
+      @click="Close" v-if="react.open">
       <div
         class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
-        ref="content"
-      >
+        ref="content">
         <TitleBar title="Profile View" :close="Close" />
-        <div class="flex flex-row items-center gap-2">
+        <!-- <div class="flex flex-row items-center gap-2">
           <img
             :class="`rounded-xl border-2`"
             :src="API.user.avatar"
@@ -111,7 +109,8 @@ API.user.avatar = "https://picsum.photos/56/56";
             <span class="text-2xl font-semibold">Name</span>
             <span class="text-sm font-semibold opacity-80">@ID</span>
           </div>
-        </div>
+        </div> -->
+        <ProfileCard :user="API.user" />
         <div class="grid grid-cols-4 gap-8">
           <div class="col-span-3 flex flex-col gap-4">
             <div class="flex flex-row gap-2">
@@ -138,17 +137,12 @@ API.user.avatar = "https://picsum.photos/56/56";
                 <span>Edit</span>
               </div>
               <GradientLine :overshoot="false" />
-              <span class="text-xl leading-6 font-light"
-                >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit
+              <span class="text-xl leading-6 font-light">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit
                 quisquam laudantium architecto dolor ipsam temporibus officia
                 porro reiciendis eaque totam necessitatibus fugiat quae non
-                delectus sapiente omnis enim, nemo officiis!</span
-              >
+                delectus sapiente omnis enim, nemo officiis!</span>
               <GrayLine :overshoot="false" />
-              <div
-                class="flex flex-col gap-1"
-                v-for="statistic in userStatistics"
-              >
+              <div class="flex flex-col gap-1" v-for="statistic in userStatistics">
                 <span class="text-lg font-medium leading-4">{{
                   statistic.label
                 }}</span>
@@ -167,10 +161,7 @@ API.user.avatar = "https://picsum.photos/56/56";
             </div>
           </div>
         </div>
-        <p
-          class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer"
-          @click="wipToast"
-        >
+        <p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">
           Report Profile
         </p>
       </div>
@@ -183,7 +174,7 @@ API.user.avatar = "https://picsum.photos/56/56";
 .overlay-leave-active {
   transition: opacity 150ms, transform 300ms;
 
-  > div {
+  >div {
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
@@ -192,7 +183,7 @@ API.user.avatar = "https://picsum.photos/56/56";
 .overlay-enter-from {
   opacity: 0;
 
-  > div {
+  >div {
     transform: scale(0.95);
   }
 }
