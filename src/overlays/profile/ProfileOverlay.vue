@@ -98,18 +98,6 @@ API.user.avatar = "https://picsum.photos/56/56";
         class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
         ref="content">
         <TitleBar title="Profile View" :close="Close" />
-        <!-- <div class="flex flex-row items-center gap-2">
-          <img
-            :class="`rounded-xl border-2`"
-            :src="API.user.avatar"
-            :style="`border-color: ${API.user.color}`"
-            alt="avatar"
-          />
-          <div class="flex flex-col">
-            <span class="text-2xl font-semibold">Name</span>
-            <span class="text-sm font-semibold opacity-80">@ID</span>
-          </div>
-        </div> -->
         <ProfileCard :user="API.user" />
         <div class="grid grid-cols-4 gap-8">
           <div class="col-span-3 flex flex-col gap-4">
@@ -145,10 +133,10 @@ API.user.avatar = "https://picsum.photos/56/56";
               <div class="flex flex-col gap-1" v-for="statistic in userStatistics">
                 <span class="text-lg font-medium leading-4">{{
                   statistic.label
-                }}</span>
+                  }}</span>
                 <span class="text-base light leading-4 opacity-70">{{
                   statistic.value
-                }}</span>
+                  }}</span>
               </div>
               <div class="flex flex-col gap-1">
                 <span class="text-lg font-medium leading-4">Connections</span>
