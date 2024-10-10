@@ -1,4 +1,12 @@
 <script setup>
+import {
+  PhLinkSimple,
+  PhPencil,
+  PhTrash,
+  PhArrowFatUp,
+  PhArrowFatDown,
+} from "@phosphor-icons/vue";
+
 const props = defineProps({
   borderColor: {
     type: String,
@@ -39,14 +47,44 @@ const props = defineProps({
       </div>
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2">
-          <span>Link</span>
-          <span>Edit</span>
-          <span>Delete</span>
+          <button class="flex flex-row gap-1 group">
+            <PhLinkSimple
+              class="text-gray group-hover:text-light-gray"
+              @click="copyLink"
+              :size="22"
+            />
+            <!-- Make text glow on hover using Tailwind CSS -->
+            <span class="group-hover:text-white">Link</span>
+          </button>
+          <button class="flex flex-row gap-1 group">
+            <PhPencil
+              class="text-gray group-hover:text-light-gray"
+              @click="copyLink"
+              :size="22"
+            />
+            <span class="group-hover:text-white">Edit</span>
+          </button>
+          <button class="flex flex-row gap-1 group">
+            <PhTrash
+              class="text-red group-hover:text-userfeedback-error"
+              @click="copyLink"
+              :size="22"
+            />
+            <span class="text-red">Delete</span>
+          </button>
         </div>
-        <div class="flex flex-row gap-2">
-          <span>Up</span>
-          <span>-4</span>
-          <span>Dn</span>
+        <div class="flex flex-row items-center justify-center gap-2">
+          <PhArrowFatUp
+            class="text-white text-opacity-60 hover:text-light-gray"
+            @click="copyLink"
+            :size="22"
+          />
+          <span class="text-xl">-4</span>
+          <PhArrowFatDown
+            class="text-white text-opacity-60 hover:text-light-gray"
+            @click="copyLink"
+            :size="22"
+          />
         </div>
       </div>
     </div>
