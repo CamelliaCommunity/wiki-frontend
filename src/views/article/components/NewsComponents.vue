@@ -77,7 +77,7 @@ API.get("/articles?type=news&count=1984").then((res) => {
 		<BlockquoteNote class="border-x-0 rounded-lg" title="Wanna Read more? Here's a random post">
 			<div class='text-3xl font-semibold mb-2'>{{ react.random.meta.title }}</div>
 			<div class="mb-2">{{ react.random.meta.description }}</div>
-			<a class="text-lg text-accent readMoreHover" target="_blank" :href="react.random.url">
+			<a class="text-lg text-accent readMoreHover" :href="react.random.url">
 				Click here to read
 			</a>
 		</BlockquoteNote>
