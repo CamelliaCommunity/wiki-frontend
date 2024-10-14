@@ -12,9 +12,9 @@ const props = defineProps({
 </script>
 
 <template>
-	<div class="flex gap-2 content-center rounded-xl bg-background-1 p-3 w-20 h-20">
-		<img :class="`rounded-xl border-2`" :src="props.user.avatar" :style="`border-color: ${props.user.color}`"
-			alt="avatar" />
+	<div class="flex gap-2 content-center rounded-xl bg-background-1 p-3 h-20">
+		<img :class="`rounded-xl border-2 w-14 h-14`" :src="props.user.avatar"
+			:style="`border-color: ${props.user.color}`" alt="avatar" />
 		<div class="flex flex-col content-center justify-center">
 			<p class="text-2xl font-semibold leading-7">
 				{{ props.user.nickname || props.user.nick || props.user.username || props.user.props.name }}
