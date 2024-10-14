@@ -1,7 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { reactive, nextTick, ref, onMounted } from 'vue';
-import { useHead } from '@unhead/vue';
 
 import { PhCaretRight } from '@phosphor-icons/vue';
 
@@ -11,6 +10,7 @@ import ArticleSkeleton from './ArticleSkeleton.vue';
 import CommentsSkeleton from './CommentsSkeleton.vue';
 import NewsComponents from './components/NewsComponents.vue';
 
+import Config from '@/utils/Config';
 import MarkdownUtils from '@/utils/MarkdownUtils';
 import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
@@ -168,6 +168,11 @@ onMounted(() => {
 					};
 				});
 			});
+		}).catch((err) => {
+			react.error = 9999;
+			react.loaded = true;
+			Utils.setTitle("Error");
+			pageMeta.value = MetaTagsController.getMeta("default");
 		});
 
 		// Observer setup function
@@ -261,11 +266,11 @@ onMounted(() => {
 					<MarkdownView :article="react.article" />
 				</div>
 			</div>
-			<!-- placehodler stuffffff -->
-			<div v-if="react.meta.image && react.meta.layout !== 'article'"
-				class="w-full flex flex-col gap-4 mt-[120px]">
+
+			<div v-if="react.meta.type == Config.ArticleTypes.News" class="w-full flex flex-col gap-4 mt-[120px]">
 				<NewsComponents type="2"></NewsComponents>
 			</div>
+
 			<div class="article-comments relative inline-block h-max w-max">
 				<CommentsSkeleton :commentSystem="react.commentSystem" />
 			</div>
