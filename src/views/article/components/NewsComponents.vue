@@ -68,7 +68,6 @@ API.get("/articles?type=news&count=1984").then((res) => {
 	}
 	else if (res.status >= 404 || !res.status) react.nearby = { next: { meta: articlePlaceholders.error }, previous: { meta: articlePlaceholders.error } };
 });
-console.log(react.nearby[0])
 
 </script>
 
