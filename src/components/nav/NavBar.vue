@@ -86,12 +86,12 @@ onMounted(() => {
 					</NavBarButton>
 					<WikiLogo size="small" @click="router.push('/')" class="cursor-pointer" />
 				</div>
-				<div class="hidden md:flex items-center text-center gap-4">
+				<div class="flex items-center text-center gap-4">
 					<!-- TODO: add functionality to all of these cool buttons - john -->
 					<PhMagnifyingGlass :size="28" class="hover:text-accent transition-colors cursor-pointer"
 						@click="Events.Emit('searchoverlay')" />
-					<div class="w-[2px] h-9 bg-gray"></div>
-					<div class="flex gap-1">
+					<div class="w-[2px] h-9 max-md:hidden bg-gray"></div>
+					<div class="max-md:hidden flex gap-1">
 						<NavBarButton first>
 							<PhGlobe :size="28" />
 						</NavBarButton>

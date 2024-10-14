@@ -23,12 +23,12 @@ const articlePlaceholders = {
 	none: {
 		title: 'No content.',
 		description: '',
-		date: -1
+		date: -2
 	},
 	error: {
 		title: 'Oh no!',
 		description: 'Something went wrong while loading this... :(',
-		date: -1
+		date: -3
 	}
 };
 
@@ -71,8 +71,8 @@ API.get("/articles/featured").then((res) => {
 // Popular
 API.get("/articles/popular").then((res) => {
 	if (res.status == 200) react.popular = res.data;
-	else if (res.status == 204) react.popular.meta = articlePlaceholders.none;
-	else if (res.status >= 400 || !res.status) react.popular.meta = articlePlaceholders.error;
+	else if (res.status == 404) react.popular.meta = { ...articlePlaceholders.none, date: (Date.now() / 1000) };
+	else if (res.status >= 400 || !res.status) react.popular.meta = { ...articlePlaceholders.error, date: (Date.now() / 1000) };
 });
 
 API.get("/articles/random").then((res) => {
