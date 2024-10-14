@@ -12,7 +12,6 @@ import { onMounted, reactive } from 'vue';
 import { useHead } from '@unhead/vue'
 import GradientLine from '@/components/GradientLine.vue';
 import LatestRelease from './components/LatestRelease.vue';
-import GrayLine from '@/components/GrayLine.vue'; // soon
 import MetaTagsController from '@/utils/MetaTagsController';
 
 const articlePlaceholders = {
