@@ -6,7 +6,7 @@
 
 <p align="left">
   <a href="https://ko-fi.com/P5P6SNZFW">
-    <img width="200" alt="ko-fi" src="https://storage.ko-fi.com/cdn/brandasset/kofi_bg_tag_dark.png">
+    <img width="200" alt="ko-fi" src="https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_badge_dark.png">
   </a>
 </p>
 
