@@ -53,7 +53,7 @@ Events.Register("profile-overlay", (userID) => {
   }
   console.log(
     "looking up user using cache? " +
-      (CacheSystem[userID] !== undefined ? "yes" : "no")
+    (CacheSystem[userID] !== undefined ? "yes" : "no")
   );
 
   if (toRefresh) {
@@ -90,17 +90,19 @@ function wipToast() {
 API.user.avatar = "https://picsum.photos/56/56";
 </script>
 
+<!-- todo: use comment component and current design.
+grab data from backend (comments, articles written, join date, etc)
+connections MAY need to be removed since it requires a backend update
+the about me is custom. need to communicate with backend - john -->
+
 <template>
   <Transition name="overlay">
     <div
       class="z-50 flex fixed justify-center items-center w-screen h-screen top-0 py-24 bg-opacity-25 backdrop-blur overflow-y-scroll"
-      @click="Close"
-      v-if="react.open"
-    >
+      @click="Close" v-if="react.open">
       <div
         class="z-0 w-content-width min-h-full bg-background-1 bg-opacity-90 backdrop-blur theShadow rounded-xl flex flex-col p-5 gap-1"
-        ref="content"
-      >
+        ref="content">
         <TitleBar title="Profile View" :close="Close" />
         <ProfileCard :user="API.user" />
         <div class="grid grid-cols-4 gap-8">
@@ -129,55 +131,38 @@ API.user.avatar = "https://picsum.photos/56/56";
                 <span>Edit</span>
               </div>
               <GradientLine :overshoot="false" />
-              <span class="text-xl leading-6 font-light"
-                >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit
+              <span class="text-xl leading-6 font-light">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit
                 quisquam laudantium architecto dolor ipsam temporibus officia
                 porro reiciendis eaque totam necessitatibus fugiat quae non
-                delectus sapiente omnis enim, nemo officiis!</span
-              >
+                delectus sapiente omnis enim, nemo officiis!</span>
               <GrayLine :overshoot="false" />
-              <div
-                class="flex flex-col gap-1"
-                v-for="statistic in userStatistics"
-              >
+              <div class="flex flex-col gap-1" v-for="statistic in userStatistics">
                 <span class="text-lg font-medium leading-4">{{
                   statistic.label
-                }}</span>
+                  }}</span>
                 <span class="text-base light leading-4 opacity-70">{{
                   statistic.value
-                }}</span>
+                  }}</span>
               </div>
               <div class="flex flex-col gap-1">
                 <span class="text-lg font-medium leading-4">Connections</span>
                 <div class="flex flex-row items-center gap-1">
                   <a href="#">
-                    <PhDiscordLogo
-                      :size="24"
-                      class="text-white text-opacity-70 hover:text-opacity-90"
-                    />
+                    <PhDiscordLogo :size="24" class="text-white text-opacity-70 hover:text-opacity-90" />
                   </a>
 
                   <a href="#">
-                    <PhGithubLogo
-                      :size="24"
-                      class="text-white text-opacity-70 hover:text-opacity-90"
-                    />
+                    <PhGithubLogo :size="24" class="text-white text-opacity-70 hover:text-opacity-90" />
                   </a>
                   <a href="#">
-                    <PhCoffee
-                      :size="24"
-                      class="text-white text-opacity-70 hover:text-opacity-90"
-                    />
+                    <PhCoffee :size="24" class="text-white text-opacity-70 hover:text-opacity-90" />
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <p
-          class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer"
-          @click="wipToast"
-        >
+        <p class="text-lg text-red bottom-0 justify-center mx-auto cursor-pointer" @click="wipToast">
           Report Profile
         </p>
       </div>
@@ -190,7 +175,7 @@ API.user.avatar = "https://picsum.photos/56/56";
 .overlay-leave-active {
   transition: opacity 150ms, transform 300ms;
 
-  > div {
+  >div {
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
@@ -199,7 +184,7 @@ API.user.avatar = "https://picsum.photos/56/56";
 .overlay-enter-from {
   opacity: 0;
 
-  > div {
+  >div {
     transform: scale(0.95);
   }
 }
