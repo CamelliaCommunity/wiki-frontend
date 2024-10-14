@@ -73,12 +73,8 @@ console.log(react.nearby[0])
 </script>
 
 <template>
-	<template v-if="props.type === '1'">
-		<img :src="props.image" class="object-cover" alt="Article Cover">
-	</template>
-
-	<template v-else-if="props.type === '2'">
-		<!-- todo: proper random article link or something -->
+	<img v-if="props.type === '1'" :src="props.image" class="object-cover" alt="Article Cover">
+	<div v-else-if="props.type === '2'" class="w-full flex flex-col gap-4 mt-[120px]">
 		<BlockquoteNote class="border-x-0 rounded-lg" title="Wanna Read more? Here's a random post">
 			<div class='text-3xl font-semibold mb-2'>{{ react.random.meta.title }}</div>
 			<div class="mb-2">{{ react.random.meta.description }}</div>
@@ -86,12 +82,11 @@ console.log(react.nearby[0])
 				Click here to read
 			</a>
 		</BlockquoteNote>
-		<!-- todo: next post and previous post (look in designs) -->
 		<div>
 			<NewsPostSelector v-if="react.nearby.next" class="w-full" :post="react.nearby.next" other-image
-				displayNext=true :onlyOne="(!react.nearby.previous)" />
+				:displayNext="true" :onlyOne="(!react.nearby.previous)" />
 			<NewsPostSelector v-if="react.nearby.previous" class="w-full" :post="react.nearby.previous" other-image
-				:onlyOne="(!react.nearby.next)" />
+				:displayNext="false" :onlyOne="(!react.nearby.next)" />
 		</div>
-	</template>
+	</div>
 </template>

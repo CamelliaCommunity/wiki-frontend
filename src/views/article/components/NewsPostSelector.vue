@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue';
 
 import OverlapGrid from '@/components/OverlapGrid.vue';
 import LoadingImage from '@/components/LoadingImage.vue';
@@ -8,7 +9,7 @@ import EmptyImage from '@/assets/images/empty.png';
 import DefaultImage from '@/assets/images/placeholder.png';
 
 import Utils from '@/utils/Utils';
-import { PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue';
+
 
 const props = defineProps({
 	displayNext: Boolean,

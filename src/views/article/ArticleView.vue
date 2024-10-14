@@ -241,7 +241,7 @@ onMounted(() => {
 			<!-- the image used for cover article -->
 			<div v-if="react.meta.image && react.meta.layout !== 'article'"
 				class="overlap-grid w-full h-60 mb-4 rounded-lg">
-				<NewsComponents type="1" :image="react.meta.image"></NewsComponents>
+				<NewsComponents type="1" :image="react.meta.image" />
 			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"
@@ -267,9 +267,7 @@ onMounted(() => {
 				</div>
 			</div>
 
-			<div v-if="react.meta.type == Config.ArticleTypes.News" class="w-full flex flex-col gap-4 mt-[120px]">
-				<NewsComponents type="2"></NewsComponents>
-			</div>
+			<NewsComponents v-if="react.meta.type == Config.ArticleTypes.News" type="2" />
 
 			<div class="article-comments relative inline-block h-max w-max">
 				<CommentsSkeleton :commentSystem="react.commentSystem" />
