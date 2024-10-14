@@ -89,8 +89,9 @@ console.log(react.nearby[0])
 		<!-- todo: next post and previous post (look in designs) -->
 		<div>
 			<NewsPostSelector v-if="react.nearby.next" class="w-full" :post="react.nearby.next" other-image
-				displayNext=true />
-			<NewsPostSelector v-if="react.nearby.previous" class="w-full" :post="react.nearby.previous" other-image />
+				displayNext=true :onlyOne="(!react.nearby.previous)" />
+			<NewsPostSelector v-if="react.nearby.previous" class="w-full" :post="react.nearby.previous" other-image
+				:onlyOne="(!react.nearby.next)" />
 		</div>
 	</template>
 </template>

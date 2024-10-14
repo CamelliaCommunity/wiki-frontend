@@ -12,10 +12,8 @@ import { PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue';
 
 const props = defineProps({
 	displayNext: Boolean,
-	postType: {
-		type: String
-	},
-	linearBackground: {
+	onlyOne:
+	{
 		type: Boolean,
 		default: false
 	},
@@ -30,7 +28,7 @@ const props = defineProps({
 <template>
 	<RouterLink :to="post.url || '/not-found'" class="w-fit">
 		<OverlapGrid
-			:class="`news-selector-post rounded-lg ${displayNext ? 'nextPost' : 'previousPost'} w-full h-24 overlap-grid`"
+			:class="`news-selector-post rounded-lg ${!onlyOne ? (displayNext ? 'nextPost' : 'previousPost') : ''} w-full h-24 overlap-grid`"
 			v-if="post.meta">
 			<LoadingImage :src="Utils.fixCDNImages(post.meta.image, post.url) || DefaultImage || EmptyImage"
 				class="object-cover" />
