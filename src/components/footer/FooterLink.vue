@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
-    url: {
+	url: {
 		type: String,
 		default: null
 	},
@@ -17,6 +17,8 @@ const router = useRouter();
 function openLink(e, url) {
 	e.preventDefault();
 
+	url.endsWith('/') ? url.slice(0, -1) : url
+
 	if (url.startsWith('/')) {
 		router.push(url);
 	} else {
@@ -27,5 +29,7 @@ function openLink(e, url) {
 </script>
 
 <template>
-	<a class="hover:text-accent text-lg font-light cursor-pointer" @click="(e) => openLink(e, url)">{{ text }}</a>
+	<a :href="url" class="hover:text-accent text-lg font-light cursor-pointer" @click="(e) => openLink(e, url)">
+		{{ text || url }}
+	</a>
 </template>

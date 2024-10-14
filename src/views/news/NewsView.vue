@@ -52,19 +52,18 @@ const react = reactive({
 
 // Popular News
 // TODO: Get the popular news. Once that is added in the Backend.
-//API.get("/articles/popular?type=news").then((res) => {
-react.popular.data = { meta: articlePlaceholders.none, url: "" };
-// if (res.status == 200) react.popular.data = res.data;
-// else if (res.status == 204) react.popular.data = articlePlaceholders.none;
-// else if (res.status >= 400 || !res.status) react.popular.data = articlePlaceholders.error;
-//});
+API.get("/articles/popular?type=news").then((res) => {
+	if (res.status == 200) react.popular.data = res.data;
+	else if (res.status == 404) react.popular.data = { meta: articlePlaceholders.none, url: "" };
+	else if (res.status >= 400 || !res.status) react.popular.data = { meta: articlePlaceholders.error, url: "" };
+});
 
 // Get all news
 let allSliceStartRecent = 0;
 let allSliceEndRecent = 4;
 API.get("/articles?type=news&count=1984").then((res) => {
 	if (res.status == 200) react.all = res.data;
-	else if (res.status == 204) react.all[0] = { meta: articlePlaceholders.none, url: "" };
+	else if (res.status == 404) react.all[0] = { meta: articlePlaceholders.none, url: "" };
 	else if (res.status >= 400 || !res.status) react.all[0] = { meta: articlePlaceholders.error, url: "" };
 
 	if (react.all[0].meta.date == articlePlaceholders.none.date || react.all[0].meta.date == articlePlaceholders.error.date) {
@@ -94,8 +93,8 @@ API.get("/articles?type=news&count=1984").then((res) => {
 <template>
 	<div class="w-full flex flex-col items-center justify-center">
 		<div class="w-full xl:w-content-width flex flex-col items-center justify-center">
-			<div class="flex justify-between w-full mb-2 px-5">
-				<p class="flex gap-0.5 items-center">
+			<div class="flex justify-between w-full mb-2 px-5 flex-wrap">
+				<p class="flex gap-0.5 items-center flex-wrap">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />

@@ -1,5 +1,6 @@
 import { marked } from "marked";
 import markedFootnote from "marked-footnote";
+import Utils from "./Utils";
 
 export default class MarkdownUtils {
     static regex = /^---([\s\S]*?)---/;
@@ -52,7 +53,7 @@ export default class MarkdownUtils {
         return data;
     }
 
-    static render(content, wrapP = true) {
+    static render(content, articleUrl, wrapP = true) {
 		const headerStorage = {};
         const renderer = {
             heading: (text, level) => {
@@ -98,7 +99,15 @@ export default class MarkdownUtils {
 
                 return `<Blockquote>${quote}</Blockquote>`;
             },
-			image: (href, title, text) => `<MarkdownImage url="${href}" alt="${text}" />`
+			image: (href, title, text) => {
+				if (articleUrl) {
+					// Check for @ or /
+					if (href.startsWith("@") || href.startsWith("/")) return `<MarkdownImage url="${Utils.fixCDNImages(href, articleUrl)}" alt="${text}" />`;
+				};
+
+				// Default
+				return `<MarkdownImage url="${href}" alt="${text}" />`;
+			}
         };
 
         marked.use({ renderer });

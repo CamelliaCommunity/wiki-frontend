@@ -1,9 +1,11 @@
+import Config from "./Config";
+
 export default class Utils {
 	static setTitle(title) {
 		if (title === "")
-			document.title = "Camellia Wiki";
+			document.title = Config.siteName;
 		else
-			document.title = title + " | Camellia Wiki";
+			document.title = title + " | " + Config.siteName;
 		return document.title;
 	}
 	
@@ -15,7 +17,7 @@ export default class Utils {
 		return s;
 	}
 
-	static truncateMDText = (content) => {
+	static truncateMDText = (content, maxLength = 400) => {
 		const textOnly = content
 			.replace(/!\[.*?\]\(.*?\)/g, "") // Remove: image links
 			.replace(/\[([^\]]+)\]\(.*?\)/g, "$1") // Replace: links with just text
@@ -23,8 +25,20 @@ export default class Utils {
 			.replace(/[#*`>\[\]]/g, "") // Remove: other symbols
 			.replace(/\n+/g, " ") // Replace: multiple newlines with a space
 			.trim(); // Trim: leading and trailing whitespace
-		const truncated = textOnly.slice(0, 400);
+		const truncated = textOnly.slice(0, maxLength);
 		const lastSpaceIndex = truncated.lastIndexOf(" ");
 		return truncated.slice(0, lastSpaceIndex) + "...";
+	}
+
+	static fixCDNImages(image, articlePath) {
+		if (!image) return;
+
+		// Check for @ - this will load article media from the CDN root
+		if (image.startsWith("@")) image = `${Config.cdnURL}/${image.slice(1)}`;
+
+		// Check for / - this will load article media from the CDN article directory
+		if (articlePath && image.startsWith("/")) image = `${Config.cdnURL}/articles/${articlePath.split("/").pop()}/${image.slice(1)}`;
+
+		return image;
 	}
 }

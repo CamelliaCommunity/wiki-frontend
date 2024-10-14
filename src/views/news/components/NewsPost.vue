@@ -7,6 +7,7 @@ import LoadingImage from '@/components/LoadingImage.vue';
 import EmptyImage from '@/assets/images/empty.png';
 import DefaultImage from '@/assets/images/placeholder.png';
 
+import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
@@ -22,25 +23,27 @@ const props = defineProps({
 		required: true
 	}
 });
+
 </script>
 
 <template>
 	<RouterLink :to="post.url || '/not-found'">
 		<OverlapGrid class="news-post w-full h-28 rounded-lg overlap-grid" v-if="post.meta">
-			<LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
+			<LoadingImage :src="Utils.fixCDNImages(post.meta.image, post.url) || DefaultImage || EmptyImage"
+				class="object-cover" />
 			<div class="dim" v-if="linearBackground"></div>
 			<div class="radial-dim" v-else></div>
 			<div class="card-content">
 				<div class="card-line">
 					<!-- this messes up jp text. sucks - john -->
-					<h2 class="post-title text-2xl font-medium leading-5 text-shadow">{{ post.meta.title }}</h2>
+					<h2 class="post-title text-2xl font-medium text-shadow">{{ post.meta.title }}</h2>
 					<div class="flex justify-between items-center">
 						<h3 class="text-lg font-semibold">{{ postType }}</h3>
 						<h3 class="text-base font-medium">{{ Formatting.formatDate(post.meta.date) }}</h3>
 					</div>
 				</div>
 				<div class="card-line">
-					<p class="post-description w-full leading-5">{{ post.meta.description }}</p>
+					<p class="post-description w-full">{{ post.meta.description }}</p>
 				</div>
 			</div>
 		</OverlapGrid>

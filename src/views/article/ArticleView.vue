@@ -56,7 +56,7 @@ onMounted(() => {
 
 				Utils.setTitle("Style Test");
 
-				react.article = MarkdownUtils.render(md.content);
+				react.article = MarkdownUtils.render(md.content, articleUrl, true);
 				react.sections = md.sections;
 				react.loaded = true; // nuke loading since we got something now!
 			});
@@ -79,6 +79,11 @@ onMounted(() => {
 			react.meta = meta;
 			react.breadcrumbs = data.breadcrumbs;
 
+			// Handle new image system
+			if (react.meta?.image) {
+				react.meta.image = Utils.fixCDNImages(react.meta.image, path.split("/").pop());
+			};
+
 			Utils.setTitle(meta.title);
 			let articleMeta = MetaTagsController.getMeta(path);
 			if (!articleMeta) {
@@ -90,9 +95,11 @@ onMounted(() => {
 			if (!articleMeta) MetaTagsController.getMeta("default");
 
 
-			react.article = MarkdownUtils.render(md.content);
+			react.article = MarkdownUtils.render(md.content, path.split("/").pop(), true);
 			react.sections = md.sections;
 			react.loaded = true; // nuke loading since we got something now!
+
+			pageMeta.value = react.meta;
 
 			nextTick(async () => {
 				setupObserver();
@@ -190,15 +197,14 @@ onMounted(() => {
 		};
 
 	};
-	useHead(pageMeta);
 });
 </script>
 
 <template>
 	<div class="article-page w-full xl:w-content-width">
 		<ArticleSkeleton :loading="!react.loaded" :error="react.error">
-			<div class="flex justify-between w-full mb-2 px-5">
-				<p class="flex gap-0.5">
+			<div class="flex justify-between w-full mb-2 px-5 flex-wrap">
+				<p class="flex gap-0.5 flex-wrap">
 					<RouterLink to="/" class="text-light-gray readMoreHover">Home</RouterLink>
 					<span v-for="(part, index) in react.breadcrumbs" class="flex items-center gap-1">
 						<PhCaretRight :size="16" class="text-light-gray" />
@@ -222,6 +228,9 @@ onMounted(() => {
 				<p class="font-extralight text-nowrap">Created {{
 					Formatting.formatDate(react.meta.date) }} by {{ react.meta.author }}</p>
 
+			</div>
+			<div v-if="react.meta.image && react.meta.layout !== 'article'"
+				class="overlap-grid w-full h-60 mb-4 rounded-lg"><img :src="react.meta.image" class="object-cover">
 			</div>
 			<div class="article-content max-h-full">
 				<div class="hidden md:flex w-72 min-w-72 h-auto bg-background-3 rounded-lg flex-col p-5"

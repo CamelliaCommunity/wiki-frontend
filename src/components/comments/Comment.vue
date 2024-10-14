@@ -194,7 +194,7 @@ if (comment && comment.content?.length > 0) {
 			<GradientLine lineStyle="vert" :overshoot="false" class="!h-14" />
 		</div>
 		<div class="flex flex-col gap-2">
-			<img alt="Avatar" :class="`rounded-2xl border-2 h-14 min-w-fit`" :src="comment.author.avatar || Logo"
+			<img alt="Avatar" :class="`rounded-2xl border-2 h-14 min-w-14`" :src="comment.author.avatar || Logo"
 				:style="`border-color: ${comment.author.color}`" @error="fixAvatar" />
 		</div>
 		<div class="flex flex-col w-full">

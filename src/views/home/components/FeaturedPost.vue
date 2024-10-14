@@ -7,6 +7,7 @@ import LoadingImage from '@/components/LoadingImage.vue';
 import EmptyImage from '@/assets/images/empty.png';
 import DefaultImage from '@/assets/images/placeholder.png';
 
+import Utils from '@/utils/Utils';
 import Formatting from '@/utils/Formatting';
 
 const props = defineProps({
@@ -27,7 +28,8 @@ const props = defineProps({
 <template>
 	<RouterLink :to="post.url || '/not-found'" class="w-fit">
 		<OverlapGrid class="featured-post w-full h-40 rounded-lg overlap-grid" v-if="post.meta">
-			<LoadingImage :src="post.meta.image || DefaultImage || EmptyImage" class="object-cover" />
+			<LoadingImage :src="Utils.fixCDNImages(post.meta.image, post.url) || DefaultImage || EmptyImage"
+				class="object-cover" />
 			<div class="dim" v-if="linearBackground"></div>
 			<div class="radial-dim" v-else></div>
 			<div class="card-content">

@@ -9,9 +9,9 @@ import FooterLink from "./FooterLink.vue";
 		</div>
 		<div class="w-full h-16 relative bg-background-1 flex items-center">
 			<a href="https://github.com/CamelliaCommunity" target="_blank"
-				class="absolute left-1 flex items-center hover:bg-background-3 p-1 rounded-xl transition">
+				class="absolute left-1 max-md:bottom-16 flex items-center hover:bg-background-3 p-1 rounded-xl transition">
 				<img src="https://raw.githubusercontent.com/CamelliaCommunity/.github/refs/heads/main/maintainedby.png"
-					alt="Big Theaceae Logo" class="h-12" />
+					alt="Big Theaceae Logo" class="md:h-12 h-9" />
 			</a>
 			<div class="mx-auto text-center">
 				<p class="flex text-xl justify-center gap-2">
