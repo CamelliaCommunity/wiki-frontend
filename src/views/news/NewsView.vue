@@ -79,7 +79,9 @@ API.get("/articles?type=news&count=1984").then((res) => {
 	};
 
 	// If Popular has an issue, change to Recent News
-	if (react.popular.data.meta.date == articlePlaceholders.none.date || react.popular.data.meta.date == articlePlaceholders.error.date) {
+	// if (react.popular.data.meta.date == articlePlaceholders.none.date || react.popular.data.meta.date == articlePlaceholders.error.date) {
+	// make it true because i cant look into cleaning this up. its also bad ux to leave it as popular news. please fix -john
+	if (true) {
 		react.popular.title = "Recent News";
 		react.popular.data = react.all[0];
 
