@@ -151,7 +151,7 @@ API.get("/articles?type=news&count=1984").then((res) => {
 						<h2 class="text-4xl font-semibold mb-1">Read More</h2>
 						<GradientLine />
 					</div>
-					<div class="w-full flex flex-col gap-2 lg:max-h-full xl:max-h-[690px] overflow-y-auto max-h-full">
+					<div class="w-full flex flex-col gap-2 lg:max-h-full max-h-full">
 						<div v-for="(post, index) in react.evenMore" class="flex flex-col w-full gap-2">
 							<NewsPost :post="post" linearBackground />
 							<GrayLine v-if="(index + 1) != react.evenMore.length" :lineStyle=2 class="!h-0.5" />
