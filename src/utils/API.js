@@ -200,6 +200,49 @@ export default class API {
 			if (popupWindow && !popupWindow.closed) { popupWindow.close(); };
 		});
 	}
+
+	// todo: make this github
+	static performGitHubLogin = async() => {
+		let popupWindow;
+		// Create GitHub popup
+		const GITHUB_CLIENT_ID = "Ov23liHjkpc5KL78TRje";
+		const popupParams = "scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=960,height=727";
+		popupWindow = window.open(
+			`https://discord.com/oauth2/authorize?response_type=token&client_id=${GITHUB_CLIENT_ID}&scope=identify&redirect_uri=${window.location.protocol}//${window.location.host}/oauthComplete`,
+			"popup",
+			popupParams
+		);
+		popupWindow.focus();
+
+		const popupMsgAlert = setInterval(() => { popupWindow.postMessage('', `${window.location.protocol}//${window.location.host}/`); }, 500);
+
+		// This stupid thing will wait for the oauth complete page to send back our required data :)
+		window.addEventListener("message", async(event) => {
+			if (popupWindow && !popupWindow.closed && (event.data.token || event.data.error)) {
+				// We should have the data by now.
+				setTimeout(() => popupWindow.close(), event.data.token ? 0 : 1500);
+				clearInterval(popupMsgAlert);
+
+				// If token - set up cookies | If error - fail
+				if (event.data.token) {
+					$cookies.set(API.cookie_name_token, event.data.token);
+					$cookies.set(API.cookie_name_user, "new_login");
+
+					API.fetchUser(); // Now that we are logged in, let's GOOOOOOOOOOOOOOOOOOOOOO
+				} else {
+					if (event.data.error == "access_denied")
+						Toast.showToast("You denied the login request.\nPlease login again.", { type: "error" });
+					else
+						Toast.showToast("Failed to login! Please try again.\nIf this keeps happening, please report to the developers.", { type: "error" });
+				};
+			};
+		});
+
+		window.addEventListener("beforeunload", (event) => {
+			if (popupWindow && !popupWindow.closed) { popupWindow.close(); };
+		});
+	}
+
 }
 
 function createHeaders(token = null) {

@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import HomeView from '../views/home/HomeView.vue'
 import NewsView from '../views/news/NewsView.vue'
-import ArticleView from '../views/article/ArticleView.vue'
-import oauthComplete from '../views/oauthComplete.vue'
+import SettingsView from '../views/settings/SettingsView.vue';
+import PollsView from '../views/polls/PollsView.vue';
+import ArticleView from '../views/article/ArticleView.vue';
+import oauthComplete from '../views/oauthComplete.vue';
 
 const router = createRouter({
 	history: import.meta.env.SSR
@@ -19,19 +21,34 @@ const router = createRouter({
 			name: 'news',
 			component: NewsView
 		},
-		{
-			path: '/oauthComplete',
-			name: 'oauthComplete',
-			component: oauthComplete
-		},
-		{ // redirect everything else to article
-			path: '/:pathMatch(.*)*',
-			component: ArticleView
-		}
-	],
-	scrollBehavior: (to, from, savedPosition) => {
-		return { top: 0 }
-	}
-})
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsView
+    },
+    {
+      path: '/polls',
+      name: 'polls',
+      component: PollsView
+    },
+    {
+      path: '/polls/:id',
+      name: 'poll',
+      component: PollsView
+    },
+	  {
+      path: '/oauthComplete',
+      name: 'oauthComplete',
+      component: oauthComplete
+	  },
+	  { // redirect everything else to article
+      path: '/:pathMatch(.*)*',
+      component: ArticleView
+    },
+  ],
+  scrollBehavior: (to, from, savedPosition) => {
+    return { top: 0 }
+  }
+});
 
 export default router;

@@ -64,13 +64,13 @@ const { handleInput, handleKeydown, handleSubmit, placeholderText, beDisabled, b
 </script>
 
 <template>
-	<div class="h-auto w-full flex flex-col rounded-xl bg-background-3 p-2 gap-2">
+	<div class="h-auto w-full flex flex-col rounded-2xl bg-background-3 p-2 gap-2">
 		<div class="w-full flex gap-2">
 			<textarea
-				class="h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-1 focus:ring-2"
+				class="transition duration-300 h-10 w-full resize-none overflow-hidden rounded-lg bg-background-2 px-3 py-1 text-lg outline-none ring-background-4 focus:ring-2"
 				:placeholder="placeholderText" @input="handleInput" @keydown="handleKeydown" :disabled="beDisabled"
 				:id="`${boxName}-textbox`" :value="value" />
-
+			<!--opacity alry white -->
 			<button v-if="!simple"
 				:class='"m-auto flex size-10 items-center justify-center rounded-lg bg-background-4 p-1 cursor-" + `${beDisabled ? "deny" : "pointer"}`'
 				id="submit" @click="handleSubmit" :disabled="beDisabled">
